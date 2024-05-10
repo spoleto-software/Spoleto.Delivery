@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net7.0;net8.0;netstandard2.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <!-- Package info -->
+    <PropertyGroup>
+        <Title>Spoleto.Delivery</Title>
+        <PackageId>Spoleto.Delivery</PackageId>
+        <PackageTags>Spoleto.Delivery; Delivery; Cdek; СДЭК; MasterPost; МастерПост</PackageTags>
+        <Description>Delivery sender with different Delivery providers such as CDEK, MasterPost</Description>
+    </PropertyGroup>
+    
+</Project>

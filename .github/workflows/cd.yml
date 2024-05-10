@@ -1,0 +1,55 @@
+name: Publish Packages
+
+on: 
+  release:
+    types: [published]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+        # Pack packages
+      - name: Pack Spoleto.Delivery
+        run: dotnet pack --include-symbols -p:SymbolPackageFormat=snupkg --no-build -c Release src/Spoleto.Delivery/Spoleto.Delivery.csproj -o .
+
+      - name: Pack Spoleto.Delivery.Cdek
+        run: dotnet pack --include-symbols -p:SymbolPackageFormat=snupkg --no-build -c Release src/Providers/Spoleto.Delivery.Cdek/Spoleto.Delivery.Cdek.csproj -o .
+
+      - name: Pack Spoleto.Delivery.MasterPost
+        run: dotnet pack --include-symbols -p:SymbolPackageFormat=snupkg --no-build -c Release src/Providers/Spoleto.Delivery.MasterPost/Spoleto.Delivery.MasterPost.csproj -o .
+        
+      - name: Pack Spoleto.Delivery.Extensions
+        run: dotnet pack --include-symbols -p:SymbolPackageFormat=snupkg --no-build -c Release src/Extensions/Spoleto.Delivery.Extensions/Spoleto.Delivery.Extensions.csproj -o .
+
+      - name: Pack Spoleto.Delivery.Extensions.Cdek
+        run: dotnet pack --include-symbols -p:SymbolPackageFormat=snupkg --no-build -c Release src/Extensions/Spoleto.Delivery.Extensions.Cdek/Spoleto.Delivery.Extensions.Cdek.csproj -o .
+
+      - name: Pack Spoleto.Delivery.Extensions.MasterPost
+        run: dotnet pack --include-symbols -p:SymbolPackageFormat=snupkg --no-build -c Release src/Extensions/Spoleto.Delivery.Extensions.MasterPost/Spoleto.Delivery.Extensions.MasterPost.csproj -o .
+
+        # Push packages to Nuget
+      - name: Push packages
+        run: dotnet nuget push *.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+        # Upload packages as release assets
+      - name: Upload assets to release
+        run: |
+          chmod +x ./publish-assets-to-github.sh
+          ./publish-assets-to-github.sh ${{ github.event.release.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

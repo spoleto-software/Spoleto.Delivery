@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net7.0;net8.0;netstandard2.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <!-- Package info -->
+    <PropertyGroup>
+        <Title>Spoleto.Delivery - CDEK provider</Title>
+        <PackageId>Spoleto.Delivery.Cdek</PackageId>
+        <PackageTags>Spoleto.Delivery; Delivery; Cdek; СДЭК</PackageTags>
+        <Description>CDEK provider for Spoleto.Delivery</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Spoleto.Delivery\Spoleto.Delivery.csproj" />
+    </ItemGroup>
+
+</Project>

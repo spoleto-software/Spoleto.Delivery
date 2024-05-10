@@ -1,0 +1,90 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery", "src\Spoleto.Delivery\Spoleto.Delivery.csproj", "{7273225F-3B4A-4D97-803D-2CFC346C3B75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub Actions", "GitHub Actions", "{39F38E5C-5F56-4B5C-A4C6-46C570D26BA2}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\cd.yml = .github\workflows\cd.yml
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4E3BEC34-6F7A-4D29-B64B-4D5238964037}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		src\Directory.Build.props = src\Directory.Build.props
+		LICENSE = LICENSE
+		publish-assets-to-github.sh = publish-assets-to-github.sh
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spoleto.Delivery.Providers", "Spoleto.Delivery.Providers", "{E86DB862-E6D7-4B19-9C94-6DEAC22D23C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spoleto.Delivery.Tests", "Spoleto.Delivery.Tests", "{ECF46D31-2ED0-471B-88FF-4AB57071E216}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spoleto.Delivery.Extensions", "Spoleto.Delivery.Extensions", "{D7C74C11-CDF8-49F2-A68A-2665A3A25013}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Tests", "src\Tests\Spoleto.Delivery.Tests\Spoleto.Delivery.Tests.csproj", "{844C21A0-A9FE-48DF-85E3-0DF6CCB00255}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Cdek", "src\Providers\Spoleto.Delivery.Cdek\Spoleto.Delivery.Cdek.csproj", "{69FDC9BF-ABEB-4652-BB95-B721F666D71D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.MasterPost", "src\Providers\Spoleto.Delivery.MasterPost\Spoleto.Delivery.MasterPost.csproj", "{BB2CB5F9-2D63-400E-8C14-A4BB34253814}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Extensions", "src\Extensions\Spoleto.Delivery.Extensions\Spoleto.Delivery.Extensions.csproj", "{1D3D2B93-4D81-4981-A74A-8D2490583DD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Extensions.Cdek", "src\Extensions\Spoleto.Delivery.Extensions.Cdek\Spoleto.Delivery.Extensions.Cdek.csproj", "{5AC2CF58-0C42-46EE-9B0E-24623DAD0ED9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Extensions.MasterPost", "src\Extensions\Spoleto.Delivery.Extensions.MasterPost\Spoleto.Delivery.Extensions.MasterPost.csproj", "{699D0A28-AD37-4633-9025-1AD586464D27}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7273225F-3B4A-4D97-803D-2CFC346C3B75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7273225F-3B4A-4D97-803D-2CFC346C3B75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7273225F-3B4A-4D97-803D-2CFC346C3B75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7273225F-3B4A-4D97-803D-2CFC346C3B75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{844C21A0-A9FE-48DF-85E3-0DF6CCB00255}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{844C21A0-A9FE-48DF-85E3-0DF6CCB00255}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{844C21A0-A9FE-48DF-85E3-0DF6CCB00255}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{844C21A0-A9FE-48DF-85E3-0DF6CCB00255}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69FDC9BF-ABEB-4652-BB95-B721F666D71D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69FDC9BF-ABEB-4652-BB95-B721F666D71D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69FDC9BF-ABEB-4652-BB95-B721F666D71D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69FDC9BF-ABEB-4652-BB95-B721F666D71D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB2CB5F9-2D63-400E-8C14-A4BB34253814}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB2CB5F9-2D63-400E-8C14-A4BB34253814}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB2CB5F9-2D63-400E-8C14-A4BB34253814}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB2CB5F9-2D63-400E-8C14-A4BB34253814}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D3D2B93-4D81-4981-A74A-8D2490583DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D3D2B93-4D81-4981-A74A-8D2490583DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D3D2B93-4D81-4981-A74A-8D2490583DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D3D2B93-4D81-4981-A74A-8D2490583DD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AC2CF58-0C42-46EE-9B0E-24623DAD0ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AC2CF58-0C42-46EE-9B0E-24623DAD0ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AC2CF58-0C42-46EE-9B0E-24623DAD0ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AC2CF58-0C42-46EE-9B0E-24623DAD0ED9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{699D0A28-AD37-4633-9025-1AD586464D27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{699D0A28-AD37-4633-9025-1AD586464D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{699D0A28-AD37-4633-9025-1AD586464D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{699D0A28-AD37-4633-9025-1AD586464D27}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{844C21A0-A9FE-48DF-85E3-0DF6CCB00255} = {ECF46D31-2ED0-471B-88FF-4AB57071E216}
+		{69FDC9BF-ABEB-4652-BB95-B721F666D71D} = {E86DB862-E6D7-4B19-9C94-6DEAC22D23C1}
+		{BB2CB5F9-2D63-400E-8C14-A4BB34253814} = {E86DB862-E6D7-4B19-9C94-6DEAC22D23C1}
+		{1D3D2B93-4D81-4981-A74A-8D2490583DD7} = {D7C74C11-CDF8-49F2-A68A-2665A3A25013}
+		{5AC2CF58-0C42-46EE-9B0E-24623DAD0ED9} = {D7C74C11-CDF8-49F2-A68A-2665A3A25013}
+		{699D0A28-AD37-4633-9025-1AD586464D27} = {D7C74C11-CDF8-49F2-A68A-2665A3A25013}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {982EC08E-D0CA-45CD-9906-B9DA0C4F0024}
+	EndGlobalSection
+EndGlobal
