@@ -4,7 +4,7 @@ namespace Spoleto.Delivery
     /// <summary>
     /// The options for configuring the Delivery service
     /// </summary>
-    public record DeliveryServiceOptions
+    public record DeliveryServiceOptions : IOptions
     {
         /// <summary>
         /// Gets or sets the name of the default Delivery provider.

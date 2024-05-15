@@ -73,6 +73,67 @@ namespace Spoleto.Delivery.Services
         /// </summary>
         public IDeliveryProvider DefaultProvider => _defaultProvider;
 
+        /// <inheritdoc/>
+        public List<Tariff> GetTariffs(TariffRequest tariffRequest)
+            => GetTariffs(_defaultProvider, tariffRequest);
+
+        /// <inheritdoc/>
+        public List<Tariff> GetTariffs(string providerName, TariffRequest tariffRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return GetTariffs(provider, tariffRequest);
+        }
+
+        /// <inheritdoc/>
+        public List<Tariff> GetTariffs(DeliveryProviderName providerName, TariffRequest tariffRequest)
+            => GetTariffs(providerName.ToString(), tariffRequest);
+
+        public List<Tariff> GetTariffs(IDeliveryProvider provider, TariffRequest tariffRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (tariffRequest is null)
+                throw new ArgumentNullException(nameof(tariffRequest));
+
+            return provider.GetTariffs(tariffRequest);
+        }
+
+        /// <inheritdoc/>
+        public Task<List<Tariff>> GetTariffsAsync(TariffRequest tariffRequest)
+            => GetTariffsAsync(_defaultProvider, tariffRequest);
+
+        /// <inheritdoc/>
+        public Task<List<Tariff>> GetTariffsAsync(string providerName, TariffRequest tariffRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return GetTariffsAsync(provider, tariffRequest);
+        }
+
+        public Task<List<Tariff>> GetTariffsAsync(DeliveryProviderName providerName, TariffRequest tariffRequest)
+            => GetTariffsAsync(providerName.ToString(), tariffRequest);
+
+        public Task<List<Tariff>> GetTariffsAsync(IDeliveryProvider provider, TariffRequest tariffRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (tariffRequest is null)
+                throw new ArgumentNullException(nameof(tariffRequest));
+
+            return provider.GetTariffsAsync(tariffRequest);
+        }
+
         private bool TryGetDeliveryProvider(string providerName, out IDeliveryProvider deliveryProvider)
         {
             if (_providers[providerName] is not IDeliveryProvider provider)
