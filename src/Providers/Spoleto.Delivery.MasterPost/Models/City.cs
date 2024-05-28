@@ -8,7 +8,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Код ФИАС.
         /// </summary>
         [JsonPropertyName("FIAS")]
-        public string FiasCode { get; set; }
+        public Guid FiasCode { get; set; }
 
         /// <summary>
         /// Код КЛАДР.
@@ -17,19 +17,20 @@ namespace Spoleto.Delivery.Providers.MasterPost
         public string KladrCode { get; set; }
 
         /// <summary>
-        /// Наименование города/
+        /// Наименование города.
         /// </summary>
         [JsonPropertyName("CITY")]
         public string Name { get; set; }
 
         /// <summary>
-        /// Наименование области города.
+        /// Наименование страны.
         /// </summary>
+
         [JsonPropertyName("country")]
         public string Country { get; set; }
 
         /// <summary>
-        /// Наименование страны.
+        /// Наименование области города.
         /// </summary>
         [JsonPropertyName("REGION")]
         public string Region { get; set; }

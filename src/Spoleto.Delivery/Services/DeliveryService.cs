@@ -73,6 +73,65 @@ namespace Spoleto.Delivery.Services
         /// </summary>
         public IDeliveryProvider DefaultProvider => _defaultProvider;
 
+        #region Cities
+        public List<City> GetCities(CityRequest cityRequest)
+            => GetCities(_defaultProvider, cityRequest);
+
+        public List<City> GetCities(string providerName, CityRequest cityRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return GetCities(provider, cityRequest);
+        }
+
+        public List<City> GetCities(DeliveryProviderName providerName, CityRequest cityRequest)
+            => GetCities(providerName.ToString(), cityRequest);
+
+        public List<City> GetCities(IDeliveryProvider provider, CityRequest cityRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (cityRequest is null)
+                throw new ArgumentNullException(nameof(cityRequest));
+
+            return provider.GetCities(cityRequest);
+        }
+
+        public Task<List<City>> GetCitiesAsync(CityRequest cityRequest)
+            => GetCitiesAsync(_defaultProvider, cityRequest);
+
+        public Task<List<City>> GetCitiesAsync(string providerName, CityRequest cityRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return GetCitiesAsync(provider, cityRequest);
+        }
+
+        public Task<List<City>> GetCitiesAsync(DeliveryProviderName providerName, CityRequest cityRequest)
+            => GetCitiesAsync(providerName.ToString(), cityRequest);
+
+        public Task<List<City>> GetCitiesAsync(IDeliveryProvider provider, CityRequest cityRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (cityRequest is null)
+                throw new ArgumentNullException(nameof(cityRequest));
+
+            return provider.GetCitiesAsync(cityRequest);
+        }
+        #endregion
+
+        #region Tariffs
         /// <inheritdoc/>
         public List<Tariff> GetTariffs(TariffRequest tariffRequest)
             => GetTariffs(_defaultProvider, tariffRequest);
@@ -133,6 +192,7 @@ namespace Spoleto.Delivery.Services
 
             return provider.GetTariffsAsync(tariffRequest);
         }
+        #endregion
 
         private bool TryGetDeliveryProvider(string providerName, out IDeliveryProvider deliveryProvider)
         {

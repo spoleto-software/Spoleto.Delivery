@@ -35,7 +35,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Стоимость доставки.
         /// </summary>
         [JsonPropertyName("delivery_sum")]
-        public float DeliverySum { get; set; }
+        public decimal DeliverySum { get; set; }
 
         /// <summary>
         /// Минимальное время доставки (в рабочих днях).

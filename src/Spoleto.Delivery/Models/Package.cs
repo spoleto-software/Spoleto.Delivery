@@ -1,30 +1,35 @@
-﻿using System.Text.Json.Serialization;
+﻿using Spoleto.Delivery.Providers.MasterPost;
 
 namespace Spoleto.Delivery
 {
     /// <summary>
-    /// Класс для представления информации о пакете
+    /// Класс для представления информации о пакете.
     /// </summary>
     public record Package
     {
         /// <summary>
-        /// Общий вес (в граммах)
+        /// Общий вес (в граммах).
         /// </summary>
         public int Weight { get; set; }
 
         /// <summary>
-        /// Длина (в сантиметрах)
+        /// Длина (в сантиметрах).
         /// </summary>
         public int? Length { get; set; }
 
         /// <summary>
-        /// Ширина (в сантиметрах)
+        /// Ширина (в сантиметрах).
         /// </summary>
         public int? Width { get; set; }
 
         /// <summary>
-        /// Высота (в сантиметрах)
+        /// Высота (в сантиметрах).
         /// </summary>
         public int? Height { get; set; }
+
+        /// <summary>
+        /// Вид пакета.
+        /// </summary>
+        public PackageType? PackageType { get; set; }
     }
 }

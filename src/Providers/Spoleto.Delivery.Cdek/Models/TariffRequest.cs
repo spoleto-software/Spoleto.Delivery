@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Spoleto.Delivery.Providers.Cdek.Models
+namespace Spoleto.Delivery.Providers.Cdek
 {
     /// <summary>
     /// Запрос на расчет по доступным тарифам.
@@ -23,7 +23,7 @@ namespace Spoleto.Delivery.Providers.Cdek.Models
         /// По умолчанию: <see cref="OrderType.OnlineStore"/>
         /// </remarks>
         [JsonPropertyName("type")]
-        public OrderType? Type { get; set; }
+        public OrderType? Type { get; set; } //todo: в базовый TariffRequest? Либо через AdditionalData
 
         /// <summary>
         /// Дополнительный тип заказа.

@@ -7,6 +7,25 @@ namespace Spoleto.Delivery.Services
     /// </summary>
     public interface IDeliveryService
     {
+        #region Cities
+        List<City> GetCities(CityRequest cityRequest);
+
+        List<City> GetCities(string providerName, CityRequest cityRequest);
+
+        List<City> GetCities(DeliveryProviderName providerName, CityRequest cityRequest);
+
+        List<City> GetCities(IDeliveryProvider provider, CityRequest cityRequest);
+
+        Task<List<City>> GetCitiesAsync(CityRequest cityRequest);
+
+        Task<List<City>> GetCitiesAsync(string providerName, CityRequest cityRequest);
+
+        Task<List<City>> GetCitiesAsync(DeliveryProviderName providerName, CityRequest cityRequest);
+
+        Task<List<City>> GetCitiesAsync(IDeliveryProvider provider, CityRequest cityRequest);
+        #endregion
+
+        #region Tariffs
         List<Tariff> GetTariffs(TariffRequest tariffRequest);
 
         List<Tariff> GetTariffs(string providerName, TariffRequest tariffRequest);
@@ -22,5 +41,6 @@ namespace Spoleto.Delivery.Services
         Task<List<Tariff>> GetTariffsAsync(DeliveryProviderName providerName, TariffRequest tariffRequest);
 
         Task<List<Tariff>> GetTariffsAsync(IDeliveryProvider provider, TariffRequest tariffRequest);
+        #endregion
     }
 }
