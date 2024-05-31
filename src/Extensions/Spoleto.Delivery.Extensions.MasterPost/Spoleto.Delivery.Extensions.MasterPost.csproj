@@ -13,10 +13,9 @@
         <PackageTags>Spoleto.Delivery; Delivery; MasterPost; МастерПост</PackageTags>
         <Description>MasterPost provider for Spoleto.Delivery</Description>
     </PropertyGroup>
-
     <ItemGroup>
-        <ProjectReference Include="..\..\Spoleto.Delivery\Spoleto.Delivery.csproj" />
-        <ProjectReference Include="..\Spoleto.Delivery.Extensions\Spoleto.Delivery.Extensions.csproj" />
+      <ProjectReference Include="..\..\Providers\Spoleto.Delivery.MasterPost\Spoleto.Delivery.MasterPost.csproj" />
+      <ProjectReference Include="..\Spoleto.Delivery.Extensions\Spoleto.Delivery.Extensions.csproj" />
     </ItemGroup>
 
 </Project>

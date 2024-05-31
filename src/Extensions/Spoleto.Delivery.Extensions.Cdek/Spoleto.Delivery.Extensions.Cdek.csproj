@@ -12,11 +12,11 @@
         <PackageId>Spoleto.Delivery.Extensions.Cdek</PackageId>
         <PackageTags>Spoleto.Delivery; Delivery; Cdek; СДЭК</PackageTags>
         <Description>CDEK provider for Spoleto.Delivery</Description>
-    </PropertyGroup>    
+    </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Spoleto.Delivery\Spoleto.Delivery.csproj" />
-        <ProjectReference Include="..\Spoleto.Delivery.Extensions\Spoleto.Delivery.Extensions.csproj" />
+      <ProjectReference Include="..\..\Providers\Spoleto.Delivery.Cdek\Spoleto.Delivery.Cdek.csproj" />
+      <ProjectReference Include="..\Spoleto.Delivery.Extensions\Spoleto.Delivery.Extensions.csproj" />
     </ItemGroup>
 
 </Project>
