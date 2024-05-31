@@ -2,9 +2,21 @@
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
-    internal record AdditionalService
+    /// <summary>
+    /// Дополнительная услуга.
+    /// </summary>
+    public record AdditionalService : AdditionalServiceBase
     {
-        [JsonPropertyName("ADDSERV")]
-        public string Name { get; set; }
+        /// <summary>
+        /// Использование.
+        /// </summary>
+        /// <remarks>
+        /// Варианты:
+        /// Опционально,
+        /// Никогда,
+        /// Всегда.
+        /// </remarks>
+        [JsonPropertyName("USAGE")]
+        public UsageKind Usage { get; set; }
     }
 }

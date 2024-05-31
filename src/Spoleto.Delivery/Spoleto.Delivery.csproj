@@ -13,9 +13,8 @@
         <PackageTags>Spoleto.Delivery; Delivery; Cdek; СДЭК; MasterPost; МастерПост</PackageTags>
         <Description>Delivery sender with different Delivery providers such as CDEK, MasterPost</Description>
     </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="Spoleto.Common" Version="2.3.22.1303" />
+      <PackageReference Include="Spoleto.Common" Version="2.5.31.1505" />
     </ItemGroup>
 
 </Project>

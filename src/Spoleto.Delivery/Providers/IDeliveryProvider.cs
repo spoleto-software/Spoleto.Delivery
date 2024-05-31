@@ -38,6 +38,18 @@
         /// <returns>List of <see cref="Tariff"/>.</returns>
         Task<List<Tariff>> GetTariffsAsync(TariffRequest tariffRequest);
 
-        
+        /// <summary>
+        /// Creates a delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        DeliveryOrder CreateDeliveryOrder(DeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async creates a delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryOrderRequest deliveryOrderRequest);
     }
 }

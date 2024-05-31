@@ -12,6 +12,12 @@ namespace Spoleto.Delivery.Tests.Providers
             _provider = new CdekProvider();
         }
 
+        [OneTimeTearDown]
+        public void Dispose()
+        {
+            _provider.Dispose();
+        }
+
         [Test]
         public async Task GetTariffs()
         {

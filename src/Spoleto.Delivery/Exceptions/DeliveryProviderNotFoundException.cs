@@ -1,4 +1,4 @@
-﻿namespace Spoleto.Delivery.Exceptions
+﻿namespace Spoleto.Delivery
 {
     /// <summary>
     /// The exception thrown when no Delivery provider has been found.

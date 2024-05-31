@@ -8,7 +8,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Код ФИАС.
         /// </summary>
         [JsonPropertyName("FIAS")]
-        public Guid FiasCode { get; set; }
+        public Guid FiasId { get; set; }
 
         /// <summary>
         /// Код КЛАДР.

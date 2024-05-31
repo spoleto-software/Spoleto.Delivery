@@ -129,12 +129,12 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Дополнительные Услуги.
         /// </summary>
         [JsonPropertyName("ADDSERV")]
-        public List<AdditionalService>? AdditionalServices { get; set; }
+        public List<AdditionalServiceBase> AdditionalServices { get; set; }
 
         /// <summary>
         /// Грузо-места.
         /// </summary>
-        public List<CargoPlace> CargoPlaces { get; set; }
+        public List<CargoPlaceBase> CargoPlaces { get; set; }
 
         /// <summary>
         /// Оценочная Стоимость

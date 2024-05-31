@@ -10,10 +10,22 @@
                 ReceiverAddress = request.ToLocation.Address,
                 SenderAddressCode = request.FromLocation.Code,
                 ReceiverCity = request.FromLocation.City,
-                CargoPlaces = request.Packages.Select(x => x.ToCargoPlaceRequest()).ToList(),
+                CargoPlaces = request.Packages.Select(x => x.ToCargoPlaceBaseRequest()).ToList(),
             };
         }
 
+        public static CargoPlaceBase ToCargoPlaceBaseRequest(this Delivery.Package package)
+        {
+            return new CargoPlaceBase
+            {
+                Height = package.Height ?? 0,
+                Length = package.Length ?? 0,
+                Width = package.Width ?? 0,
+                Weight = package.Weight,
+                CargoPlaceType = Enum.TryParse<CargoPlaceType>(package.PackageType.ToString(), out var cargoPlaceType) ? cargoPlaceType : CargoPlaceType.Cargo
+            };
+        }
+        
         public static CargoPlace ToCargoPlaceRequest(this Delivery.Package package)
         {
             return new CargoPlace
@@ -49,7 +61,7 @@
             return new Delivery.City
             {
                 Name = city.Name,
-                FiasCode = city.FiasCode,
+                FiasCode = city.FiasId,
                 KladrCode = city.KladrCode,
                 Region = city.Region,
                 Country = city.Country

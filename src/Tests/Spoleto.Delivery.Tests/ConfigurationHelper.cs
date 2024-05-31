@@ -16,13 +16,13 @@ namespace Spoleto.Delivery.Tests
 
         public static IConfigurationRoot Configuration => _config;
 
-        public static GoodsDelivery GetGoodsDeliveryCdek()
+        public static Delivery.DeliveryOrderRequest GetGoodsDeliveryCdek()
         {
    
             return null;
         }
 
-        public static GoodsDelivery GetSmsMessageMasterPost()
+        public static Delivery.DeliveryOrderRequest GetSmsMessageMasterPost()
         {
  
             return null;

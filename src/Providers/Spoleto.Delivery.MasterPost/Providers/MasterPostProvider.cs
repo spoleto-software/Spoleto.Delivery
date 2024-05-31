@@ -8,7 +8,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
     /// <remarks>
     /// <see href="https://mplogistics.ru"/>
     /// </remarks>
-    public class MasterPostProvider : IMasterPostProvider
+    public class MasterPostProvider : IMasterPostProvider, IDisposable
     {
         /// <summary>
         /// The name of the delivery provider.
@@ -44,6 +44,25 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <inheritdoc/>
         public string Name => ProviderName;
 
+        #region IDisposable
+        bool _disposed;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && !_disposed)
+            {
+                _disposed = true;
+                _masterPostClient?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
+
         /// <inheritdoc/>
         public List<Delivery.City> GetCities(Delivery.CityRequest cityRequest)
             => GetCitiesAsync(cityRequest).GetAwaiter().GetResult();
@@ -70,8 +89,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             // Получим все тарифы с их ценами в N + 1 запросов:
             // 1. Получение всех тарифов (без фильтрации по входным данным)
             // 2. N запросов для каждого тарифа из пункта 1, но уже с указанием входных данных (тарифный калькулятор).
-            var servicesRequest = _masterPostClient.CreateJsonRestRequest<object>($"services/{_options.IndividualClientNumber}", RestClient.HttpMethod.Get);
-            var serviceList = await _masterPostClient.ExecuteAsync<List<Service>>(servicesRequest).ConfigureAwait(false);
+            var serviceList = await GetServicesAsync().ConfigureAwait(false);
 
             var tariffList = new List<Tariff>();
             foreach (var service in serviceList) //todo: parallel.foreach?
@@ -87,6 +105,59 @@ namespace Spoleto.Delivery.Providers.MasterPost
             }
 
             return tariffList.Select(x => x.ToDeliveryTariff()).ToList();
+        }
+
+        /// <inheritdoc/>
+        public List<Service> GetServices()
+            => GetServicesAsync().GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<List<Service>> GetServicesAsync()
+        {
+            var restRequest = _masterPostClient.CreateJsonRestRequest<object>($"services/{_options.IndividualClientNumber}", RestClient.HttpMethod.Get);
+
+            var serviceList = await _masterPostClient.ExecuteAsync<List<Service>>(restRequest).ConfigureAwait(false);
+
+            return serviceList;
+        }
+
+        /// <inheritdoc/>
+        public List<AdditionalServiceInfo> GetAdditionalServices()
+            => GetAdditionalServicesAsync().GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<List<AdditionalServiceInfo>> GetAdditionalServicesAsync()
+        {
+            var restRequest = _masterPostClient.CreateJsonRestRequest<object>($"add_services/{_options.IndividualClientNumber}", RestClient.HttpMethod.Get);
+
+            var additionalServiceList = await _masterPostClient.ExecuteAsync<List<AdditionalServiceInfo>>(restRequest).ConfigureAwait(false);
+
+            return additionalServiceList;
+        }
+
+        /// <inheritdoc/>
+        public List<Street> GetStreets(StreetRequest streetRequest)
+            => GetStreetsAsync(streetRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<List<Street>> GetStreetsAsync(StreetRequest streetRequest)
+        {
+            var modelQuery = HttpHelper.ToQueryString(streetRequest);
+            var restRequest = _masterPostClient.CreateJsonRestRequest<CityRequest>($"streets?{modelQuery}", RestClient.HttpMethod.Get);
+
+            var cityList = await _masterPostClient.ExecuteAsync<List<Street>>(restRequest).ConfigureAwait(false);
+
+            return cityList;
+        }
+
+        /// <inheritdoc/>
+        public DeliveryOrder CreateDeliveryOrder(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+            => CreateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public Task<DeliveryOrder> CreateDeliveryOrderAsync(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+        {
+            throw new NotImplementedException();
         }
     }
 }

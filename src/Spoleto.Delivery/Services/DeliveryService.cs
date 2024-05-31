@@ -1,5 +1,4 @@
 ﻿using System.Collections.Specialized;
-using Spoleto.Delivery.Exceptions;
 using Spoleto.Delivery.Providers;
 
 namespace Spoleto.Delivery.Services
@@ -74,9 +73,11 @@ namespace Spoleto.Delivery.Services
         public IDeliveryProvider DefaultProvider => _defaultProvider;
 
         #region Cities
+        /// <inheritdoc/>
         public List<City> GetCities(CityRequest cityRequest)
             => GetCities(_defaultProvider, cityRequest);
 
+        /// <inheritdoc/>
         public List<City> GetCities(string providerName, CityRequest cityRequest)
         {
             if (providerName is null)
@@ -88,9 +89,11 @@ namespace Spoleto.Delivery.Services
             return GetCities(provider, cityRequest);
         }
 
+        /// <inheritdoc/>
         public List<City> GetCities(DeliveryProviderName providerName, CityRequest cityRequest)
             => GetCities(providerName.ToString(), cityRequest);
 
+        /// <inheritdoc/>
         public List<City> GetCities(IDeliveryProvider provider, CityRequest cityRequest)
         {
             if (provider is null)
@@ -102,9 +105,11 @@ namespace Spoleto.Delivery.Services
             return provider.GetCities(cityRequest);
         }
 
+        /// <inheritdoc/>
         public Task<List<City>> GetCitiesAsync(CityRequest cityRequest)
             => GetCitiesAsync(_defaultProvider, cityRequest);
 
+        /// <inheritdoc/>
         public Task<List<City>> GetCitiesAsync(string providerName, CityRequest cityRequest)
         {
             if (providerName is null)
@@ -116,9 +121,11 @@ namespace Spoleto.Delivery.Services
             return GetCitiesAsync(provider, cityRequest);
         }
 
+        /// <inheritdoc/>
         public Task<List<City>> GetCitiesAsync(DeliveryProviderName providerName, CityRequest cityRequest)
             => GetCitiesAsync(providerName.ToString(), cityRequest);
 
+        /// <inheritdoc/>
         public Task<List<City>> GetCitiesAsync(IDeliveryProvider provider, CityRequest cityRequest)
         {
             if (provider is null)
@@ -152,6 +159,7 @@ namespace Spoleto.Delivery.Services
         public List<Tariff> GetTariffs(DeliveryProviderName providerName, TariffRequest tariffRequest)
             => GetTariffs(providerName.ToString(), tariffRequest);
 
+        /// <inheritdoc/>
         public List<Tariff> GetTariffs(IDeliveryProvider provider, TariffRequest tariffRequest)
         {
             if (provider is null)
@@ -179,9 +187,11 @@ namespace Spoleto.Delivery.Services
             return GetTariffsAsync(provider, tariffRequest);
         }
 
+        /// <inheritdoc/>
         public Task<List<Tariff>> GetTariffsAsync(DeliveryProviderName providerName, TariffRequest tariffRequest)
             => GetTariffsAsync(providerName.ToString(), tariffRequest);
 
+        /// <inheritdoc/>
         public Task<List<Tariff>> GetTariffsAsync(IDeliveryProvider provider, TariffRequest tariffRequest)
         {
             if (provider is null)
@@ -191,6 +201,72 @@ namespace Spoleto.Delivery.Services
                 throw new ArgumentNullException(nameof(tariffRequest));
 
             return provider.GetTariffsAsync(tariffRequest);
+        }
+        #endregion
+
+        #region DeliveryOrder
+        /// <inheritdoc/>
+        public DeliveryOrder CreateDeliveryOrder(DeliveryOrderRequest deliveryOrderRequest)
+            => CreateDeliveryOrder(_defaultProvider, deliveryOrderRequest);
+
+        /// <inheritdoc/>
+        public DeliveryOrder CreateDeliveryOrder(string providerName, DeliveryOrderRequest deliveryOrderRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return CreateDeliveryOrder(provider, deliveryOrderRequest);
+        }
+
+        /// <inheritdoc/>
+        public DeliveryOrder CreateDeliveryOrder(DeliveryProviderName providerName, DeliveryOrderRequest deliveryOrderRequest)
+            => CreateDeliveryOrder(providerName.ToString(), deliveryOrderRequest);
+
+        /// <inheritdoc/>
+        public DeliveryOrder CreateDeliveryOrder(IDeliveryProvider provider, DeliveryOrderRequest deliveryOrderRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (deliveryOrderRequest is null)
+                throw new ArgumentNullException(nameof(deliveryOrderRequest));
+
+            return provider.CreateDeliveryOrder(deliveryOrderRequest);
+        }
+
+        /// <inheritdoc/>
+        public Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryOrderRequest deliveryOrderRequest)
+            => CreateDeliveryOrderAsync(_defaultProvider, deliveryOrderRequest);
+
+        /// <inheritdoc/>
+        public Task<DeliveryOrder> CreateDeliveryOrderAsync(string providerName, DeliveryOrderRequest deliveryOrderRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return CreateDeliveryOrderAsync(provider, deliveryOrderRequest);
+        }
+
+        /// <inheritdoc/>
+        public Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryProviderName providerName, DeliveryOrderRequest deliveryOrderRequest)
+            => CreateDeliveryOrderAsync(providerName.ToString(), deliveryOrderRequest);
+
+        /// <inheritdoc/>
+        public Task<DeliveryOrder> CreateDeliveryOrderAsync(IDeliveryProvider provider, DeliveryOrderRequest deliveryOrderRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (deliveryOrderRequest is null)
+                throw new ArgumentNullException(nameof(deliveryOrderRequest));
+
+            return provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
         }
         #endregion
 

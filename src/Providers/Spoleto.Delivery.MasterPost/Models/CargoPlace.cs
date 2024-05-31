@@ -5,35 +5,18 @@ namespace Spoleto.Delivery.Providers.MasterPost
     /// <summary>
     /// Класс для представления информации о грузо-месте.
     /// </summary>
-    internal record CargoPlace
+    public record CargoPlace : CargoPlaceBase
     {
         /// <summary>
-        /// ВесФактический, кг.
+        /// Идентификатор места.
         /// </summary>
-        [JsonPropertyName("PLACE_WEIGHT_ACT")]
-        public decimal Weight { get; set; }
+        [JsonPropertyName("PLACE_IDENT")]
+        public string? Id { get; set; }
 
         /// <summary>
-        /// Длина, см.
+        /// Серийный номер, требуемый к сбору.
         /// </summary>
-        [JsonPropertyName("PLACE_LENGHT")]
-        public int Length { get; set; }
-
-        /// <summary>
-        /// Ширина, см.
-        /// </summary>
-        [JsonPropertyName("PLACE_WIDTH")]
-        public int Width { get; set; }
-
-        /// <summary>
-        /// Высота, см.
-        /// </summary>
-        [JsonPropertyName("PLACE_HEIGHT")]
-        public int Height { get; set; }
-
-        /// <summary>
-        /// Вид вложимого.
-        /// </summary>
-        public CargoPlaceType CargoPlaceType { get; set; }
+        [JsonPropertyName("PLACE_EXPECTED_SN")]
+        public string? ExpectedSerialNumber { get; set; }
     }
 }

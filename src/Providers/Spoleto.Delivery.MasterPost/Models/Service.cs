@@ -5,7 +5,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
     /// <summary>
     /// Тариф
     /// </summary>
-    internal record Service
+    public record Service
     {
         /// <summary>
         /// Наименование тарифа.

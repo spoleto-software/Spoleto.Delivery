@@ -1,6 +1,6 @@
 ﻿namespace Spoleto.Delivery
 {
-    public record DeliverySendingResult
+    public record DeliveryOrder
     {
     }
 }

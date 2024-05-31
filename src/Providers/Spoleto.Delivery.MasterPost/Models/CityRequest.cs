@@ -8,7 +8,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
     public record CityRequest
     {
         /// <summary>
-        /// Код КЛАДР.
+        /// Фильтр для поиска населенных пунктов.
         /// </summary>
         [JsonPropertyName("filter")]
         public string Filter { get; set; }

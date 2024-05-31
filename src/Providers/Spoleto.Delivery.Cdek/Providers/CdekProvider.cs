@@ -8,7 +8,7 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <remarks>
     /// <see href="https://api-docs.cdek.ru/29923741.html"/>
     /// </remarks>
-    public class CdekProvider : ICdekProvider
+    public class CdekProvider : ICdekProvider, IDisposable
     {
         /// <summary>
         /// The name of the delivery provider.
@@ -48,6 +48,27 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <inheritdoc/>
         public string Name => ProviderName;
 
+        string IDeliveryProvider.Name => throw new NotImplementedException();
+
+        #region IDisposable
+        bool _disposed;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && !_disposed)
+            {
+                _disposed = true;
+                _cdekClient?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
+
         /// <inheritdoc/>
         public List<Delivery.City> GetCities(Delivery.CityRequest cityRequest)
             => GetCitiesAsync(cityRequest).GetAwaiter().GetResult();
@@ -77,6 +98,16 @@ namespace Spoleto.Delivery.Providers.Cdek
             var tariffList = await _cdekClient.ExecuteAsync<List<Tariff>>(restRequest).ConfigureAwait(false);
 
             return tariffList.Select(x => x.ToDeliveryTariff()).ToList();
+        }
+
+        /// <inheritdoc/>
+        public DeliveryOrder CreateDeliveryOrder(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+            => CreateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public Task<DeliveryOrder> CreateDeliveryOrderAsync(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+        {
+            throw new NotImplementedException();
         }
     }
 }

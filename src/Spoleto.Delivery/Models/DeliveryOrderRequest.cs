@@ -1,9 +1,9 @@
 ﻿namespace Spoleto.Delivery
 {
     /// <summary>
-    /// The goods delivery model.
+    /// The delivery order request.
     /// </summary>
-    public record GoodsDelivery
+    public record DeliveryOrderRequest
     {
     }
 }
