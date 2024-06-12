@@ -4,7 +4,7 @@
 [![](https://img.shields.io/nuget/v/Spoleto.Delivery)](https://www.nuget.org/packages/Spoleto.Delivery/)
 ![Build](https://github.com/spoleto-software/Spoleto.Delivery/actions/workflows/ci.yml/badge.svg)
 
-**Spoleto.Delivery** is a comprehensive solution designed to integrate delivery functionality into your .NET applications. This project provides a maintainable architecture that simplifies interaction with various delivery providers (e.g., Cdek, MasterPost).
+**Spoleto.Delivery** is a comprehensive solution designed to integrate delivery functionality into your .NET applications. This project provides a maintainable architecture that simplifies interaction with various delivery providers (e.g., Cdek, MasterPost).  
 This project supports .NET Standard 2.0, .NET 7, and .NET 8.
 
 https://github.com/spoleto-software/Spoleto.Delivery
@@ -116,7 +116,7 @@ public class Example
 
         var cityRequest = new CityRequest
         {
-            Name = "Москва"
+            Name = "РњРѕСЃРєРІР°"
         };
         var cities = await deliveryService.GetCitiesAsync(cityRequest);
 
@@ -146,13 +146,13 @@ public class Example
             FromLocation = new()
             {
                 Code = "44",
-                Address = "пр. Ленинградский, д.4",
+                Address = "РїСЂ. Р›РµРЅРёРЅРіСЂР°РґСЃРєРёР№, Рґ.4",
             },
             ToLocation = new()
             {
                 Code = "44",
                 FiasGuid = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
-                Address = "ул. Блюхера, 32"
+                Address = "СѓР». Р‘Р»СЋС…РµСЂР°, 32"
             },
             NumTariffCode = tariffs.First().NumCode,
             Packages =
