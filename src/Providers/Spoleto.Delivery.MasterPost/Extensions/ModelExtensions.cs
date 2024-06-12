@@ -126,7 +126,7 @@
             {
                 OrderNumber = request.Number,
                 DeliveryMode = request.TariffCode,
-                Comment                = request.Comment,
+                Comment = request.Comment,
 
                 SenderAddress = request.FromLocation.Address,
                 SenderAddressCode = request.FromLocation.Code,
@@ -141,61 +141,23 @@
                 RecipientContact = request.Recipient.Name,
                 RecipientEmail = request.Recipient.Email,
                 RecipientPhone = request.Recipient.Phones?.FirstOrDefault().Number,
-                
-                AdditionalServices = request.Services.Select(x=>x.ToAdditionalServiceRequest()).ToList(),
-                Places = request.Packages.Select(x=>x.ToOrderCargoPlaceRequest()).ToList(),
-                Items = request.Packages?.Where(x=>x.Items != null).SelectMany(x=>x.Items).Select(x=>x.ToOrderCargoItem()).ToList(),
-                //FromLocation = request.FromLocation.ToOrderLocationRequest(),
-                //ToLocation = request.ToLocation.ToOrderLocationRequest(),
-                //Number = request.Number,
-                //Packages = request.Packages.Select(x => x.ToOrderPackageRequest()).ToList(),
-                //Recipient = request.Recipient.ToContactRequest(),
-                //Sender = request.Sender?.ToContactRequest(),
-                //Services = request.Services?.Select(x => x.ToAdditionalServiceRequest()).ToList(),
-                //DeliveryPoint = request.DeliveryPoint,
-                //ShipmentPoint = request.ShipmentPoint,
-                //TariffCode = request.NumTariffCode.Value,
-                //Comment = request.Comment
+
+                AdditionalServices = request.Services.Select(x => x.ToAdditionalServiceRequest()).ToList(),
+                Places = request.Packages.Select(x => x.ToOrderCargoPlaceRequest()).ToList(),
+                Items = request.Packages?.Where(x => x.Items != null).SelectMany(x => x.Items).Select(x => x.ToOrderCargoItem()).ToList(),
+
+                PaymentType = request.PaymentType == null ? PaymentType.CashRecipient : (PaymentType)Enum.Parse(typeof(PaymentType), request.PaymentType.Value.ToString()),
+
             };
         }
-
-
-        //public static Delivery.Error ToDeliveryError(this Error error)
-        //{
-        //    return new Delivery.Error
-        //    {
-        //        Code = error.Code,
-        //        Message = error.Message
-        //    };
-        //}
-
-        //public static Delivery.Warning ToDeliveryWarning(this Warning error)
-        //{
-        //    return new Delivery.Warning
-        //    {
-        //        Code = error.Code,
-        //        Message = error.Message
-        //    };
-        //}
-
-        //public static Delivery.DeliveryOrderRelatedEntity ToDeliveryDeliveryOrderRelatedEntity(this DeliveryOrderRelatedEntity entity)
-        //{
-        //    return new Delivery.DeliveryOrderRelatedEntity
-        //    {
-        //        Type = entity.Type.ToString(),
-        //        Uuid = entity.Uuid
-        //    };
-        //}
 
         public static Delivery.DeliveryOrder ToDeliveryOrder(this DeliveryOrder order)
         {
             return new Delivery.DeliveryOrder
             {
-                //Uuid = order.Entity.Uuid,
-                //Errors = order.Requests?.SelectMany(x => x.Errors).Select(x => x.ToDeliveryError()).ToList(),
-                //Warnings = order.Requests?.SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
-                //Status = order.Requests?.FirstOrDefault().State.ToString(),
-                //RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryDeliveryOrderRelatedEntity()).ToList()
+                Number = order.Number,
+                Status = order.CurrentStatus,
+                CisNumber = order.OrderNumber
             };
         }
     }

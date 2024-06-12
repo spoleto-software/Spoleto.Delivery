@@ -10,6 +10,11 @@
         /// </summary>
         public OrderType? Type { get; set; }
 
+        /// <summary>
+        /// Способ оплаты
+        /// </summary>
+        public PaymentType? PaymentType { get; set; }
+
         ///// <summary>
         ///// Дополнительный тип заказа.
         ///// </summary>
