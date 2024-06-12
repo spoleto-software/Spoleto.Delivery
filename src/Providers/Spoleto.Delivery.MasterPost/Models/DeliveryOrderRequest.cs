@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
@@ -220,7 +221,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Комментарий к заказу.
         /// </summary>
         [JsonPropertyName("DN_COMMENT")]
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         /// <summary>
         /// Способ оплаты
@@ -229,6 +230,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Наличными Получатель, Наличными Отправитель, По Договору
         /// </remarks>
         [JsonPropertyName("DN_PAYMENT")]
+        [JsonConverter(typeof(JsonEnumValueConverter<PaymentType>))]
         public PaymentType PaymentType { get; set; }
 
         /// <summary>

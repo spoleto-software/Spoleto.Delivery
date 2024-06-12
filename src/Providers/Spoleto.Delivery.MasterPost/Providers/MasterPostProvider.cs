@@ -1,4 +1,4 @@
-﻿using Spoleto.Common.Helpers;
+﻿using Spoleto.RestClient;
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
@@ -8,7 +8,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
     /// <remarks>
     /// <see href="https://mplogistics.ru"/>
     /// </remarks>
-    public class MasterPostProvider : IMasterPostProvider, IDisposable
+    public partial class MasterPostProvider : IDeliveryProvider, IDisposable
     {
         /// <summary>
         /// The name of the delivery provider.
@@ -16,29 +16,22 @@ namespace Spoleto.Delivery.Providers.MasterPost
         public const string ProviderName = nameof(DeliveryProviderName.MasterPost);
 
         private readonly MasterPostOptions _options;
-        private readonly AuthCredentials _authCredentials;
         private readonly MasterPostClient _masterPostClient;
 
-        public MasterPostProvider(MasterPostOptions options, AuthCredentials authCredentials)
+        public MasterPostProvider(MasterPostOptions options)
         {
             if (options is null)
                 throw new ArgumentNullException(nameof(options));
 
-            if (authCredentials is null)
-                throw new ArgumentNullException(nameof(authCredentials));
+            if (options.AuthCredentials is null)
+                throw new ArgumentNullException(nameof(options.AuthCredentials));
 
             // Validates if the options are valid
             options.Validate();
 
             _options = options;
-            _authCredentials = authCredentials;
 
-            _masterPostClient = new MasterPostClient(_options, _authCredentials);
-        }
-
-        public MasterPostProvider(MasterPostClient masterPostClient)
-        {
-            _masterPostClient = masterPostClient;
+            _masterPostClient = new MasterPostClient(options);
         }
 
         /// <inheritdoc/>
@@ -71,8 +64,9 @@ namespace Spoleto.Delivery.Providers.MasterPost
         public async Task<List<Delivery.City>> GetCitiesAsync(Delivery.CityRequest cityRequest)
         {
             var model = cityRequest.ToCityRequest();
-            var modelQuery = HttpHelper.ToQueryString(model);
-            var restRequest = _masterPostClient.CreateJsonRestRequest<CityRequest>($"cities?{modelQuery}", RestClient.HttpMethod.Get);
+            var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"cities")
+                .WithQueryString(model)
+                .Build();
 
             var cityList = await _masterPostClient.ExecuteAsync<List<City>>(restRequest).ConfigureAwait(false);
 
@@ -98,9 +92,12 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 model.DeliveryMode = service.DeliveryMode;
                 model.IndividualClientNumber = _options.IndividualClientNumber;
 
-                var restRequest = _masterPostClient.CreateJsonRestRequest("tariff_calc", RestClient.HttpMethod.Post, false, model);
+                var restRequest = new RestRequestFactory(RestHttpMethod.Post, "tariff_calc")
+                    .WithJsonContent(model)
+                    .Build();
 
                 var tariff = await _masterPostClient.ExecuteAsync<Tariff>(restRequest).ConfigureAwait(false);
+                tariff.Name = model.DeliveryMode;//todo:??
                 tariffList.Add(tariff);
             }
 
@@ -108,56 +105,38 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public List<Service> GetServices()
-            => GetServicesAsync().GetAwaiter().GetResult();
+        public List<Delivery.AdditionalService> GetAdditionalServices(Delivery.Tariff tariff)
+            => GetAdditionalServicesAsync(tariff).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public async Task<List<Service>> GetServicesAsync()
+        public async Task<List<Delivery.AdditionalService>> GetAdditionalServicesAsync(Delivery.Tariff tariff)
         {
-            var restRequest = _masterPostClient.CreateJsonRestRequest<object>($"services/{_options.IndividualClientNumber}", RestClient.HttpMethod.Get);
+            var allAdditionalServiceList = await GetAdditionalServicesAsync().ConfigureAwait(false);
+            var additionalServiceList = allAdditionalServiceList
+                .Where(x => x.DeliveryMode == tariff.Name)
+                .SelectMany(x => x.AdditionalServices)
+                .Where(x => x.Usage != UsageKind.Never);
 
-            var serviceList = await _masterPostClient.ExecuteAsync<List<Service>>(restRequest).ConfigureAwait(false);
-
-            return serviceList;
+            return additionalServiceList.Select(x => x.ToDeliveryAdditionalService()).ToList();
         }
 
         /// <inheritdoc/>
-        public List<AdditionalServiceInfo> GetAdditionalServices()
-            => GetAdditionalServicesAsync().GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<List<AdditionalServiceInfo>> GetAdditionalServicesAsync()
-        {
-            var restRequest = _masterPostClient.CreateJsonRestRequest<object>($"add_services/{_options.IndividualClientNumber}", RestClient.HttpMethod.Get);
-
-            var additionalServiceList = await _masterPostClient.ExecuteAsync<List<AdditionalServiceInfo>>(restRequest).ConfigureAwait(false);
-
-            return additionalServiceList;
-        }
-
-        /// <inheritdoc/>
-        public List<Street> GetStreets(StreetRequest streetRequest)
-            => GetStreetsAsync(streetRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<List<Street>> GetStreetsAsync(StreetRequest streetRequest)
-        {
-            var modelQuery = HttpHelper.ToQueryString(streetRequest);
-            var restRequest = _masterPostClient.CreateJsonRestRequest<CityRequest>($"streets?{modelQuery}", RestClient.HttpMethod.Get);
-
-            var cityList = await _masterPostClient.ExecuteAsync<List<Street>>(restRequest).ConfigureAwait(false);
-
-            return cityList;
-        }
-
-        /// <inheritdoc/>
-        public DeliveryOrder CreateDeliveryOrder(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+        public Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.DeliveryOrderRequest deliveryOrderRequest)
             => CreateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> CreateDeliveryOrderAsync(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+        public async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.DeliveryOrderRequest deliveryOrderRequest)
         {
-            throw new NotImplementedException();
+            var model = deliveryOrderRequest.ToOrderRequest();
+            model.IndividualClientNumber = _options.IndividualClientNumber;
+
+            var restRequest = new RestRequestFactory(RestHttpMethod.Post, "orders")
+                .WithJsonContent(model)
+                .Build();
+
+            var deliveryOrder = await _masterPostClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+
+            return deliveryOrder.ToDeliveryOrder();
         }
     }
 }

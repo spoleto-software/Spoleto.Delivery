@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
@@ -17,6 +18,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Всегда.
         /// </remarks>
         [JsonPropertyName("USAGE")]
+        [JsonConverter(typeof(JsonEnumValueConverter<UsageKind>))]
         public UsageKind Usage { get; set; }
     }
 }

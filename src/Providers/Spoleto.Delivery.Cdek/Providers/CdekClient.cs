@@ -3,23 +3,24 @@ using Spoleto.RestClient.Authentication;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
-    public class CdekClient : Spoleto.RestClient.RestClient
+    public class CdekClient : RestHttpClient
     {
         private readonly CdekOptions _cdekOptions;
 
-        public CdekClient() : this(CdekOptions.Demo, AuthCredentials.Demo)
+        public CdekClient() : this(CdekOptions.Demo)
         {
         }
 
-        public CdekClient(CdekOptions cdekOptions, AuthCredentials authCredentials)
-            : this(CreateNewClient(cdekOptions), CreateAuthenticator(authCredentials), RestClientOptions.Default, true)
+        public CdekClient(CdekOptions cdekOptions)
+            : this(cdekOptions, CreateNewClient(cdekOptions), CreateAuthenticator(cdekOptions.AuthCredentials), RestClientOptions.Default, true)
         {
-            _cdekOptions = cdekOptions;
+            
         }
 
-        public CdekClient(HttpClient httpClient, IAuthenticator? authenticator = null, RestClientOptions? options = null, bool disposeHttpClient = false)
+        public CdekClient(CdekOptions cdekOptions, HttpClient httpClient, IAuthenticator? authenticator = null, RestClientOptions? options = null, bool disposeHttpClient = false)
             : base(httpClient, authenticator, options, disposeHttpClient)
         {
+            _cdekOptions = cdekOptions;
         }
 
         private static HttpClient CreateNewClient(CdekOptions cdekOptions) //todo: should use Polly?

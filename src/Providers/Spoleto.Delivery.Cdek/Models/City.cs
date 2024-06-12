@@ -2,7 +2,7 @@
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
-    internal record City
+    public record City
     {
         /// <summary>
         /// Код населенного пункта СДЭК.
@@ -26,7 +26,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Уникальный идентификатор ФИАС населенного пункта.
         /// </summary>
         [JsonPropertyName("fias_guid")]
-        public Guid? FiasId { get; set; }
+        public Guid? FiasGuid { get; set; }
 
         /// <summary>
         /// Код КЛАДР населенного пункта.
@@ -65,13 +65,13 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Долгота центра населенного пункта.
         /// </summary>
         [JsonPropertyName("longitude")]
-        public double Longitude { get; set; }
+        public double? Longitude { get; set; }
 
         /// <summary>
         /// Широта центра населенного пункта.
         /// </summary>
         [JsonPropertyName("latitude")]
-        public double Latitude { get; set; }
+        public double? Latitude { get; set; }
 
         /// <summary>
         /// Часовой пояс населенного пункта.
@@ -83,7 +83,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Ограничение на сумму наложенного платежа в населенном пункте.
         /// </summary>
         [JsonPropertyName("payment_limit")]
-        public double PaymentLimit { get; set; }
+        public double? PaymentLimit { get; set; }
 
         /// <summary>
         /// Список ошибок.

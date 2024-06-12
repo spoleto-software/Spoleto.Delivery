@@ -10,7 +10,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <summary>
         /// Код тарифа.
         /// </summary>
-        [JsonPropertyName("tariff_code")]
+        [JsonPropertyName("tariff_code")] //todo: проверить откуда я взять эту модель
         public int Code { get; set; }
 
         /// <summary>

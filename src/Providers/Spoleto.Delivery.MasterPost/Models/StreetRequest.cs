@@ -11,16 +11,16 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Код ФИАС для города.
         /// </summary>
         /// <remarks>
-        /// Если передать <see cref="CityKladrCode"/> и <see cref="CityFiasId"/>, то параметр <see cref="CityKladrCode>"/> игнорируется и выбор города идет по <see cref="CityFiasId"/>.
+        /// Если передать <see cref="CityKladrCode"/> и <see cref="CityFiasGuid"/>, то параметр <see cref="CityKladrCode>"/> игнорируется и выбор города идет по <see cref="CityFiasGuid"/>.
         /// </remarks>
         [JsonPropertyName("city_fias")]
-        public Guid? CityFiasId { get; set; }
+        public Guid? CityFiasGuid { get; set; }
 
         /// <summary>
         /// Код КЛАДР для города.
         /// </summary>
         /// <remarks>
-        /// Если передать <see cref="CityKladrCode"/> и <see cref="CityFiasId"/>, то параметр <see cref="CityKladrCode>"/> игнорируется и выбор города идет по <see cref="CityFiasId"/>.
+        /// Если передать <see cref="CityKladrCode"/> и <see cref="CityFiasGuid"/>, то параметр <see cref="CityKladrCode>"/> игнорируется и выбор города идет по <see cref="CityFiasGuid"/>.
         /// </remarks>
         [JsonPropertyName("city_klad")]
         public string CityKladrCode { get; set; }

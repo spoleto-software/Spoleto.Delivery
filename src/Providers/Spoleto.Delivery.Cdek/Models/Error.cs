@@ -5,7 +5,7 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <summary>
     /// Ошибка.
     /// </summary>
-    internal record Error
+    public record Error
     {
         /// <summary>
         /// Код ошибки.

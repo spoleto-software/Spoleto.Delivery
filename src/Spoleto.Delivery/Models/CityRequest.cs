@@ -8,7 +8,7 @@
         /// <summary>
         /// Уникальный числовой код города внутри провайдера.
         /// </summary>
-        public int NumCode { get; set; }
+        public int? NumCode { get; set; }
 
         /// <summary>
         /// Уникальный код города внутри провайдера.

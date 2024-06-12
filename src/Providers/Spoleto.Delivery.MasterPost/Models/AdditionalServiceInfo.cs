@@ -17,6 +17,6 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Дополнительная услуга.
         /// </summary>
         [JsonPropertyName("ADDSERV")]
-        public AdditionalService AdditionalService { get; set; }
+        public List<AdditionalService> AdditionalServices { get; set; }
     }
 }

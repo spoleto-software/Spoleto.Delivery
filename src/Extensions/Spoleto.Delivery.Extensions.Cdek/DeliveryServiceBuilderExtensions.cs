@@ -18,12 +18,13 @@ namespace Spoleto.Delivery.Extensions.Cdek
         /// <param name="builder">The <see cref="DeliveryServiceBuilder"/> instance.</param>
         /// <param name="cliendId">The cliend identifier.</param>
         /// <param name="clientSecret">The client secret.</param>
+        /// <param name="serviceUrl">The Cdek service url.</param>
         /// <returns>The <see cref="DeliveryServiceBuilder"/> instance is provided to support method chaining capabilities.</returns>
-        public static DeliveryServiceBuilder AddCdek(this DeliveryServiceBuilder builder, string cliendId, string clientSecret)
+        public static DeliveryServiceBuilder AddCdek(this DeliveryServiceBuilder builder, string cliendId, string clientSecret, string serviceUrl)
            => builder.AddCdek(x =>
            {
-               x.ClientId = cliendId;
-               x.ClientSecret = clientSecret;
+               x.ServiceUrl = serviceUrl;
+               x.AuthCredentials = new AuthCredentials(cliendId, clientSecret);
            });
 
 
@@ -34,23 +35,22 @@ namespace Spoleto.Delivery.Extensions.Cdek
         /// <see href="https://api-docs.cdek.ru/29923741.html"/>
         /// </remarks>
         /// <param name="builder">The <see cref="DeliveryServiceBuilder"/> instance.</param>
-        /// <param name="authConfig">The action to configure the <see cref="AuthCredentials"/> for the Cdek provider.</param>
+        /// <param name="config">The action to configure the <see cref="CdekOptions"/> for the Cdek provider.</param>
         /// <returns>The <see cref="DeliveryServiceBuilder"/> instance is provided to support method chaining capabilities.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="authConfig"/> is null.</exception>
-        public static DeliveryServiceBuilder AddCdek(this DeliveryServiceBuilder builder, Action<AuthCredentials> authConfig)
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="config"/> is null.</exception>
+        public static DeliveryServiceBuilder AddCdek(this DeliveryServiceBuilder builder, Action<CdekOptions> config)
         {
-            if (authConfig is null)
-                throw new ArgumentNullException(nameof(authConfig));
+            if (config is null)
+                throw new ArgumentNullException(nameof(config));
 
             // loads the options
-            var authCredentials = new AuthCredentials();
-            authConfig(authCredentials);
+            var options = new CdekOptions();
+            config(options);
 
             // validates the options
-            authCredentials.Validate();
+            options.Validate();
 
-            builder.ServiceCollection.AddSingleton(s => CdekOptions.Production);
-            builder.ServiceCollection.AddSingleton(s => authCredentials);
+            builder.ServiceCollection.AddSingleton(s => options);
             builder.ServiceCollection.AddScoped<IDeliveryProvider, CdekProvider>();
             builder.ServiceCollection.AddScoped<ICdekProvider, CdekProvider>();
 

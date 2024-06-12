@@ -1,7 +1,7 @@
 ﻿using System.Collections.Specialized;
 using Spoleto.Delivery.Providers;
 
-namespace Spoleto.Delivery.Services
+namespace Spoleto.Delivery
 {
     /// <summary>
     /// The Delivery service serves as an abstraction layer for delivery of goods.
@@ -201,6 +201,72 @@ namespace Spoleto.Delivery.Services
                 throw new ArgumentNullException(nameof(tariffRequest));
 
             return provider.GetTariffsAsync(tariffRequest);
+        }
+        #endregion
+
+        #region Additional services
+        /// <inheritdoc/>
+        public List<AdditionalService> GetAdditionalServices(Tariff tariff)
+            => GetAdditionalServices(_defaultProvider, tariff);
+
+        /// <inheritdoc/>
+        public List<AdditionalService> GetAdditionalServices(string providerName, Tariff tariff)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return GetAdditionalServices(provider, tariff);
+        }
+
+        /// <inheritdoc/>
+        public List<AdditionalService> GetAdditionalServices(DeliveryProviderName providerName, Tariff tariff)
+            => GetAdditionalServices(providerName.ToString(), tariff);
+
+        /// <inheritdoc/>
+        public List<AdditionalService> GetAdditionalServices(IDeliveryProvider provider, Tariff tariff)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (tariff is null)
+                throw new ArgumentNullException(nameof(tariff));
+
+            return provider.GetAdditionalServices(tariff);
+        }
+
+        /// <inheritdoc/>
+        public Task<List<AdditionalService>> GetAdditionalServicesAsync(Tariff tariff)
+            => GetAdditionalServicesAsync(_defaultProvider, tariff);
+
+        /// <inheritdoc/>
+        public Task<List<AdditionalService>> GetAdditionalServicesAsync(string providerName, Tariff tariff)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return GetAdditionalServicesAsync(provider, tariff);
+        }
+
+        /// <inheritdoc/>
+        public Task<List<AdditionalService>> GetAdditionalServicesAsync(DeliveryProviderName providerName, Tariff tariff)
+            => GetAdditionalServicesAsync(providerName.ToString(), tariff);
+
+        /// <inheritdoc/>
+        public Task<List<AdditionalService>> GetAdditionalServicesAsync(IDeliveryProvider provider, Tariff tariff)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (tariff is null)
+                throw new ArgumentNullException(nameof(tariff));
+
+            return provider.GetAdditionalServicesAsync(tariff);
         }
         #endregion
 

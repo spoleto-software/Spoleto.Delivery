@@ -1,4 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Common.JsonConverters;
+using Spoleto.Delivery.Providers.Cdek.Converters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -23,13 +25,15 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// По умолчанию: <see cref="OrderType.OnlineStore"/>
         /// </remarks>
         [JsonPropertyName("type")]
-        public OrderType? Type { get; set; } //todo: в базовый TariffRequest? Либо через AdditionalData
+        [JsonConverter(typeof(JsonIntEnumConverter<OrderType>))]
+        public OrderType? Type { get; set; }
 
         /// <summary>
         /// Дополнительный тип заказа.
         /// </summary>
         [JsonPropertyName("additional_order_types")]
-        public List<AdditionalOrderType>? AdditionalOrderTypes { get; set; }
+        [JsonConverter(typeof(JsonAdditionalOrderTypeListConverter))]
+        public List<AdditionalOrderType>? AdditionalOrderTypes { get; set; }// = new List<AdditionalOrderType> { AdditionalOrderType.LTL, AdditionalOrderType.Forward };
 
         /// <summary>
         /// Код валюты, в которой необходимо произвести расчет. По умолчанию - валюта договора

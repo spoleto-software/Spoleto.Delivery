@@ -26,17 +26,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spoleto.Delivery.Tests", "S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spoleto.Delivery.Extensions", "Spoleto.Delivery.Extensions", "{D7C74C11-CDF8-49F2-A68A-2665A3A25013}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Tests", "src\Tests\Spoleto.Delivery.Tests\Spoleto.Delivery.Tests.csproj", "{844C21A0-A9FE-48DF-85E3-0DF6CCB00255}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Tests", "src\Tests\Spoleto.Delivery.Tests\Spoleto.Delivery.Tests.csproj", "{844C21A0-A9FE-48DF-85E3-0DF6CCB00255}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Cdek", "src\Providers\Spoleto.Delivery.Cdek\Spoleto.Delivery.Cdek.csproj", "{69FDC9BF-ABEB-4652-BB95-B721F666D71D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Cdek", "src\Providers\Spoleto.Delivery.Cdek\Spoleto.Delivery.Cdek.csproj", "{69FDC9BF-ABEB-4652-BB95-B721F666D71D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.MasterPost", "src\Providers\Spoleto.Delivery.MasterPost\Spoleto.Delivery.MasterPost.csproj", "{BB2CB5F9-2D63-400E-8C14-A4BB34253814}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.MasterPost", "src\Providers\Spoleto.Delivery.MasterPost\Spoleto.Delivery.MasterPost.csproj", "{BB2CB5F9-2D63-400E-8C14-A4BB34253814}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Extensions", "src\Extensions\Spoleto.Delivery.Extensions\Spoleto.Delivery.Extensions.csproj", "{1D3D2B93-4D81-4981-A74A-8D2490583DD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Extensions", "src\Extensions\Spoleto.Delivery.Extensions\Spoleto.Delivery.Extensions.csproj", "{1D3D2B93-4D81-4981-A74A-8D2490583DD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Extensions.Cdek", "src\Extensions\Spoleto.Delivery.Extensions.Cdek\Spoleto.Delivery.Extensions.Cdek.csproj", "{5AC2CF58-0C42-46EE-9B0E-24623DAD0ED9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Extensions.Cdek", "src\Extensions\Spoleto.Delivery.Extensions.Cdek\Spoleto.Delivery.Extensions.Cdek.csproj", "{5AC2CF58-0C42-46EE-9B0E-24623DAD0ED9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Extensions.MasterPost", "src\Extensions\Spoleto.Delivery.Extensions.MasterPost\Spoleto.Delivery.Extensions.MasterPost.csproj", "{699D0A28-AD37-4633-9025-1AD586464D27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Extensions.MasterPost", "src\Extensions\Spoleto.Delivery.Extensions.MasterPost\Spoleto.Delivery.Extensions.MasterPost.csproj", "{699D0A28-AD37-4633-9025-1AD586464D27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

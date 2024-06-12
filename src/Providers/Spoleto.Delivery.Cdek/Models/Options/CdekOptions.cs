@@ -6,7 +6,7 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// </summary>
     public record CdekOptions : IOptions
     {
-        public static readonly CdekOptions Demo = new() { ServiceUrl = "https://api.edu.cdek.ru/v2/" };
+        public static readonly CdekOptions Demo = new() { ServiceUrl = "https://api.edu.cdek.ru/v2/", AuthCredentials = AuthCredentials.Demo };
 
         public static readonly CdekOptions Production = new() { ServiceUrl = "https://api.cdek.ru/v2/" };
 
@@ -16,13 +16,23 @@ namespace Spoleto.Delivery.Providers.Cdek
         public string ServiceUrl { get; set; }
 
         /// <summary>
+        /// Gets or sets the authentication credentials.
+        /// </summary>
+        public AuthCredentials AuthCredentials { get; set; }
+
+        /// <summary>
         /// Checks that all the settings within the options are configured properly.
         /// </summary>
-        /// <exception cref="ArgumentNullException">Thrown when <see cref="ServiceUrl"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <see cref="ServiceUrl"/> or <see cref="AuthCredentials"/> are null.</exception>
         public void Validate()
         {
             if (String.IsNullOrEmpty(ServiceUrl))
                 throw new ArgumentNullException(nameof(ServiceUrl));
+
+            if (AuthCredentials == null)
+                throw new ArgumentNullException(nameof(AuthCredentials));
+
+            AuthCredentials.Validate();
         }
     }
 }

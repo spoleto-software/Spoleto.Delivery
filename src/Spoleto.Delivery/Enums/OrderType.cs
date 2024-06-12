@@ -1,25 +1,22 @@
-﻿using System.Text.Json.Serialization;
-using Spoleto.Common.JsonConverters;
+﻿using System.ComponentModel;
 
-namespace Spoleto.Delivery.Providers.Cdek
+namespace Spoleto.Delivery
 {
     /// <summary>
-    /// Тип заказа.
+    /// The delivery order type.
     /// </summary>
-    /// <remarks>
-    /// <see href="https://api-docs.cdek.ru/63345519.html"/>
-    /// </remarks>
-    [JsonConverter(typeof(JsonIntEnumConverter<OrderType>))]
     public enum OrderType
     {
         /// <summary>
         /// Интернет-магазин.
         /// </summary>
+        [Description("Интернет-магазин")]
         OnlineStore = 1,
 
         /// <summary>
         /// Обычная доставка.
         /// </summary>
+        [Description("Обычная доставка")]
         RegularDelivery = 2
     }
 }

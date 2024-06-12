@@ -1,6 +1,6 @@
 ﻿using Spoleto.Delivery.Providers;
 
-namespace Spoleto.Delivery.Services
+namespace Spoleto.Delivery
 {
     /// <summary>
     /// The Delivery service factory used to create an instance of <see cref="DeliveryService"/>.

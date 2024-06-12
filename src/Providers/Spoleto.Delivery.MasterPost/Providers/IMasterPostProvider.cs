@@ -45,5 +45,19 @@
         /// <param name="streetRequest">The streets request.</param>
         /// <returns>List of <see cref="City"/>.</returns>
         Task<List<Street>> GetStreetsAsync(StreetRequest streetRequest);
+
+        /// <summary>
+        /// Gets the delivery order by its number.
+        /// </summary>
+        /// <param name="orderNumber">The number of the delivery order.</param>
+        /// <returns>The delivery order.</returns>
+        DeliveryOrder GetDeliveryOrder(string orderNumber);
+
+        /// <summary>
+        /// Async gets the delivery order by its number.
+        /// </summary>
+        /// <param name="orderNumber">The number of the delivery order.</param>
+        /// <returns>The delivery order.</returns>
+        Task<DeliveryOrder> GetDeliveryOrderAsync(string orderNumber);
     }
 }

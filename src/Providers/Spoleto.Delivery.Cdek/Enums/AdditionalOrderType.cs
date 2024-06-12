@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
 using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.Cdek
@@ -15,26 +16,37 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <summary>
         /// Сборный груз (LTL)
         /// </summary>
+        [Description("Сборный груз (LTL)")]
         LTL = 2,
 
         /// <summary>
-        /// Forward
+        /// Форвард (Forward)
         /// </summary>
+        [Description("Форвард (Forward)")]
         Forward = 4,
+
+        /// <summary>
+        /// Форвард. Экспресс (Forward. Express)
+        /// </summary>
+        [Description("Форвард. Экспресс (Forward. Express)")]
+        ForwardExpress = 9,
 
         /// <summary>
         /// Фулфилмент. Приход
         /// </summary>
+        [Description("Фулфилмент. Приход")]
         FulfillmentReceipt = 6,
 
         /// <summary>
         /// Фулфилмент. Отгрузка
         /// </summary>
+        [Description("Фулфилмент. Отгрузка")]
         FulfillmentShipment = 7,
 
         /// <summary>
         /// Доставка шин по тарифу "Экономичный экспресс"
         /// </summary>
+        [Description("Доставка шин по тарифу \"Экономичный экспресс\"")]
         TireEconomyExpressDelivery = 10
     }
 }

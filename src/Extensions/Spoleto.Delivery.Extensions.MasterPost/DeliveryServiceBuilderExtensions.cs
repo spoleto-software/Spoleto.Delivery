@@ -18,14 +18,15 @@ namespace Spoleto.Delivery.Extensions.MasterPost
         /// </remarks>
         /// <param name="builder">The <see cref="DeliveryServiceBuilder"/> instance.</param>
         /// <param name="individualClientNumber">The MasterPost Individual client number.</param>
-        /// /// <param name="apiKey">The MasterPost Api key.</param>
+        /// <param name="apiKey">The MasterPost Api key.</param>
         /// <param name="serviceUrl">The MasterPost service url.</param>
         /// <returns>The <see cref="DeliveryServiceBuilder"/> instance is provided to support method chaining capabilities.</returns>
         public static DeliveryServiceBuilder AddMasterPost(this DeliveryServiceBuilder builder, string individualClientNumber, string apiKey, string serviceUrl)
            => builder.AddMasterPost(x =>
            {
-               x.IndividualClientNumber = individualClientNumber;//todo: credentianls to Options (also for Cdek?)
+               x.IndividualClientNumber = individualClientNumber;
                x.ServiceUrl = serviceUrl;
+               x.AuthCredentials = new AuthCredentials(apiKey);
            });
 
         /// <summary>

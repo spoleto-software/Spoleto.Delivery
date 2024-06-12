@@ -17,7 +17,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Код ФИАС для улицы.
         /// </summary>
         [JsonPropertyName("STREET_FIAS")]
-        public Guid FiasId { get; set; }
+        public Guid FiasGuid { get; set; }
 
         /// <summary>
         /// Код КЛАДР для улицы.
@@ -29,7 +29,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Код ФИАС для города.
         /// </summary>
         [JsonPropertyName("CITY_FIAS")]
-        public string CityFiasId { get; set; }
+        public string CityFiasGuid { get; set; }
 
         /// <summary>
         /// Код КЛАДР для города.

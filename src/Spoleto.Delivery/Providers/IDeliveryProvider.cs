@@ -39,6 +39,20 @@
         Task<List<Tariff>> GetTariffsAsync(TariffRequest tariffRequest);
 
         /// <summary>
+        /// Gets all available additional services for the selected delivery tariff.
+        /// </summary>
+        /// <param name="tariff">The selected tariff.</param>
+        /// <returns>List of <see cref="AdditionalService"/>.</returns>
+        List<AdditionalService> GetAdditionalServices(Tariff tariff);
+
+        /// <summary>
+        /// Async gets all available additional services for the selected delivery tariff.
+        /// </summary>
+        /// <param name="tariff">The selected tariff.</param>
+        /// <returns>List of <see cref="AdditionalService"/>.</returns>
+        Task<List<AdditionalService>> GetAdditionalServicesAsync(Tariff tariff);
+
+        /// <summary>
         /// Creates a delivery order.
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>

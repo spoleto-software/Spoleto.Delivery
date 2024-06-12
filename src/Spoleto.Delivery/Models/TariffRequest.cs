@@ -6,6 +6,11 @@
     public record TariffRequest
     {
         /// <summary>
+        /// Тип заказа.
+        /// </summary>
+        public OrderType? Type { get; set; }
+
+        /// <summary>
         /// Адрес отправления
         /// </summary>
         public Location FromLocation { get; set; }

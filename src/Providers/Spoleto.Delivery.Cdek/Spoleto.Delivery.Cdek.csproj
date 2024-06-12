@@ -14,6 +14,9 @@
         <PackageTags>Spoleto.Delivery; Delivery; Cdek; СДЭК</PackageTags>
         <Description>CDEK provider for Spoleto.Delivery</Description>
     </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="Spoleto.RestClient" Version="1.0.3" />
+    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\Spoleto.Delivery\Spoleto.Delivery.csproj" />

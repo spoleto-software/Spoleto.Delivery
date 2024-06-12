@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
@@ -34,6 +35,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <summary>
         /// Вид вложимого.
         /// </summary>
+        [JsonPropertyName("PLACE_CARGO_TYPE")]
+        [JsonConverter(typeof(JsonEnumValueConverter<CargoPlaceType>))]
         public CargoPlaceType CargoPlaceType { get; set; }
     }
 }

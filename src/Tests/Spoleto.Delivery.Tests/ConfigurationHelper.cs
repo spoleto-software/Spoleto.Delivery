@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Spoleto.Delivery.Providers.Cdek;
+using Spoleto.Delivery.Providers.MasterPost;
 
 namespace Spoleto.Delivery.Tests
 {
@@ -15,6 +17,20 @@ namespace Spoleto.Delivery.Tests
         }
 
         public static IConfigurationRoot Configuration => _config;
+
+        public static CdekOptions GetCdekOptions()
+        {
+            var options = _config.GetSection(nameof(CdekOptions)).Get<CdekOptions>()!;
+
+            return options;
+        }
+
+        public static MasterPostOptions GetMasterPostOptions()
+        {
+            var options = _config.GetSection(nameof(MasterPostOptions)).Get<MasterPostOptions>()!;
+
+            return options;
+        }
 
         public static Delivery.DeliveryOrderRequest GetGoodsDeliveryCdek()
         {

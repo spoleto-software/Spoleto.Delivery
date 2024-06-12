@@ -6,10 +6,6 @@ namespace Spoleto.Delivery.Providers.Cdek
     {
         public static readonly AuthCredentials Demo = new("EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI", "PjLZkKBHEiLK3YsjtNrt3TGNG0ahs3kG");
 
-        public AuthCredentials()
-        {
-        }
-
         public AuthCredentials(string clientId, string clientSecret)
         {
             ClientId = clientId;
@@ -21,7 +17,6 @@ namespace Spoleto.Delivery.Providers.Cdek
 
         [JsonPropertyName("client_id")]
         public string ClientId { get; set; }
-
 
         [JsonPropertyName("client_secret")]
         public string ClientSecret { get; set; }

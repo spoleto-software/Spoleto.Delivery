@@ -1,4 +1,4 @@
-﻿using Spoleto.Common.Helpers;
+﻿using Spoleto.RestClient;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -8,7 +8,7 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <remarks>
     /// <see href="https://api-docs.cdek.ru/29923741.html"/>
     /// </remarks>
-    public class CdekProvider : ICdekProvider, IDisposable
+    public partial class CdekProvider : ICdekProvider, IDisposable
     {
         /// <summary>
         /// The name of the delivery provider.
@@ -16,28 +16,26 @@ namespace Spoleto.Delivery.Providers.Cdek
         public const string ProviderName = nameof(DeliveryProviderName.Cdek);
 
         private readonly CdekOptions _options;
-        private readonly AuthCredentials _authCredentials;
         private readonly CdekClient _cdekClient;
 
-        public CdekProvider() : this(CdekOptions.Demo, AuthCredentials.Demo)
+        public CdekProvider() : this(CdekOptions.Demo)
         {
         }
 
-        public CdekProvider(CdekOptions options, AuthCredentials authCredentials)
+        public CdekProvider(CdekOptions options)
         {
             if (options is null)
                 throw new ArgumentNullException(nameof(options));
 
-            if (authCredentials is null)
-                throw new ArgumentNullException(nameof(authCredentials));
+            if (options.AuthCredentials is null)
+                throw new ArgumentNullException(nameof(options.AuthCredentials));
 
             // Validates if the options are valid
             options.Validate();
 
             _options = options;
-            _authCredentials = authCredentials;
 
-            _cdekClient = new CdekClient(_options, _authCredentials);
+            _cdekClient = new CdekClient(_options);
         }
 
         public CdekProvider(CdekClient cdekClient)
@@ -47,8 +45,6 @@ namespace Spoleto.Delivery.Providers.Cdek
 
         /// <inheritdoc/>
         public string Name => ProviderName;
-
-        string IDeliveryProvider.Name => throw new NotImplementedException();
 
         #region IDisposable
         bool _disposed;
@@ -77,8 +73,9 @@ namespace Spoleto.Delivery.Providers.Cdek
         public async Task<List<Delivery.City>> GetCitiesAsync(Delivery.CityRequest cityRequest)
         {
             var model = cityRequest.ToCityRequest();
-            var modelQuery = HttpHelper.ToQueryString(model);
-            var restRequest = _cdekClient.CreateJsonRestRequest<CityRequest>($"location/cities?{modelQuery}", RestClient.HttpMethod.Get);
+            var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"location/cities")
+                .WithQueryString(model)
+                .Build();
 
             var cityList = await _cdekClient.ExecuteAsync<List<City>>(restRequest).ConfigureAwait(false);
 
@@ -93,21 +90,44 @@ namespace Spoleto.Delivery.Providers.Cdek
         public async Task<List<Delivery.Tariff>> GetTariffsAsync(Delivery.TariffRequest tariffRequest)
         {
             var model = tariffRequest.ToTariffRequest();
-            var restRequest = _cdekClient.CreateJsonRestRequest("tarifflist", RestClient.HttpMethod.Post, false, model);
+            var restRequest = new RestRequestFactory(RestHttpMethod.Post, "calculator/tarifflist")
+                .WithJsonContent(model)
+                .Build();
 
             var tariffList = await _cdekClient.ExecuteAsync<List<Tariff>>(restRequest).ConfigureAwait(false);
 
             return tariffList.Select(x => x.ToDeliveryTariff()).ToList();
         }
 
+
         /// <inheritdoc/>
-        public DeliveryOrder CreateDeliveryOrder(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+        public List<Delivery.AdditionalService> GetAdditionalServices(Delivery.Tariff tariff)
+            => GetAdditionalServicesAsync(tariff).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public Task<List<Delivery.AdditionalService>> GetAdditionalServicesAsync(Delivery.Tariff tariff)
+        {
+            var allAdditionalServices = GetAdditionalServices();
+            var additionalServices = allAdditionalServices.Select(x => new Delivery.AdditionalService { Code = x.Code, Name = x.Name, Description = x.Description }).ToList();
+
+            return Task.FromResult(additionalServices);
+        }
+
+        /// <inheritdoc/>
+        public Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.DeliveryOrderRequest deliveryOrderRequest)
             => CreateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> CreateDeliveryOrderAsync(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+        public async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.DeliveryOrderRequest deliveryOrderRequest)
         {
-            throw new NotImplementedException();
+            var model = deliveryOrderRequest.ToOrderRequest();
+            var restRequest = new RestRequestFactory(RestHttpMethod.Post, "orders")
+                .WithJsonContent(model)
+                .Build();
+
+            var deliveryOrder = await _cdekClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+
+            return deliveryOrder.ToDeliveryOrder();
         }
     }
 }

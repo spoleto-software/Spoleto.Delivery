@@ -21,13 +21,13 @@ namespace Spoleto.Delivery.Tests.Providers
         {
             var services = new ServiceCollection();
 
-            var cdekOptions = ConfigurationHelper.Configuration.GetSection(nameof(CdekOptions)).Get<CdekOptions>()!;
+            var cdekOptions = ConfigurationHelper.GetCdekOptions();
             services.AddSingleton(cdekOptions);
             services.AddSingleton<ICdekProvider, CdekProvider>();
 
-            var masterPostOptions = ConfigurationHelper.Configuration.GetSection(nameof(MasterPostOptions)).Get<MasterPostOptions>()!;
+            var masterPostOptions = ConfigurationHelper.GetMasterPostOptions();
             services.AddSingleton(masterPostOptions);
-            services.AddHttpClient<IMasterPostProvider, MasterPostProvider>();
+            services.AddSingleton<IMasterPostProvider, MasterPostProvider>();
 
             _serviceProvider = services.BuildServiceProvider();
         }

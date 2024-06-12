@@ -1,6 +1,6 @@
 ﻿using Spoleto.Delivery.Providers;
 
-namespace Spoleto.Delivery.Services
+namespace Spoleto.Delivery
 {
     /// <summary>
     /// The Delivery service serves as an abstraction layer for delivery of goods.
@@ -163,6 +163,74 @@ namespace Spoleto.Delivery.Services
         /// <param name="deliveryOrderRequest">The tariff request.</param>
         /// <returns>The list of tariffs.</returns>
         Task<List<Tariff>> GetTariffsAsync(IDeliveryProvider provider, TariffRequest tariffRequest);
+        #endregion
+
+        #region Additional services
+        /// <summary>
+        /// Gets all available additional services for the selected delivery tariff.
+        /// </summary>
+        /// <param name="tariff">The selected tariff.</param>
+        /// <returns>List of <see cref="AdditionalService"/>.</returns>
+        List<AdditionalService> GetAdditionalServices(Tariff tariff);
+
+        /// <summary>
+        /// Gets all available additional services for the selected delivery tariff.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="tariff">The selected tariff.</param>
+        /// <returns>List of <see cref="AdditionalService"/>.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        List<AdditionalService> GetAdditionalServices(string providerName, Tariff tariff);
+
+        /// <summary>
+        /// Gets all available additional services for the selected delivery tariff.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="tariff">The selected tariff.</param>
+        /// <returns>List of <see cref="AdditionalService"/>.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        List<AdditionalService> GetAdditionalServices(DeliveryProviderName providerName, Tariff tariff);
+
+        /// <summary>
+        /// Gets all available additional services for the selected delivery tariff.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="tariff">The selected tariff.</param>
+        /// <returns>List of <see cref="AdditionalService"/>.</returns>
+        List<AdditionalService> GetAdditionalServices(IDeliveryProvider provider, Tariff tariff);
+
+        /// <summary>
+        /// Async gets all available additional services for the selected delivery tariff.
+        /// </summary>
+        /// <param name="tariff">The selected tariff.</param>
+        /// <returns>List of <see cref="AdditionalService"/>.</returns>
+        Task<List<AdditionalService>> GetAdditionalServicesAsync(Tariff tariff);
+
+        /// <summary>
+        /// Async gets all available additional services for the selected delivery tariff.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="tariff">The selected tariff.</param>
+        /// <returns>List of <see cref="AdditionalService"/>.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<List<AdditionalService>> GetAdditionalServicesAsync(string providerName, Tariff tariff);
+
+        /// <summary>
+        /// Async gets all available additional services for the selected delivery tariff.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="tariff">The selected tariff.</param>
+        /// <returns>List of <see cref="AdditionalService"/>.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<List<AdditionalService>> GetAdditionalServicesAsync(DeliveryProviderName providerName, Tariff tariff);
+
+        /// <summary>
+        /// Async gets all available additional services for the selected delivery tariff.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="tariff">The selected tariff.</param>
+        /// <returns>List of <see cref="AdditionalService"/>.</returns>
+        Task<List<AdditionalService>> GetAdditionalServicesAsync(IDeliveryProvider provider, Tariff tariff);
         #endregion
 
         #region DeliveryOrder
