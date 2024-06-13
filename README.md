@@ -73,7 +73,7 @@ namespace Spoleto.Delivery
 }
 ```
 
-### Providers Interface
+### DeliveryProvider
 
 Each delivery provider must implement the `IDeliveryProvider` interface:
 
@@ -95,6 +95,13 @@ namespace Spoleto.Delivery.Providers
 }
 ```
 
+DeliveryProvider is the underlying mechanisms that enable the actual delivery functionality. When you incorporate Spoleto.Delivery into your application, it's mandatory to install at least one of the available delivery providers.
+
+The providers come as pre-configured NuGet packages:
+
+- **[Spoleto.Delivery.Cdek](https://www.nuget.org/packages/Spoleto.Delivery.Cdek/)**: Delivery via CDEK https://www.cdek.ru/; 
+- **[Spoleto.Delivery.MasterPost](https://www.nuget.org/packages/Spoleto.Delivery.MasterPost/)**: Delivery via MasterPost https://mplogistics.ru/; 
+
 ## Example
 
 Here is a simple example to demonstrate how to use Spoleto.Delivery in your project:
@@ -112,7 +119,6 @@ public class Example
                                 .AddProvider(new CdekProvider(cdekOptions))
                                 .AddProvider(new MasterPostProvider(masterPostOptions))
                                 .Build();
-
 
         var cityRequest = new CityRequest
         {
@@ -192,6 +198,67 @@ public class Example
         var order = await deliveryService.CreateDeliveryOrderAsync(deliveryOrderRequest);
         
         Console.WriteLine($"Order created with ID: {order.Uuid} and Number: {order.Number}");
+    }
+}
+```
+
+## Dependency Injection
+
+To integrate Spoleto.Delivery into Microsoft Dependency injection framework, you should utilize the [**Spoleto.Delivery.Extensions**](https://www.nuget.org/packages/Spoleto.Delivery.Extensions/) NuGet package. This package provides an extension method for the ``IServiceCollection`` interface, which register the DeliveryService as a scoped service.
+
+The extentions for Delivery providers come as pre-configured NuGet packages:
+
+- **[Spoleto.Delivery.Extensions.Cdek](https://www.nuget.org/packages/Spoleto.Delivery.Extensions.Cdek/)**: CDEK registration; 
+- **[Spoleto.Delivery.Extensions.MasterPost](https://www.nuget.org/packages/Spoleto.Delivery.Extensions.MasterPost/)**: MasterPost registration.
+
+After ensuring that the ``Spoleto.Delivery.Extensions`` package with at least one Delivery provider package are installed from NuGet, you can proceed with the registration of Spoleto.Delivery within the ``Startup.cs`` or your DI configuration file in the following manner:
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    // Other DI registrations...
+
+    // Register Spoleto.Delivery as a scoped service:
+    services.AddDelivery(MasterPostProvider.ProviderName)
+        .AddMasterPost("MasterPost_IndividualClientNumber", "MasterPost_ApiKey", "MasterPost_ApiKey", "MasterPost_ServiceUrl")
+        .AddCdek("Cdek_CliendId", "Cdek_ClientSecret", "Cdek_ServiceUrl");
+
+    // Continue with the rest of your service configuration...
+}
+
+```
+
+### Injecting the Delivery Service into Your Classes
+Once Spoleto.Delivery has been registered with your Dependency Injection framework, you can facilitate the injection of the Delivery service into any class within your application.
+
+Inject the ``IDeliveryService`` interface into the constructors of the classes where you want to use Delivery functionality:
+
+```csharp
+public class YourDeliveryClass
+{
+    private readonly ILogger<YourDeliveryClass> _logger;
+    private readonly IDeliveryService _deliveryService;
+
+    public YourDeliveryClass(ILogger<YourDeliveryClass> logger, IDeliveryService deliveryService)
+    {
+        _logger = logger;
+        _deliveryService = deliveryService;
+    }
+
+    public async Task CreateDeliveryOrder(ModelRequest from, ModelRequest to, ModelData data)
+    {
+        // create a DeliveryOrderRequest
+        var deliveryOrderRequest = CreateDeliveryOrderRequest(from, to, data);
+
+        // create the delivery order using the default Delivery provider:
+        var order = await _deliveryService.CreateDeliveryOrderAsync(deliveryOrderRequest);
+
+        // create the delivery order using the specified Delivery provider:
+        var order1 = await _deliveryService.CreateDeliveryOrderAsync(DeliveryProviderName.Cdek, deliveryOrderRequest);
+        var order2 = await _deliveryService.CreateDeliveryOrderAsync(DeliveryProviderName.MasterPost, deliveryOrderRequest);
+
+        // log the result:
+        _logger.LogInformation("Order created with ID: {order.Uuid} and Number: {order.Number}", order.Uuid, order.Number);
     }
 }
 ```
