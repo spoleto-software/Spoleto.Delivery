@@ -9,7 +9,7 @@
     <!-- Package info -->
     <PropertyGroup>
         <Title>Spoleto.Delivery extensions for Microsoft DependencyInjection</Title>
-        <PackageId>Spoleto.Delivery.Extensions.Messaging</PackageId>
+        <PackageId>Spoleto.Delivery.Extensions</PackageId>
         <PackageTags>Spoleto.Delivery; Delivery; Cdek; СДЭК; MasterPost; МастерПост</PackageTags>
         <Description>Delivery sender with different Delivery providers such as CDEK, MasterPost</Description>
     </PropertyGroup>
