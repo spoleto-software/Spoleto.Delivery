@@ -61,5 +61,10 @@
         /// Максимальное время доставки (в календарных днях).
         /// </summary>
         public int? CalendarMax { get; set; }
+
+        /// <summary>
+        /// Включенные услуги.
+        /// </summary>
+        public List<TariffService> Services { get; set; }
     }
 }

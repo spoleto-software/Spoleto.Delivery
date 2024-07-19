@@ -4,7 +4,7 @@ namespace Spoleto.Delivery.Providers.Cdek
 {
     public record AuthCredentials : IOptions
     {
-        public static readonly AuthCredentials Demo = new("EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI", "PjLZkKBHEiLK3YsjtNrt3TGNG0ahs3kG");
+        public static readonly AuthCredentials Demo = new("wqGwiQx0gg8mLtiEKsUinjVSICCjtTEP", "RmAmgvSgSl1yirlz9QupbzOJVqhCxcP5");
 
         public AuthCredentials(string clientId, string clientSecret)
         {

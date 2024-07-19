@@ -37,13 +37,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно должно быть заполнен либо этот тег, либо тег <see cref="SenderCity"/> (DN_SEND_CITY).
         /// </remarks>
         [JsonPropertyName("DN_SEND_ADR_CODE")]
-        public string? SenderAddressCode { get; set; }
+        public string SenderAddressCode { get; set; } = string.Empty;
 
         /// <summary>
         /// Адрес Отправителя.
         /// </summary>
         [JsonPropertyName("DN_SEND_STR")]
-        public string? SenderAddress { get; set; }
+        public string SenderAddress { get; set; } = string.Empty;
 
         /// <summary>
         /// Город Отправителя.
@@ -53,13 +53,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно должно быть заполнен либо этот тег, либо тег <see cref="SenderAddressCode"/> (DN_SEND_ADR_CODE).
         /// </remarks>
         [JsonPropertyName("DN_SEND_CITY")]
-        public string? SenderCity { get; set; }
+        public string SenderCity { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Адрес Получателя.
-        /// </summary>
-        [JsonPropertyName("DN_REC_STR")]
-        public string? ReceiverAddress { get; set; }
+        ///// <summary>
+        ///// Адрес Получателя.
+        ///// </summary>
+        //[JsonPropertyName("DN_REC_STR")]
+        //public string? ReceiverAddress { get; set; }
 
         /// <summary>
         /// Город Получателя.
@@ -68,13 +68,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// УИД ФИАС, либо код КЛАДР.
         /// </remarks>
         [JsonPropertyName("DN_REC_CITY")]
-        public string ReceiverCity { get; set; }
+        public string ReceiverCity { get; set; } = string.Empty;
 
         /// <summary>
         /// Согласованная дата доставки.
         /// </summary>
         [JsonPropertyName("DN_PLAN_DELDATE")]
-        public DateTime? PlannedDeliveryDate { get; set; }
+        public DateTime PlannedDeliveryDate { get; set; }
 
         /// <summary>
         /// Согласованный временной интервал доставки.
@@ -83,7 +83,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// 10:00-14:00
         /// </remarks>
         [JsonPropertyName("DN_PLAN_DELTIME")]
-        public string PlannedDeliveryTimeInterval { get; set; }
+        public string PlannedDeliveryTimeInterval { get; set; } = string.Empty;
 
         /// <summary>
         /// Оценочная Стоимость.
@@ -134,12 +134,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <summary>
         /// Грузо-места.
         /// </summary>
+        [JsonPropertyName("PLACE")]
         public List<CargoPlaceBase> CargoPlaces { get; set; }
 
         /// <summary>
         /// Оценочная Стоимость
         /// </summary>
-        [JsonPropertyName("ART_EST_PRICE")]
+        [JsonPropertyName("ART")]
         public List<CargoArticle> CargoArticles { get; set; }
     }
 }

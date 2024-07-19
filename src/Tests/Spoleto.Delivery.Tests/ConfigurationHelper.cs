@@ -32,13 +32,13 @@ namespace Spoleto.Delivery.Tests
             return options;
         }
 
-        public static Delivery.DeliveryOrderRequest GetGoodsDeliveryCdek()
+        public static Delivery.CreateDeliveryOrderRequest GetGoodsDeliveryCdek()
         {
    
             return null;
         }
 
-        public static Delivery.DeliveryOrderRequest GetSmsMessageMasterPost()
+        public static Delivery.CreateDeliveryOrderRequest GetSmsMessageMasterPost()
         {
  
             return null;

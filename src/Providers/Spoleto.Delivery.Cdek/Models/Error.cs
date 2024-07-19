@@ -18,5 +18,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// </summary>
         [JsonPropertyName("message")]
         public string Message { get; set; }
+
+        public override string ToString() => $"{nameof(Code)}: {Code}. {nameof(Message)}: {Message}";
     }
 }

@@ -57,13 +57,41 @@
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
-        DeliveryOrder CreateDeliveryOrder(DeliveryOrderRequest deliveryOrderRequest);
+        DeliveryOrder CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Async creates a delivery order.
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryOrderRequest deliveryOrderRequest);
+        Task<DeliveryOrder> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Gets the delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        DeliveryOrder GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async gets the delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        Task<DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Deletes the delivery order.
+        /// </summary>
+        /// <param name="orderId">The delivery order identifier.</param>
+        /// <returns>The delivery order.</returns>
+        DeliveryOrder DeleteDeliveryOrder(string orderId);
+
+        /// <summary>
+        /// Async deletes the delivery order.
+        /// </summary>
+        /// <param name="orderId">The delivery order identifier.</param>
+        /// <returns>The delivery order.</returns>
+        Task<DeliveryOrder> DeleteDeliveryOrderAsync(string orderId);
     }
 }

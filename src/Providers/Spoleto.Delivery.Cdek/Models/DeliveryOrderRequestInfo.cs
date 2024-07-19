@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using Spoleto.Common.JsonConverters;
+using Spoleto.Delivery.Providers.Cdek.Converters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -25,7 +26,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Формат yyyy-MM-dd'T'HH:mm:ssZ.
         /// </summary>
         [JsonPropertyName("date_time")]
-        public DateTime DateTime { get; set; } //todo: date format?
+        [JsonConverter(typeof(JsonDateTimeConverter))]
+        public DateTime DateTime { get; set; }
 
         /// <summary>
         /// Получает или задает текущее состояние запроса.

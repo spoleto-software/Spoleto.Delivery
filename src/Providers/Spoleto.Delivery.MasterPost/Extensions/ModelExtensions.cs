@@ -6,11 +6,11 @@
         {
             return new TariffCalcRequest
             {
-                SenderAddress = request.FromLocation.Address,
-                ReceiverAddress = request.ToLocation.Address,
-                SenderAddressCode = request.FromLocation.Code,
-                ReceiverCity = request.FromLocation.City,
-                CargoPlaces = request.Packages.Select(x => x.ToCargoPlaceBaseRequest()).ToList(),
+                SenderAddress = request.FromLocation.Address ?? String.Empty,
+                SenderCity = request.FromLocation.Code,
+                //ReceiverAddress = request.ToLocation.Address,
+                ReceiverCity = request.ToLocation.Code,
+                CargoPlaces = request.Packages.Select(x => x.ToCargoPlaceBaseRequest()).ToList()
             };
         }
 
@@ -42,16 +42,21 @@
         {
             return new Delivery.Tariff
             {
-                CalendarMax = tariff.CalendarMax,
-                CalendarMin = tariff.CalendarMin,
-                Code = tariff.Code.ToString(),
-                DeliveryMode = tariff.DeliveryMode,
-                DeliverySum = tariff.DeliverySum,
-                Description = tariff.Description,
+                Code = tariff.Name,
+                DeliverySum = tariff.Cost,
                 Name = tariff.Name,
-                NumCode = tariff.Code,
-                PeriodMin = tariff.PeriodMin,
-                PeriodMax = tariff.PeriodMax,
+                Services = tariff.Rates.Select(x=>x.ToDeliveryTariffService()).ToList()
+            };
+        }
+
+        public static Delivery.TariffService ToDeliveryTariffService(this TariffRate tariffRate)
+        {
+            return new Delivery.TariffService
+            {
+                Coefficient = tariffRate.Coefficient,
+                Price = tariffRate.Price,
+                RatePart = tariffRate.RatePart,
+                Vat = tariffRate.Vat
             };
         }
 
@@ -120,34 +125,33 @@
             };
         }
 
-        public static DeliveryOrderRequest ToOrderRequest(this Delivery.DeliveryOrderRequest request)
+        public static DeliveryOrderRequest ToOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
         {
             return new DeliveryOrderRequest
             {
-                OrderNumber = request.Number,
+                OrderNumber = request.Number ?? string.Empty,
                 DeliveryMode = request.TariffCode,
-                Comment = request.Comment,
+                Comment = request.Comment ?? string.Empty,
 
                 SenderAddress = request.FromLocation.Address,
                 SenderAddressCode = request.FromLocation.Code,
-                SenderCity = request.FromLocation.City,
+                SenderCity = request.FromLocation.FiasGuid?.ToString() ?? string.Empty,
                 SenderContact = request.Sender.Name,
                 SenderCompany = request.Sender.Company,
                 SenderPhone = request.Sender.Phones?.FirstOrDefault().Number,
 
                 RecipientAddress = request.ToLocation.Address,
-                RecipientCity = request.ToLocation.City,
+                RecipientCity = request.ToLocation.FiasGuid?.ToString() ?? string.Empty,
                 RecipientCompany = request.Recipient.Company,
                 RecipientContact = request.Recipient.Name,
                 RecipientEmail = request.Recipient.Email,
                 RecipientPhone = request.Recipient.Phones?.FirstOrDefault().Number,
 
-                AdditionalServices = request.Services.Select(x => x.ToAdditionalServiceRequest()).ToList(),
-                Places = request.Packages.Select(x => x.ToOrderCargoPlaceRequest()).ToList(),
-                Items = request.Packages?.Where(x => x.Items != null).SelectMany(x => x.Items).Select(x => x.ToOrderCargoItem()).ToList(),
+                AdditionalServices = request.Services?.Select(x => x.ToAdditionalServiceRequest()).ToList() ?? [],
+                Places = request.Packages?.Select(x => x.ToOrderCargoPlaceRequest()).ToList() ?? [],
+                Items = request.Packages?.Where(x => x.Items != null).Where(x=>x.Items != null).SelectMany(x => x.Items).Select(x => x.ToOrderCargoItem()).ToList() ?? [],
 
                 PaymentType = request.PaymentType == null ? PaymentType.CashRecipient : (PaymentType)Enum.Parse(typeof(PaymentType), request.PaymentType.Value.ToString()),
-
             };
         }
 
@@ -157,7 +161,8 @@
             {
                 Number = order.Number,
                 Status = order.CurrentStatus,
-                CisNumber = order.OrderNumber
+                CisNumber = order.OrderNumber,
+                RawBody = order.RawBody
             };
         }
     }

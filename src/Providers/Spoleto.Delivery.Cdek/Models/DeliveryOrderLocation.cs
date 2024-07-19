@@ -3,8 +3,11 @@
 namespace Spoleto.Delivery.Providers.Cdek
 {
     /// <summary>
-    /// Населенный пункт.
+    /// Класс для представления локации (местоположения) для регистрации заказа на доставку.
     /// </summary>
+    /// <remarks>
+    /// <see href="https://api-docs.cdek.ru/29923926.html"/>
+    /// </remarks>
     public record DeliveryOrderLocation
     {
         /// <summary>

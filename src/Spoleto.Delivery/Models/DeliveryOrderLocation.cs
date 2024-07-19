@@ -8,7 +8,7 @@
         /// <summary>
         /// Уникальный идентификатор ФИАС.
         /// </summary>
-        public Guid? FiasGuid { get; set; }
+        public Guid? FiasGuid { get; set; } //todo: CityFiasGuid, StreetFiasGuid
 
         /// <summary>
         /// Долгота.

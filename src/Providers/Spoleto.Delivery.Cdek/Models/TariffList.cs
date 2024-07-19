@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Spoleto.Delivery.Providers.MasterPost
+namespace Spoleto.Delivery.Providers.Cdek
 {
     /// <summary>
     /// Список тарифов доставки.

@@ -1,9 +1,9 @@
 ﻿namespace Spoleto.Delivery
 {
     /// <summary>
-    /// The delivery order request.
+    /// The delivery order request to create.
     /// </summary>
-    public record DeliveryOrderRequest
+    public record CreateDeliveryOrderRequest
     {
         /// <summary>
         /// Тип заказа.

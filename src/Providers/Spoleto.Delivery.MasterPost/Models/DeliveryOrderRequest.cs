@@ -197,7 +197,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Пример: "10:00-14:00".
         /// </remarks>
         [JsonPropertyName("DN_PLAN_DELTIME")]
-        public string PlanDeliveryTime { get; set; }
+        public string PlanDeliveryTime { get; set; } = string.Empty;
 
         /// <summary>
         /// Номер заказа.
@@ -206,7 +206,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Номер накладной клиента.
         /// </remarks>
         [JsonPropertyName("DN_ORDER")]
-        public string OrderNumber { get; set; }
+        public string OrderNumber { get; set; } = string.Empty;
 
         /// <summary>
         /// Оценочная стоимость.

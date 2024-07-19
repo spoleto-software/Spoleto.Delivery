@@ -94,9 +94,14 @@ namespace Spoleto.Delivery.Providers.Cdek
                 .WithJsonContent(model)
                 .Build();
 
-            var tariffList = await _cdekClient.ExecuteAsync<List<Tariff>>(restRequest).ConfigureAwait(false);
+            var tariffList = await _cdekClient.ExecuteAsync<TariffList>(restRequest).ConfigureAwait(false);
 
-            return tariffList.Select(x => x.ToDeliveryTariff()).ToList();
+            if (tariffList.Errors?.Count > 0)
+            {
+                throw new Exception(string.Join(Environment.NewLine, tariffList.Errors.Select(x => x.ToString())));
+            }
+
+            return tariffList.Tariffs.Select(x => x.ToDeliveryTariff()).ToList();
         }
 
 
@@ -114,15 +119,50 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+        public Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
             => CreateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+        public async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
         {
             var model = deliveryOrderRequest.ToOrderRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Post, "orders")
                 .WithJsonContent(model)
+                .Build();
+
+            var deliveryOrder = await _cdekClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+
+            return deliveryOrder.ToDeliveryOrder();
+        }
+
+        /// <inheritdoc/>
+        public Delivery.DeliveryOrder GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest)
+            => GetDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<Delivery.DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
+        {
+            var uri = deliveryOrderRequest.Uuid != null ? $"orders/{deliveryOrderRequest.Uuid}"
+                : !string.IsNullOrEmpty(deliveryOrderRequest.Number) ? $"orders?cdek_number={deliveryOrderRequest.Number}"
+                : !string.IsNullOrEmpty(deliveryOrderRequest.CisNumber) ? $"orders?im_number={deliveryOrderRequest.CisNumber}"
+                : throw new ArgumentNullException(nameof(deliveryOrderRequest.CisNumber));
+
+            var restRequest = new RestRequestFactory(RestHttpMethod.Get, uri)
+                .Build();
+
+            var deliveryOrder = await _cdekClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+
+            return deliveryOrder.ToDeliveryOrder();
+        }
+
+        /// <inheritdoc/>
+        public Delivery.DeliveryOrder DeleteDeliveryOrder(string orderId)
+            => DeleteDeliveryOrderAsync(orderId).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<Delivery.DeliveryOrder> DeleteDeliveryOrderAsync(string orderId)
+        {
+            var restRequest = new RestRequestFactory(RestHttpMethod.Delete, $"orders/{orderId}")
                 .Build();
 
             var deliveryOrder = await _cdekClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);

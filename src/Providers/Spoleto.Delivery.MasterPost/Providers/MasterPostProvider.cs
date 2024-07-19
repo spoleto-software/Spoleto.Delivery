@@ -97,7 +97,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
                     .Build();
 
                 var tariff = await _masterPostClient.ExecuteAsync<Tariff>(restRequest).ConfigureAwait(false);
-                tariff.Name = model.DeliveryMode;//todo:??
+                tariff.Name = model.DeliveryMode;
                 tariffList.Add(tariff);
             }
 
@@ -121,17 +121,48 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+        public Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
             => CreateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.DeliveryOrderRequest deliveryOrderRequest)
+        public async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
         {
             var model = deliveryOrderRequest.ToOrderRequest();
             model.IndividualClientNumber = _options.IndividualClientNumber;
 
-            var restRequest = new RestRequestFactory(RestHttpMethod.Post, "orders")
+            var restRequest = new RestRequestFactory(RestHttpMethod.Post, "dns")
                 .WithJsonContent(model)
+                .Build();
+
+            var deliveryOrder = await _masterPostClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+
+            return deliveryOrder.ToDeliveryOrder();
+        }
+
+        /// <inheritdoc/>
+        public Delivery.DeliveryOrder GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest)
+            => GetDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<Delivery.DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
+        {
+            var number = deliveryOrderRequest.Uuid?.ToString() ?? deliveryOrderRequest.Number ?? deliveryOrderRequest.CisNumber ?? throw new ArgumentNullException(nameof(deliveryOrderRequest.CisNumber));
+            var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"dns/{number}")
+                .Build();
+
+            var deliveryOrder = await _masterPostClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+
+            return deliveryOrder.ToDeliveryOrder();
+        }
+
+        /// <inheritdoc/>
+        public Delivery.DeliveryOrder DeleteDeliveryOrder(string orderId)
+            => DeleteDeliveryOrderAsync(orderId).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<Delivery.DeliveryOrder> DeleteDeliveryOrderAsync(string orderId)
+        {
+            var restRequest = new RestRequestFactory(RestHttpMethod.Put, $"dns/{_options.IndividualClientNumber}/{orderId}")
                 .Build();
 
             var deliveryOrder = await _masterPostClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);

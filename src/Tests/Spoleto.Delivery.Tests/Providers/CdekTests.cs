@@ -72,14 +72,14 @@ namespace Spoleto.Delivery.Tests.Providers
         {
             // Arrange
             var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
-            var deliveryOrderRequest = new DeliveryOrderRequest
+            var deliveryOrderRequest = new CreateDeliveryOrderRequest
             {
                 Type = OrderType.RegularDelivery,
                 Comment = "Test order",
                 FromLocation = new()
                 {
                     Code = "44",
-                    Address = "пр. Ленинградский, д.4",
+                    Address = "пр. Ленинградский, д.4"
                 },
                 ToLocation = new()
                 {
@@ -124,6 +124,9 @@ namespace Spoleto.Delivery.Tests.Providers
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
+            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var deleteOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Uuid.ToString());
+            var getOrder2 = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
 
             // Assert
             Assert.That(deliveryOrder, Is.Not.Null);

@@ -178,7 +178,7 @@
             };
         }
 
-        public static DeliveryOrderRequest ToOrderRequest(this Delivery.DeliveryOrderRequest request)
+        public static DeliveryOrderRequest ToOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
         {
             return new DeliveryOrderRequest
             {
@@ -230,10 +230,11 @@
             return new Delivery.DeliveryOrder
             {
                 Uuid = order.Entity.Uuid,
-                Errors = order.Requests?.SelectMany(x => x.Errors).Select(x => x.ToDeliveryError()).ToList(),
-                Warnings = order.Requests?.SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
-                Status = order.Requests?.FirstOrDefault().State.ToString(),
-                RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryDeliveryOrderRelatedEntity()).ToList()
+                Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
+                Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
+                Status = order.Requests?.First().State.ToString(),
+                RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryDeliveryOrderRelatedEntity()).ToList(),
+                RawBody = order.RawBody
             };
         }
     }

@@ -25,8 +25,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <summary>
         /// Наименование страны.
         /// </summary>
-
-        [JsonPropertyName("country")]
+        [JsonPropertyName("COUNTRY")]
         public string Country { get; set; }
 
         /// <summary>

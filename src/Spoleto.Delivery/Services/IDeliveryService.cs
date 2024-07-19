@@ -235,14 +235,14 @@ namespace Spoleto.Delivery
 
         #region DeliveryOrder
         /// <summary>
-        /// Creates a tariff.
+        /// Creates a delivery order.
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
         /// <remarks>
         /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
         /// </remarks>
-        DeliveryOrder CreateDeliveryOrder(DeliveryOrderRequest deliveryOrderRequest);
+        DeliveryOrder CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Creates a delivery order.
@@ -251,7 +251,7 @@ namespace Spoleto.Delivery
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        DeliveryOrder CreateDeliveryOrder(string providerName, DeliveryOrderRequest deliveryOrderRequest);
+        DeliveryOrder CreateDeliveryOrder(string providerName, CreateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Creates a delivery order.
@@ -260,7 +260,7 @@ namespace Spoleto.Delivery
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        DeliveryOrder CreateDeliveryOrder(DeliveryProviderName providerName, DeliveryOrderRequest deliveryOrderRequest);
+        DeliveryOrder CreateDeliveryOrder(DeliveryProviderName providerName, CreateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Creates a delivery order.
@@ -268,7 +268,7 @@ namespace Spoleto.Delivery
         /// <param name="providerName">The delivery provider.</param>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
-        DeliveryOrder CreateDeliveryOrder(IDeliveryProvider provider, DeliveryOrderRequest deliveryOrderRequest);
+        DeliveryOrder CreateDeliveryOrder(IDeliveryProvider provider, CreateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Async creates a delivery order.
@@ -278,7 +278,7 @@ namespace Spoleto.Delivery
         /// <remarks>
         /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
         /// </remarks>
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryOrderRequest deliveryOrderRequest);
+        Task<DeliveryOrder> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Async creates a delivery order.
@@ -287,7 +287,7 @@ namespace Spoleto.Delivery
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(string providerName, DeliveryOrderRequest deliveryOrderRequest);
+        Task<DeliveryOrder> CreateDeliveryOrderAsync(string providerName, CreateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Async creates a delivery order.
@@ -296,7 +296,7 @@ namespace Spoleto.Delivery
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryProviderName providerName, DeliveryOrderRequest deliveryOrderRequest);
+        Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryProviderName providerName, CreateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Async creates a delivery order.
@@ -304,7 +304,151 @@ namespace Spoleto.Delivery
         /// <param name="providerName">The delivery provider.</param>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(IDeliveryProvider provider, DeliveryOrderRequest deliveryOrderRequest);
+        Task<DeliveryOrder> CreateDeliveryOrderAsync(IDeliveryProvider provider, CreateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Gets the delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        DeliveryOrder GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Gets the delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        DeliveryOrder GetDeliveryOrder(string providerName, GetDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Gets the delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        DeliveryOrder GetDeliveryOrder(DeliveryProviderName providerName, GetDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Gets the delivery order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        DeliveryOrder GetDeliveryOrder(IDeliveryProvider provider, GetDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async gets the delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        Task<DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async gets the delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<DeliveryOrder> GetDeliveryOrderAsync(string providerName, GetDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async gets the delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<DeliveryOrder> GetDeliveryOrderAsync(DeliveryProviderName providerName, GetDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async gets the delivery order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        Task<DeliveryOrder> GetDeliveryOrderAsync(IDeliveryProvider provider, GetDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Deletes the delivery order.
+        /// </summary>
+        /// <param name="orderId">The delivery order identifier.</param>
+        /// <returns>The delivery order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        DeliveryOrder DeleteDeliveryOrder(string orderId);
+
+        /// <summary>
+        /// Deletes the delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="orderId">The delivery order identifier.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        DeliveryOrder DeleteDeliveryOrder(string providerName, string orderId);
+
+        /// <summary>
+        /// Deletes the delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="orderId">The delivery order identifier.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        DeliveryOrder DeleteDeliveryOrder(DeliveryProviderName providerName, string orderId);
+
+        /// <summary>
+        /// Deletes the delivery order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="orderId">The delivery order identifier.</param>
+        /// <returns>The delivery order.</returns>
+        DeliveryOrder DeleteDeliveryOrder(IDeliveryProvider provider, string orderId);
+
+        /// <summary>
+        /// Async deletes the delivery order.
+        /// </summary>
+        /// <param name="orderId">The delivery order identifier.</param>
+        /// <returns>The delivery order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        Task<DeliveryOrder> DeleteDeliveryOrderAsync(string orderId);
+
+        /// <summary>
+        /// Async deletes the delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="orderId">The delivery order identifier.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<DeliveryOrder> DeleteDeliveryOrderAsync(string providerName, string orderId);
+
+        /// <summary>
+        /// Async deletes the delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="orderId">The delivery order identifier.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<DeliveryOrder> DeleteDeliveryOrderAsync(DeliveryProviderName providerName, string orderId);
+
+        /// <summary>
+        /// Async deletes the delivery order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="orderId">The delivery order identifier.</param>
+        /// <returns>The delivery order.</returns>
+        Task<DeliveryOrder> DeleteDeliveryOrderAsync(IDeliveryProvider provider, string orderId);
         #endregion
     }
 }
