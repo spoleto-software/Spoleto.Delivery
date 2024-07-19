@@ -27,5 +27,10 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// </summary>
         [JsonPropertyName("related_entities")]
         public List<DeliveryOrderRelatedEntity> RelatedEntities { get; set; }
+
+        /// <summary>
+        /// Исходный ответ в Json.
+        /// </summary>
+        public string RawBody { get; set; }
     }
 }

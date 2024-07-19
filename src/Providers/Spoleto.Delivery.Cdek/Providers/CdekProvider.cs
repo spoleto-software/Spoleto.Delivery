@@ -130,7 +130,8 @@ namespace Spoleto.Delivery.Providers.Cdek
                 .WithJsonContent(model)
                 .Build();
 
-            var deliveryOrder = await _cdekClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            deliveryOrder.RawBody = rawBody;
 
             return deliveryOrder.ToDeliveryOrder();
         }
@@ -150,7 +151,8 @@ namespace Spoleto.Delivery.Providers.Cdek
             var restRequest = new RestRequestFactory(RestHttpMethod.Get, uri)
                 .Build();
 
-            var deliveryOrder = await _cdekClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            deliveryOrder.RawBody = rawBody;
 
             return deliveryOrder.ToDeliveryOrder();
         }

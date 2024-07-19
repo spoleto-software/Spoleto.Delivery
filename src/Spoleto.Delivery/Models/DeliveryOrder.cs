@@ -39,5 +39,10 @@
         /// Получает или задает связанные сущности для заказа.
         /// </summary>
         public List<DeliveryOrderRelatedEntity>? RelatedEntities { get; set; }
+
+        /// <summary>
+        /// Исходный ответ в Json/Xml.
+        /// </summary>
+        public string RawBody { get; set; }
     }
 }

@@ -134,7 +134,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 .WithJsonContent(model)
                 .Build();
 
-            var deliveryOrder = await _masterPostClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            (var deliveryOrder, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            deliveryOrder.RawBody = rawBody;
 
             return deliveryOrder.ToDeliveryOrder();
         }
@@ -150,7 +151,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
             var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"dns/{number}")
                 .Build();
 
-            var deliveryOrder = await _masterPostClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            (var deliveryOrder, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            deliveryOrder.RawBody = rawBody;
 
             return deliveryOrder.ToDeliveryOrder();
         }
