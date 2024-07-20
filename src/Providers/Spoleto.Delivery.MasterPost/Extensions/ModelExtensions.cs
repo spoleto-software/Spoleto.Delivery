@@ -134,14 +134,14 @@
                 Comment = request.Comment ?? string.Empty,
 
                 SenderAddress = request.FromLocation.Address,
-                SenderAddressCode = request.FromLocation.Code,
-                SenderCity = request.FromLocation.FiasGuid?.ToString() ?? string.Empty,
+                SenderAddressCode = request.FromLocation.Code ?? string.Empty,
+                SenderCity = request.FromLocation.FiasGuid?.ToString(),
                 SenderContact = request.Sender.Name,
                 SenderCompany = request.Sender.Company,
                 SenderPhone = request.Sender.Phones?.FirstOrDefault().Number,
 
                 RecipientAddress = request.ToLocation.Address,
-                RecipientCity = request.ToLocation.FiasGuid?.ToString() ?? string.Empty,
+                RecipientCity = request.ToLocation.FiasGuid?.ToString(),
                 RecipientCompany = request.Recipient.Company,
                 RecipientContact = request.Recipient.Name,
                 RecipientEmail = request.Recipient.Email,

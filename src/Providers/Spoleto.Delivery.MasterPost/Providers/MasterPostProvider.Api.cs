@@ -57,7 +57,9 @@ namespace Spoleto.Delivery.Providers.MasterPost
         {
             var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"dns/{orderNumber}").Build();
 
-            var deliveryOrder = await _masterPostClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
+            var deliveryOrder = deliveryOrderList[0];
+            deliveryOrder.RawBody = rawBody;
 
             return deliveryOrder;
         }

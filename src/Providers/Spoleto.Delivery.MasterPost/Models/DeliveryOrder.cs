@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Delivery.Providers.MasterPost.Converters;
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
@@ -38,7 +39,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// </summary>
         /// <remarks>Поле обязательно, только если создана заявка.</remarks>
         [JsonPropertyName("DN_REQ_STATUS_DATE")]
-        public DateTime RequestStatusDate { get; set; }
+        [JsonConverter(typeof(JsonDateTimeConverter))]
+        public DateTime? RequestStatusDate { get; set; }
 
         /// <summary>
         /// Текущий статус заявки на сбор ДН.
@@ -82,6 +84,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// </summary>
         /// <remarks>Пример: 93b3df57-4c89-44df-ac42-96f05e9cd3b9.</remarks>
         [JsonPropertyName("DN_SEND_CITY")]
+        [JsonConverter(typeof(JsonGuidConverter))]
         public Guid? SenderCityFiasGuid { get; set; }
 
         /// <summary>
@@ -101,6 +104,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Улица отправителя код ФИАС.
         /// </summary>
         [JsonPropertyName("DN_SEND_STR")]
+        [JsonConverter(typeof(JsonGuidConverter))]
         public Guid? SenderStreetFiasGuid { get; set; }
 
         /// <summary>
@@ -144,6 +148,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Город получателя код ФИАС.
         /// </summary>
         [JsonPropertyName("DN_REC_CITY")]
+        [JsonConverter(typeof(JsonGuidConverter))]
         public Guid? ReceiverCityFiasGuid { get; set; }
 
         /// <summary>
@@ -163,6 +168,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Улица получателя код ФИАС.
         /// </summary>
         [JsonPropertyName("DN_REC_STR")]
+        [JsonConverter(typeof(JsonGuidConverter))]
         public Guid? ReceiverStreetFiasGuid { get; set; }
 
         /// <summary>

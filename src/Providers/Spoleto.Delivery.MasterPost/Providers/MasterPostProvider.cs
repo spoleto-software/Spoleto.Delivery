@@ -134,7 +134,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 .WithJsonContent(model)
                 .Build();
 
-            (var deliveryOrder, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
+            var deliveryOrder = deliveryOrderList[0];
             deliveryOrder.RawBody = rawBody;
 
             return deliveryOrder.ToDeliveryOrder();
@@ -148,11 +149,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
         public async Task<Delivery.DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
         {
             var number = deliveryOrderRequest.Uuid?.ToString() ?? deliveryOrderRequest.Number ?? deliveryOrderRequest.CisNumber ?? throw new ArgumentNullException(nameof(deliveryOrderRequest.CisNumber));
-            var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"dns/{number}")
-                .Build();
 
-            (var deliveryOrder, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
-            deliveryOrder.RawBody = rawBody;
+            var deliveryOrder = await GetDeliveryOrderAsync(number).ConfigureAwait(false);
 
             return deliveryOrder.ToDeliveryOrder();
         }
@@ -167,7 +165,9 @@ namespace Spoleto.Delivery.Providers.MasterPost
             var restRequest = new RestRequestFactory(RestHttpMethod.Put, $"dns/{_options.IndividualClientNumber}/{orderId}")
                 .Build();
 
-            var deliveryOrder = await _masterPostClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
+            var deliveryOrder = deliveryOrderList[0];
+            deliveryOrder.RawBody = rawBody;
 
             return deliveryOrder.ToDeliveryOrder();
         }

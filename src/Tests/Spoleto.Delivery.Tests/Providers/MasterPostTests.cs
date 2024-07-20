@@ -106,6 +106,9 @@ namespace Spoleto.Delivery.Tests.Providers
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
+            var getOrder = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
+            var deleteOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Number);
+            var getOrder2 = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
 
             // Assert
             Assert.That(deliveryOrder, Is.Not.Null);

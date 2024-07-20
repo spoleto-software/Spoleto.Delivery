@@ -38,7 +38,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
         [JsonPropertyName("DN_SEND_ADR_CODE")]
-        public string SenderAddressCode { get; set; }
+        public string SenderAddressCode { get; set; } = string.Empty;
 
         /// <summary>
         /// Организация Отправителя
@@ -47,13 +47,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
         [JsonPropertyName("DN_SEND_COMP")]
-        public string SenderCompany { get; set; }
+        public string SenderCompany { get; set; } = string.Empty;
 
         /// <summary>
         /// Доп Информация Отправителя
         /// </summary>
         [JsonPropertyName("DN_SEND_INFO")]
-        public string SenderInfo { get; set; }
+        public string SenderInfo { get; set; } = string.Empty;
 
         /// <summary>
         /// Город Отправителя
@@ -62,7 +62,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
         [JsonPropertyName("DN_SEND_CITY")]
-        public string SenderCity { get; set; }
+        public string SenderCity { get; set; } = string.Empty;
 
         /// <summary>
         /// Улица Отправителя
@@ -71,7 +71,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
         [JsonPropertyName("DN_SEND_STR")]
-        public string SenderStreet { get; set; }
+        public string SenderStreet { get; set; } = string.Empty;
 
         /// <summary>
         /// Дом Отправителя
@@ -89,7 +89,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
         [JsonPropertyName("DN_SEND_ADR")]
-        public string SenderAddress { get; set; }
+        public string SenderAddress { get; set; } = string.Empty;
 
         /// <summary>
         /// Контактное Лицо Отправителя
@@ -98,13 +98,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Вместе с этим полем, обязательно должно передаваться не пустое значение поля <see cref="SenderCompany">DN_SEND_COMP</see>
         /// </remarks>
         [JsonPropertyName("DN_SEND_CONT")]
-        public string SenderContact { get; set; }
+        public string SenderContact { get; set; } = string.Empty;
 
         /// <summary>
         /// Контактный Телефон Отправителя
         /// </summary>
         [JsonPropertyName("DN_SEND_PHONE")]
-        public string SenderPhone { get; set; }
+        public string SenderPhone { get; set; } = string.Empty;
 
         /// <summary>
         /// Код филиала
@@ -113,7 +113,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Если заполнено, то остальные поля, связанные с адресом получателя игнорируются
         /// </remarks>
         [JsonPropertyName("DN_REC_BRANCH_CODE")]
-        public int RecipientBranchCode { get; set; }
+        public int? RecipientBranchCode { get; set; }
 
         /// <summary>
         /// Город Получателя
@@ -128,7 +128,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно, если не заполнен адрес в свободной форме
         /// </remarks>
         [JsonPropertyName("DN_REC_STR")]
-        public string RecipientStreet { get; set; }
+        public string RecipientStreet { get; set; } = string.Empty;
 
         /// <summary>
         /// Дом Получателя
@@ -161,7 +161,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Доп Информация Получателя
         /// </summary>
         [JsonPropertyName("DN_REC_INFO")]
-        public string RecipientInfo { get; set; }
+        public string RecipientInfo { get; set; } = string.Empty;
 
         /// <summary>
         /// Контактное Лицо Получателя
@@ -170,7 +170,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Вместе с этим полем, обязательно должно передаваться не пустое значение поля <see cref="RecipientCompany">DN_REC_COMP</see>
         /// </remarks>
         [JsonPropertyName("DN_REC_CONT")]
-        public string RecipientContact { get; set; }
+        public string RecipientContact { get; set; } = string.Empty;
 
         /// <summary>
         /// Контактный Телефон Получателя
@@ -247,7 +247,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Номер телефона отправителя, если выбрана услуга
         /// </remarks>
         [JsonPropertyName("DN_SEND_SMS")]
-        public string SenderSmsNotification { get; set; }
+        public string SenderSmsNotification { get; set; } = string.Empty;
 
         /// <summary>
         /// SMS Информирование Получателя
@@ -257,13 +257,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Номер телефона получателя, если выбрана услуга
         /// </remarks>
         [JsonPropertyName("DN_REC_SMS")]
-        public string RecipientSmsNotification { get; set; }
+        public string RecipientSmsNotification { get; set; } = string.Empty;
 
         /// <summary>
         /// Описание Вложимого
         /// </summary>
         [JsonPropertyName("DN_CARGO_DESCR")]
-        public string CargoDescription { get; set; }
+        public string CargoDescription { get; set; } = string.Empty;
 
         /// <summary>
         /// Сбор При Доставке ДН
@@ -273,7 +273,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Ссылочный номер ДН
         /// </remarks>
         [JsonPropertyName("DN_RECIEVE_PACK")]
-        public string CollectionAtDelivery { get; set; }
+        public string CollectionAtDelivery { get; set; } = string.Empty;
 
         /// <summary>
         /// Плановая Дата Сбора
@@ -309,7 +309,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно, если требуется создание доп. ДН "Доставка по резерву"
         /// </remarks>
         [JsonPropertyName("RESERVE_NUMBER")]
-        public string ReserveNumber { get; set; }
+        public string ReserveNumber { get; set; } = string.Empty;
 
         /// <summary>
         /// ДопУслуга
