@@ -4,12 +4,12 @@ using Spoleto.Common.JsonConverters;
 namespace Spoleto.Delivery.Providers.Cdek
 {
     /// <summary>
-    /// Cdek delivery order request.
+    /// Cdek delivery order request to create.
     /// </summary>
     /// <remarks>
     /// <see href="https://api-docs.cdek.ru/29923926.html"/>
     /// </remarks>
-    public record DeliveryOrderRequest
+    public record CreateDeliveryOrderRequest
     {
         /// <summary>
         /// Тип заказа:<br/>
@@ -131,7 +131,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Отправитель.
         /// </summary>
         [JsonPropertyName("sender")]
-        public Contact? Sender { get; set; }
+        public ContactBase? Sender { get; set; }
 
         /// <summary>
         /// Реквизиты истинного продавца.
@@ -144,7 +144,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Получатель.
         /// </summary>
         [JsonPropertyName("recipient")]
-        public Contact Recipient { get; set; }
+        public ContactBase Recipient { get; set; }
 
         /// <summary>
         /// Адрес отправления.
@@ -164,14 +164,14 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Дополнительные услуги.
         /// </summary>
         [JsonPropertyName("services")]
-        public List<AdditionalService>? Services { get; set; }
+        public List<AdditionalServiceBase>? Services { get; set; }
 
         /// <summary>
         /// Список информации по местам (упаковкам).
         /// Количество мест в заказе может быть от 1 до 255.
         /// </summary>
         [JsonPropertyName("packages")]
-        public List<DeliveryOrderPackage> Packages { get; set; }
+        public List<DeliveryOrderPackageRequest> Packages { get; set; }
 
         /// <summary>
         /// Необходимость сформировать печатную форму по заказу.

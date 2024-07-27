@@ -1,36 +1,46 @@
 ﻿using System.Text.Json.Serialization;
-using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
     /// <summary>
-    /// Дополнительная услуга для заказа на доставку.
-    /// 
+    /// Дополнительная услуга.
     /// </summary>
-    public record AdditionalService
+    public record AdditionalService : AdditionalServiceBase
     {
         /// <summary>
-        /// Код услуги.
+        /// Стоимость услуги (в валюте взаиморасчётов).
         /// </summary>
-        [JsonPropertyName("code")]
-        [JsonConverter(typeof(JsonEnumValueConverter<AdditionalServiceType>))]
-        public AdditionalServiceType Code { get; set; }
+        [JsonPropertyName("sum")]
+        public decimal? Sum { get; set; }
 
         /// <summary>
-        /// Параметр дополнительной услуги.
+        /// Общая сумма (итого с НДС и скидкой в валюте взаиморасчётов).
         /// </summary>
-        /// <remarks>
-        /// 1. количество для услуг PACKAGE_1, CARTON_BOX_XS, CARTON_BOX_S, CARTON_BOX_M, CARTON_BOX_L, CARTON_BOX_500GR, CARTON_BOX_1KG, CARTON_BOX_2KG, CARTON_BOX_3KG, CARTON_BOX_5KG, CARTON_BOX_10KG, CARTON_BOX_15KG, CARTON_BOX_20KG, CARTON_BOX_30KG, CARTON_FILLER (для всех типов заказа).<br/>
-        /// 2. объявленная стоимость заказа для услуги INSURANCE (только для заказов с типом "доставка").<br/>
-        /// 3. длина для услуг BUBBLE_WRAP, WASTE_PAPER (для всех типов заказа).<br/>
-        /// 4. номер телефона для услуги SMS.<br/>
-        /// 5. код фотопроекта для услуги PHOTO_OF_DOCUMENTS.
-        /// </remarks>
-        [JsonPropertyName("parameter")]
-        public string? Parameter { get; set; }
+        [JsonPropertyName("total_sum")]
+        public decimal TotalSum { get; set; }
+
+        /// <summary>
+        /// Процент скидки.
+        /// </summary>
+        [JsonPropertyName("discount_percent")]
+        public decimal DiscountPercent { get; set; }
+
+        /// <summary>
+        /// Общая сумма скидки.
+        /// </summary>
+        [JsonPropertyName("discount_sum")]
+        public decimal DiscountSum { get; set; }
+
+        /// <summary>
+        /// Сумма НДС.
+        /// </summary>
+        [JsonPropertyName("vat_sum")]
+        public decimal VatSum { get; set; }
+
+        /// <summary>
+        /// Ставка НДС.
+        /// </summary>
+        [JsonPropertyName("vat_rate")]
+        public int? VatRate { get; set; }
     }
-
-
-
-
 }

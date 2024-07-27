@@ -130,10 +130,12 @@ namespace Spoleto.Delivery.Providers.Cdek
                 .WithJsonContent(model)
                 .Build();
 
-            (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
-            deliveryOrder.RawBody = rawBody;
+            (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<CreatedDeliveryOrder>(restRequest).ConfigureAwait(false);
 
-            return deliveryOrder.ToDeliveryOrder();
+            var order = deliveryOrder.ToDeliveryOrder();
+            order.RawBody = rawBody;
+
+            return order;
         }
 
         /// <inheritdoc/>
@@ -152,9 +154,11 @@ namespace Spoleto.Delivery.Providers.Cdek
                 .Build();
 
             (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
-            deliveryOrder.RawBody = rawBody;
 
-            return deliveryOrder.ToDeliveryOrder();
+            var order = deliveryOrder.ToDeliveryOrder();
+            order.RawBody = rawBody;
+
+            return order;
         }
 
         /// <inheritdoc/>
@@ -167,9 +171,29 @@ namespace Spoleto.Delivery.Providers.Cdek
             var restRequest = new RestRequestFactory(RestHttpMethod.Delete, $"orders/{orderId}")
                 .Build();
 
-            var deliveryOrder = await _cdekClient.ExecuteAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
+            var deliveryOrder = await _cdekClient.ExecuteAsync<CreatedDeliveryOrder>(restRequest).ConfigureAwait(false);
 
             return deliveryOrder.ToDeliveryOrder();
+        }
+
+        /// <inheritdoc/>
+        public Delivery.DeliveryOrder UpdateDeliveryOrder(Delivery.UpdateDeliveryOrderRequest deliveryOrderRequest)
+            => UpdateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<Delivery.DeliveryOrder> UpdateDeliveryOrderAsync(Delivery.UpdateDeliveryOrderRequest deliveryOrderRequest)
+        {
+            var model = deliveryOrderRequest.ToOrderRequest();
+            var restRequest = new RestRequestFactory(RestHttpMethod.Patch, "orders")
+                .WithJsonContent(model)
+                .Build();
+
+            (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<UpdatedDeliveryOrder>(restRequest).ConfigureAwait(false);
+
+            var order = deliveryOrder.ToDeliveryOrder();
+            order.RawBody = rawBody;
+
+            return order;
         }
     }
 }

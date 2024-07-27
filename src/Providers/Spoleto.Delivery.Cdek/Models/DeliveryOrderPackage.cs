@@ -3,37 +3,32 @@
 namespace Spoleto.Delivery.Providers.Cdek
 {
     /// <summary>
-    /// Класс для представления информации о пакете
+    /// Информация по местам (упаковкам).
     /// </summary>
-    /// <remarks>
-    /// <see href="https://api-docs.cdek.ru/63345519.html"/>
-    /// </remarks>
-    public record DeliveryOrderPackage : Package
+    public record DeliveryOrderPackage : DeliveryOrderPackageBase
     {
         /// <summary>
-        /// Номер упаковки (можно использовать порядковый номер упаковки заказа или номер заказа), уникален в пределах заказа.<br/>
-        /// Идентификатор заказа в ИС Клиента
+        /// Уникальный номер упаковки в ИС СДЭК.
         /// </summary>
-        [JsonPropertyName("number")]
-        public string Number { get; set; }
+        [JsonPropertyName("package_id")]
+        public Guid PackageId { get; set; }
 
         /// <summary>
-        /// Комментарий к упаковке.
+        /// Объемный вес (в граммах).
         /// </summary>
-        /// <remarks>
-        /// Обязательно и только для заказа типа "доставка".
-        /// </remarks>
-        [JsonPropertyName("comment")]
-        public string? Comment { get; set; }
+        [JsonPropertyName("weight_volume")]
+        public int? WeightVolume { get; set; }
+
+        /// <summary>
+        /// Расчетный вес (в граммах).
+        /// </summary>
+        [JsonPropertyName("weight_calc")]
+        public int? WeightCalc { get; set; }
 
         /// <summary>
         /// Позиции товаров в упаковке
         /// </summary>
-        /// <remarks>
-        /// Только для заказов "интернет-магазин".<br/>
-        /// Максимум 126 уникальных позиций в заказе.<br/>
-        /// Общее количество товаров в заказе может быть от 1 до 999999.
-        /// </remarks>
+        [JsonPropertyName("items")]
         public List<DeliveryPackageItem>? Items { get; set; }
     }
 }

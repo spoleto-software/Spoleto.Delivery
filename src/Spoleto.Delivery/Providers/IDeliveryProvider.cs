@@ -93,5 +93,19 @@
         /// <param name="orderId">The delivery order identifier.</param>
         /// <returns>The delivery order.</returns>
         Task<DeliveryOrder> DeleteDeliveryOrderAsync(string orderId);
+
+        /// <summary>
+        /// Updates the delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The updated delivery order.</returns>
+        DeliveryOrder UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async updates the delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        Task<DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
     }
 }

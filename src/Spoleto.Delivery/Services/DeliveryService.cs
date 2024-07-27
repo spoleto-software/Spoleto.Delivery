@@ -400,6 +400,70 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
+        public DeliveryOrder UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest)
+            => UpdateDeliveryOrder(_defaultProvider, deliveryOrderRequest);
+
+        /// <inheritdoc/>
+        public DeliveryOrder UpdateDeliveryOrder(string providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return UpdateDeliveryOrder(provider, deliveryOrderRequest);
+        }
+
+        /// <inheritdoc/>
+        public DeliveryOrder UpdateDeliveryOrder(DeliveryProviderName providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
+            => UpdateDeliveryOrder(providerName.ToString(), deliveryOrderRequest);
+
+        /// <inheritdoc/>
+        public DeliveryOrder UpdateDeliveryOrder(IDeliveryProvider provider, UpdateDeliveryOrderRequest deliveryOrderRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (deliveryOrderRequest is null)
+                throw new ArgumentNullException(nameof(deliveryOrderRequest));
+
+            return provider.UpdateDeliveryOrder(deliveryOrderRequest);
+        }
+
+        /// <inheritdoc/>
+        public Task<DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest)
+            => UpdateDeliveryOrderAsync(_defaultProvider, deliveryOrderRequest);
+
+        /// <inheritdoc/>
+        public Task<DeliveryOrder> UpdateDeliveryOrderAsync(string providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return UpdateDeliveryOrderAsync(provider, deliveryOrderRequest);
+        }
+
+        /// <inheritdoc/>
+        public Task<DeliveryOrder> UpdateDeliveryOrderAsync(DeliveryProviderName providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
+            => UpdateDeliveryOrderAsync(providerName.ToString(), deliveryOrderRequest);
+
+        /// <inheritdoc/>
+        public Task<DeliveryOrder> UpdateDeliveryOrderAsync(IDeliveryProvider provider, UpdateDeliveryOrderRequest deliveryOrderRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (deliveryOrderRequest is null)
+                throw new ArgumentNullException(nameof(deliveryOrderRequest));
+
+            return provider.UpdateDeliveryOrderAsync(deliveryOrderRequest);
+        }
+
+        /// <inheritdoc/>
         public DeliveryOrder DeleteDeliveryOrder(string orderId)
             => DeleteDeliveryOrder(_defaultProvider, orderId);
 

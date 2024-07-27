@@ -162,7 +162,6 @@
                 Number = order.Number,
                 Status = order.CurrentStatus,
                 CisNumber = order.OrderNumber,
-                RawBody = order.RawBody
             };
         }
     }

@@ -107,9 +107,9 @@
             };
         }
 
-        public static DeliveryPackageItem ToDeliveryPackageItemRequest(this Delivery.DeliveryPackageItem item)
+        public static DeliveryPackageItemBase ToDeliveryPackageItemRequest(this Delivery.DeliveryPackageItem item)
         {
-            return new DeliveryPackageItem
+            return new DeliveryPackageItemBase
             {
                 Amount = item.Amount,
                 Brand = item.Brand,
@@ -128,9 +128,9 @@
             };
         }
 
-        public static DeliveryOrderPackage ToOrderPackageRequest(this Delivery.DeliveryOrderPackage package)
+        public static DeliveryOrderPackageRequest ToOrderPackageRequest(this Delivery.DeliveryOrderPackage package)
         {
-            return new DeliveryOrderPackage
+            return new DeliveryOrderPackageRequest
             {
                 Height = package.Height,
                 Length = package.Length,
@@ -151,9 +151,9 @@
             };
         }
 
-        public static Contact ToContactRequest(this Delivery.Contact contact)
+        public static ContactBase ToContactRequest(this Delivery.Contact contact)
         {
-            return new Contact
+            return new ContactBase
             {
                 Company = contact.Company,
                 ContragentType = contact.ContragentType != null ? (ContragentType)Enum.Parse(typeof(ContragentType), contact.ToString()) : null,
@@ -169,18 +169,18 @@
             };
         }
 
-        public static AdditionalService ToAdditionalServiceRequest(this Delivery.AdditionalServiceRequest additionalService)
+        public static AdditionalServiceBase ToAdditionalServiceRequest(this Delivery.AdditionalServiceRequest additionalService)
         {
-            return new AdditionalService
+            return new AdditionalServiceBase
             {
                 Code = (AdditionalServiceType)Enum.Parse(typeof(AdditionalServiceType), additionalService.Code),
                 Parameter = additionalService.Parameter
             };
         }
 
-        public static DeliveryOrderRequest ToOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
+        public static CreateDeliveryOrderRequest ToOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
         {
-            return new DeliveryOrderRequest
+            return new CreateDeliveryOrderRequest
             {
                 Type = request.Type == null ? null : (OrderType)Enum.Parse(typeof(OrderType), request.Type.Value.ToString()),
                 FromLocation = request.FromLocation.ToOrderLocationRequest(),
@@ -192,6 +192,9 @@
                 Services = request.Services?.Select(x => x.ToAdditionalServiceRequest()).ToList(),
                 DeliveryPoint = request.DeliveryPoint,
                 ShipmentPoint = request.ShipmentPoint,
+                DateInvoice = request.DateInvoice,
+                ShipperAddress = request.ShipperAddress,
+                ShipperName = request.ShipperName,
                 TariffCode = request.NumTariffCode.Value,
                 Comment = request.Comment
             };
@@ -216,7 +219,7 @@
             };
         }
 
-        public static Delivery.DeliveryOrderRelatedEntity ToDeliveryDeliveryOrderRelatedEntity(this DeliveryOrderRelatedEntity entity)
+        public static Delivery.DeliveryOrderRelatedEntity ToDeliveryOrderRelatedEntity(this CreatedDeliveryOrderRelatedEntity entity)
         {
             return new Delivery.DeliveryOrderRelatedEntity
             {
@@ -225,7 +228,7 @@
             };
         }
 
-        public static Delivery.DeliveryOrder ToDeliveryOrder(this DeliveryOrder order)
+        public static Delivery.DeliveryOrder ToDeliveryOrder(this CreatedDeliveryOrder order)
         {
             return new Delivery.DeliveryOrder
             {
@@ -233,8 +236,61 @@
                 Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
                 Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
                 Status = order.Requests?.First().State.ToString(),
-                RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryDeliveryOrderRelatedEntity()).ToList(),
-                RawBody = order.RawBody
+                RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList(),
+            };
+        }
+
+        public static Delivery.DeliveryOrderRelatedEntity ToDeliveryOrderRelatedEntity(this DeliveryOrderRelatedEntity entity)
+        {
+            return new Delivery.DeliveryOrderRelatedEntity
+            {
+                Type = entity.Type.ToString(),
+                Uuid = entity.Uuid,
+                CreateTime = entity.CreateTime
+            };
+        }
+
+        public static Delivery.DeliveryOrder ToDeliveryOrder(this DeliveryOrder order)
+        {
+            return new Delivery.DeliveryOrder
+            {
+                Uuid = order.Entity.Uuid,
+                Number = order.Entity.CdekNumber,
+                CisNumber = order.Entity.Number,
+                Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
+                Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
+                Status = order.Requests?.First().State.ToString(),
+                RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList()
+            };
+        }
+
+        public static UpdateDeliveryOrderRequest ToOrderRequest(this Delivery.UpdateDeliveryOrderRequest request)
+        {
+            return new UpdateDeliveryOrderRequest
+            {
+                Uuid = request.Uuid,
+                CdekNumber= request.Number,
+                FromLocation = request.FromLocation?.ToOrderLocationRequest(),
+                ToLocation = request.ToLocation?.ToOrderLocationRequest(),
+                Packages = request.Packages.Select(x => x.ToOrderPackageRequest()).ToList(),
+                Recipient = request.Recipient.ToContactRequest(),
+                Sender = request.Sender?.ToContactRequest(),
+                Services = request.Services?.Select(x => x.ToAdditionalServiceRequest()).ToList(),
+                DeliveryPoint = request.DeliveryPoint,
+                ShipmentPoint = request.ShipmentPoint,
+                TariffCode = request.NumTariffCode,
+                Comment = request.Comment
+            };
+        }
+
+        public static Delivery.DeliveryOrder ToDeliveryOrder(this UpdatedDeliveryOrder order)
+        {
+            return new Delivery.DeliveryOrder
+            {
+                Uuid = order.Entity.Uuid,
+                Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
+                Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
+                Status = order.Requests?.First().State.ToString()
             };
         }
     }

@@ -1,23 +1,24 @@
-﻿namespace Spoleto.Delivery
+﻿using System.Text.Json.Serialization;
+using Spoleto.Common.JsonConverters;
+
+namespace Spoleto.Delivery.Providers.Cdek
 {
     /// <summary>
-    /// Связанные сущности заказа на доставку.
+    /// Связанные сущности (print).
     /// </summary>
-    public record DeliveryOrderRelatedEntity
+    public record CreatedDeliveryOrderRelatedEntity
     {
         /// <summary>
         /// Получает или задает тип связанной сущности.
         /// </summary>
-        public string Type { get; set; }
+        [JsonPropertyName("type")]
+        [JsonConverter(typeof(JsonEnumValueConverter<PrintType>))]
+        public PrintType Type { get; set; }
 
         /// <summary>
         /// Получает или задает идентификатор сущности, связанной с заказом.
         /// </summary>
+        [JsonPropertyName("uuid")]
         public Guid Uuid { get; set; }
-
-        /// <summary>
-        /// Дата и время создания сущности, связанной с заказом.
-        /// </summary>
-        public DateTime? CreateTime { get; set; }
     }
 }

@@ -136,9 +136,11 @@ namespace Spoleto.Delivery.Providers.MasterPost
 
             (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
             var deliveryOrder = deliveryOrderList[0];
-            deliveryOrder.RawBody = rawBody;
+            
+            var order = deliveryOrder.ToDeliveryOrder();
+            order.RawBody = rawBody;
 
-            return deliveryOrder.ToDeliveryOrder();
+            return order;
         }
 
         /// <inheritdoc/>
@@ -149,10 +151,16 @@ namespace Spoleto.Delivery.Providers.MasterPost
         public async Task<Delivery.DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
         {
             var number = deliveryOrderRequest.Uuid?.ToString() ?? deliveryOrderRequest.Number ?? deliveryOrderRequest.CisNumber ?? throw new ArgumentNullException(nameof(deliveryOrderRequest.CisNumber));
+           
+            var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"dns/{number}").Build();
 
-            var deliveryOrder = await GetDeliveryOrderAsync(number).ConfigureAwait(false);
+            (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
+            var deliveryOrder = deliveryOrderList[0];
 
-            return deliveryOrder.ToDeliveryOrder();
+            var order = deliveryOrder.ToDeliveryOrder();
+            order.RawBody = rawBody;
+
+            return order;
         }
 
         /// <inheritdoc/>
@@ -167,9 +175,21 @@ namespace Spoleto.Delivery.Providers.MasterPost
 
             (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
             var deliveryOrder = deliveryOrderList[0];
-            deliveryOrder.RawBody = rawBody;
+            
+            var order = deliveryOrder.ToDeliveryOrder();
+            order.RawBody = rawBody;
 
-            return deliveryOrder.ToDeliveryOrder();
+            return order;
+        }
+
+        /// <inheritdoc/>
+        public Delivery.DeliveryOrder UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest)
+            => UpdateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public Task<Delivery.DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest)
+        {
+            throw new NotImplementedException();
         }
     }
 }

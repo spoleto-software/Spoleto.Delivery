@@ -379,6 +379,78 @@ namespace Spoleto.Delivery
         Task<DeliveryOrder> GetDeliveryOrderAsync(IDeliveryProvider provider, GetDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
+        /// Updates a delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        DeliveryOrder UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Updates a delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        DeliveryOrder UpdateDeliveryOrder(string providerName, UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Updates a delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        DeliveryOrder UpdateDeliveryOrder(DeliveryProviderName providerName, UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Updates a delivery order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        DeliveryOrder UpdateDeliveryOrder(IDeliveryProvider provider, UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async updates a delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        Task<DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async updates a delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<DeliveryOrder> UpdateDeliveryOrderAsync(string providerName, UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async updates a delivery order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<DeliveryOrder> UpdateDeliveryOrderAsync(DeliveryProviderName providerName, UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async updates a delivery order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        Task<DeliveryOrder> UpdateDeliveryOrderAsync(IDeliveryProvider provider, UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
         /// Deletes the delivery order.
         /// </summary>
         /// <param name="orderId">The delivery order identifier.</param>

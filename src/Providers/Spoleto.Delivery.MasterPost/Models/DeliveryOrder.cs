@@ -348,11 +348,6 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <remarks>Например, Доставка упаковки или Доставка по резерву.</remarks>
         [JsonPropertyName("ADDDNS")]
         public List<AdditionalDeliveryOrder> AdditionalDeliveryOrders { get; set; }
-
-        /// <summary>
-        /// Исходный ответ в Json.
-        /// </summary>
-        public string RawBody { get; set; }
     }
 }
 
