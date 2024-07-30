@@ -19,7 +19,7 @@
             {
                 Address = location.Address,
                 City = location.City,
-                Code = Int32.TryParse(location.Code, out var v) ? v : default,
+                Code = Int32.TryParse(location.Code, out var v) ? v : null,
                 CountryCode = location.CountryCode,
                 PostalCode = location.PostalCode
             };
@@ -48,7 +48,6 @@
                 DeliverySum = tariff.DeliverySum,
                 Description = tariff.Description,
                 Name = tariff.Name,
-                NumCode = tariff.Code,
                 PeriodMin = tariff.PeriodMin,
                 PeriodMax = tariff.PeriodMax,
             };
@@ -70,12 +69,17 @@
 
         public static CityRequest ToCityRequest(this Delivery.CityRequest request)
         {
-            return new CityRequest
+            var cityRequest = new CityRequest
             {
                 City = request.Name,
+                PostalCode = request.PostalCode,
+                Size = request.Size,
+                Page = request.Page,
                 Code = request.NumCode,
-                PostalCode = request.PostalCode
+                FiasGuid = request.FiasGuid
             };
+
+            return cityRequest;
         }
 
         public static DeliveryOrderLocation ToOrderLocationRequest(this Delivery.DeliveryOrderLocation location)
@@ -84,10 +88,10 @@
             {
                 Address = location.Address,
                 City = location.City,
-                Code = Int32.TryParse(location.Code, out var v) ? v : default,
+                Code = Int32.TryParse(location.Code, out var v) ? v : null,
                 CountryCode = location.CountryCode,
                 PostalCode = location.PostalCode,
-                FiasGuid = location.FiasGuid,
+                FiasGuid = location.CityFiasGuid,
                 KladrCode = location.KladrCode,
                 Latitude = location.Latitude,
                 Longitude = location.Longitude,
@@ -180,6 +184,9 @@
 
         public static CreateDeliveryOrderRequest ToOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
         {
+            if (request.NumTariffCode == null)
+                throw new NullReferenceException(nameof(request.TariffCode));
+
             return new CreateDeliveryOrderRequest
             {
                 Type = request.Type == null ? null : (OrderType)Enum.Parse(typeof(OrderType), request.Type.Value.ToString()),
@@ -272,8 +279,8 @@
                 CdekNumber= request.Number,
                 FromLocation = request.FromLocation?.ToOrderLocationRequest(),
                 ToLocation = request.ToLocation?.ToOrderLocationRequest(),
-                Packages = request.Packages.Select(x => x.ToOrderPackageRequest()).ToList(),
-                Recipient = request.Recipient.ToContactRequest(),
+                Packages = request.Packages?.Select(x => x.ToOrderPackageRequest()).ToList(),
+                Recipient = request.Recipient?.ToContactRequest(),
                 Sender = request.Sender?.ToContactRequest(),
                 Services = request.Services?.Select(x => x.ToAdditionalServiceRequest()).ToList(),
                 DeliveryPoint = request.DeliveryPoint,

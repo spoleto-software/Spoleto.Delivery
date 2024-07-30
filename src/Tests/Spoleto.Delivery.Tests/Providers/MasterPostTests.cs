@@ -29,8 +29,16 @@ namespace Spoleto.Delivery.Tests.Providers
             var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
             var tariffRequest = new TariffRequest
             {
-                FromLocation = new() { Code = "0c5b2444-70a0-4932-980c-b4dc0d3f02b5" },
-                ToLocation = new() { Code = "c2deb16a-0330-4f05-821f-1d09c93331e6" },
+                FromLocation = new()
+                {
+                   // Code = "0c5b2444-70a0-4932-980c-b4dc0d3f02b5"
+                    Address = "г Москва, Бережковская наб, д 20 стр 64"
+                },
+                ToLocation = new()
+                {
+                    //Code = "c2deb16a-0330-4f05-821f-1d09c93331e6"
+                    Address = "г Новосибирск, ул Кривощековская, зд 15 к 1"
+                },
                 Packages =
                 [
                     new()
@@ -50,23 +58,20 @@ namespace Spoleto.Delivery.Tests.Providers
             Assert.That(tariffs, Is.Not.Null);
         }
 
-        [Test]
-        public async Task CreateOrder()
+        private static CreateDeliveryOrderRequest GetOrderRequest()
         {
-            // Arrange
-            var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
-            var deliveryOrderRequest = new CreateDeliveryOrderRequest
+            return new CreateDeliveryOrderRequest
             {
                 Type = OrderType.RegularDelivery,
                 Comment = "Test order",
                 FromLocation = new()
                 {
-                    FiasGuid = Guid.Parse("c2deb16a-0330-4f05-821f-1d09c93331e6"),
+                    CityFiasGuid = Guid.Parse("c2deb16a-0330-4f05-821f-1d09c93331e6"),
                     Address = "Санкт-Петербург, пр. Ленинградский, д.4"
                 },
                 ToLocation = new()
                 {
-                    FiasGuid = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
+                    CityFiasGuid = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
                     Address = "Москва, ул. Блюхера, 32"
                 },
                 TariffCode = "Экспресс",
@@ -84,9 +89,9 @@ namespace Spoleto.Delivery.Tests.Providers
                 ],
                 Sender = new()
                 {
-                    Company = "Burattino",
-                    Name = "Basilio",
-                    Email = "basilio@example.com",
+                    Company = "Sender company",
+                    Name = "Sender name",
+                    Email = "sender@example.com",
                     Phones =
                     [
                         new() { Number = "+71234567890" },
@@ -94,15 +99,44 @@ namespace Spoleto.Delivery.Tests.Providers
                 },
                 Recipient = new()
                 {
-                    Company = "Burattino",
-                    Name = "Alice",
-                    Email = "alice@example.com",
+                    Company = "Rec company",
+                    Name = "Rec name",
+                    Email = "company@example.com",
                     Phones =
                     [
                         new() { Number = "+79876543210" },
                     ],
                 },
             };
+        }
+
+        [Test]
+        public async Task CreateOrder()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
+            var deliveryOrderRequest = GetOrderRequest();
+
+            // Act
+            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
+            var getOrder = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(deliveryOrder, Is.Not.Null);
+
+                Assert.That(getOrder, Is.Not.Null);
+                Assert.That(getOrder.Errors, Is.Null);
+            });
+        }
+
+        [Test]
+        public async Task DeleteOrder()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
+            var deliveryOrderRequest = GetOrderRequest();
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
@@ -111,7 +145,19 @@ namespace Spoleto.Delivery.Tests.Providers
             var getOrder2 = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
 
             // Assert
-            Assert.That(deliveryOrder, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(deliveryOrder, Is.Not.Null);
+
+                Assert.That(getOrder, Is.Not.Null);
+                Assert.That(getOrder.Errors, Is.Null);
+
+                Assert.That(deleteOrder, Is.Not.Null);
+                Assert.That(deleteOrder.Errors, Is.Null);
+
+                Assert.That(getOrder2, Is.Not.Null);
+                Assert.That(getOrder2.Errors, Is.Null);
+            });
         }
     }
 }

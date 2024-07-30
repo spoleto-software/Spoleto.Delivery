@@ -6,9 +6,14 @@
     public record DeliveryOrderLocation : Location
     {
         /// <summary>
-        /// Уникальный идентификатор ФИАС.
+        /// Уникальный идентификатор ФИАС города.
         /// </summary>
-        public Guid? FiasGuid { get; set; } //todo: CityFiasGuid, StreetFiasGuid
+        public Guid? CityFiasGuid { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор ФИАС улицы.
+        /// </summary>
+        public Guid? StreetFiasGuid { get; set; }
 
         /// <summary>
         /// Долгота.

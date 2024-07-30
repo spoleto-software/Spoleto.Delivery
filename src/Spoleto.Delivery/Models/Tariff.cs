@@ -15,7 +15,18 @@
         /// <summary>
         /// Числовой код тарифа.
         /// </summary>
-        public int? NumCode { get; set; }
+        public int? NumCode
+        {
+            get
+            {
+                if (int.TryParse(Code, out int result))
+                {
+                    return result;
+                }
+
+                return null;
+            }
+        }
 
         /// <summary>
         /// Название тарифа.

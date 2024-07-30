@@ -31,7 +31,18 @@
         /// <summary>
         /// Числовой код тарифа.
         /// </summary>
-        public int? NumTariffCode { get; set; }
+        public int? NumTariffCode
+        {
+            get
+            {
+                if (int.TryParse(TariffCode, out int result))
+                {
+                    return result;
+                }
+
+                return null;
+            }
+        }
 
         /// <summary>
         /// Код тарифа.

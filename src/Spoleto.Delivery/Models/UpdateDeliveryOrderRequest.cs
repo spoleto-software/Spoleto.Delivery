@@ -18,12 +18,23 @@
         /// <summary>
         /// Числовой код тарифа.
         /// </summary>
-        public int? NumTariffCode { get; set; }
+        public int? NumTariffCode
+        {
+            get
+            {
+                if (int.TryParse(TariffCode, out int result))
+                {
+                    return result;
+                }
+
+                return null;
+            }
+        }
 
         /// <summary>
         /// Код тарифа (режимы старого и нового тарифа должны совпадать).
         /// </summary>
-        public int? TariffCode { get; set; }
+        public string? TariffCode { get; set; }
 
         /// <summary>
         /// Комментарий к заказу.

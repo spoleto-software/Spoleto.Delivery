@@ -8,12 +8,28 @@
         /// <summary>
         /// Уникальный числовой код города внутри провайдера.
         /// </summary>
-        public int? NumCode { get; set; }
+        public int? NumCode
+        {
+            get
+            {
+                if (int.TryParse(Code, out int result))
+                {
+                    return result;
+                }
+
+                return null;
+            }
+        }
 
         /// <summary>
         /// Уникальный код города внутри провайдера.
         /// </summary>
         public string? Code { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор ФИАС населенного пункта.
+        /// </summary>
+        public Guid? FiasGuid { get; set; }
 
         /// <summary>
         /// Название города.
@@ -24,5 +40,15 @@
         /// Почтовый индекс.
         /// </summary>
         public string PostalCode { get; set; }
+
+        /// <summary>
+        /// Ограничение выборки результата.
+        /// </summary>
+        public int? Size { get; set; }
+
+        /// <summary>
+        /// Номер страницы выборки результата.
+        /// </summary>
+        public int? Page { get; set; }
     }
 }

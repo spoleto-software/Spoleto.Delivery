@@ -7,9 +7,9 @@
             return new TariffCalcRequest
             {
                 SenderAddress = request.FromLocation.Address ?? String.Empty,
-                SenderCity = request.FromLocation.Code,
+                SenderCity = request.FromLocation.Code ?? string.Empty,
                 //ReceiverAddress = request.ToLocation.Address,
-                ReceiverCity = request.ToLocation.Code,
+                ReceiverCity = request.ToLocation.Code ?? string.Empty,
                 CargoPlaces = request.Packages.Select(x => x.ToCargoPlaceBaseRequest()).ToList()
             };
         }
@@ -25,7 +25,7 @@
                 CargoPlaceType = Enum.TryParse<CargoPlaceType>(package.PackageType.ToString(), out var cargoPlaceType) ? cargoPlaceType : CargoPlaceType.Cargo
             };
         }
-        
+
         public static CargoPlace ToCargoPlaceRequest(this Delivery.Package package)
         {
             return new CargoPlace
@@ -45,7 +45,7 @@
                 Code = tariff.Name,
                 DeliverySum = tariff.Cost,
                 Name = tariff.Name,
-                Services = tariff.Rates.Select(x=>x.ToDeliveryTariffService()).ToList()
+                Services = tariff.Rates.Select(x => x.ToDeliveryTariffService()).ToList()
             };
         }
 
@@ -83,6 +83,21 @@
 
         public static CityRequest ToCityRequest(this Delivery.CityRequest request)
         {
+            if (request.Size != null && request.Page != null)
+            {
+                throw new NotSupportedException($"MasterPost.GetCities does not support parameters: <{nameof(request.Page)}>, <{nameof(request.Size)}>.");
+            }
+
+            if (request.Size != null)
+            {
+                throw new NotSupportedException($"MasterPost.GetCities does not support parameter <{nameof(request.Size)}>.");
+            }
+
+            if (request.Page != null)
+            {
+                throw new NotSupportedException($"MasterPost.GetCities does not support parameter <{nameof(request.Page)}>.");
+            }
+
             return new CityRequest
             {
                 Filter = request.Name //todo: только ли имя передавать в фильтр?
@@ -135,13 +150,15 @@
 
                 SenderAddress = request.FromLocation.Address,
                 SenderAddressCode = request.FromLocation.Code ?? string.Empty,
-                SenderCity = request.FromLocation.FiasGuid?.ToString(),
+                SenderCity = request.FromLocation.CityFiasGuid?.ToString() ?? string.Empty,
+                SenderStreet = request.FromLocation.StreetFiasGuid?.ToString() ?? string.Empty,
                 SenderContact = request.Sender.Name,
                 SenderCompany = request.Sender.Company,
                 SenderPhone = request.Sender.Phones?.FirstOrDefault().Number,
 
                 RecipientAddress = request.ToLocation.Address,
-                RecipientCity = request.ToLocation.FiasGuid?.ToString(),
+                RecipientCity = request.ToLocation.CityFiasGuid?.ToString() ?? string.Empty,
+                RecipientStreet = request.ToLocation.StreetFiasGuid.ToString() ?? string.Empty,
                 RecipientCompany = request.Recipient.Company,
                 RecipientContact = request.Recipient.Name,
                 RecipientEmail = request.Recipient.Email,
@@ -149,7 +166,7 @@
 
                 AdditionalServices = request.Services?.Select(x => x.ToAdditionalServiceRequest()).ToList() ?? [],
                 Places = request.Packages?.Select(x => x.ToOrderCargoPlaceRequest()).ToList() ?? [],
-                Items = request.Packages?.Where(x => x.Items != null).Where(x=>x.Items != null).SelectMany(x => x.Items).Select(x => x.ToOrderCargoItem()).ToList() ?? [],
+                Items = request.Packages?.Where(x => x.Items != null).Where(x => x.Items != null).SelectMany(x => x.Items).Select(x => x.ToOrderCargoItem()).ToList() ?? [],
 
                 PaymentType = request.PaymentType == null ? PaymentType.CashRecipient : (PaymentType)Enum.Parse(typeof(PaymentType), request.PaymentType.Value.ToString()),
             };

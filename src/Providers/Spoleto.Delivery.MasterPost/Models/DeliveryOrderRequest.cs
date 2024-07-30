@@ -56,7 +56,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         public string SenderInfo { get; set; } = string.Empty;
 
         /// <summary>
-        /// Город Отправителя
+        /// Город Отправителя. УИД ФИАС.
         /// </summary>
         /// <remarks>
         /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
@@ -65,7 +65,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         public string SenderCity { get; set; } = string.Empty;
 
         /// <summary>
-        /// Улица Отправителя
+        /// Улица Отправителя. УИД ФИАС.
         /// </summary>
         /// <remarks>
         /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
@@ -116,13 +116,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
         public int? RecipientBranchCode { get; set; }
 
         /// <summary>
-        /// Город Получателя
+        /// Город Получателя. УИД ФИАС
         /// </summary>
         [JsonPropertyName("DN_REC_CITY")]
         public string RecipientCity { get; set; }
 
         /// <summary>
-        /// Улица Получателя
+        /// Улица Получателя. УИД ФИАС.
         /// </summary>
         /// <remarks>
         /// Обязательно, если не заполнен адрес в свободной форме
