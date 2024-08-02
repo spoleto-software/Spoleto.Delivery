@@ -101,6 +101,14 @@
             };
         }
 
+        public static UpdateDeliveryOrderLocation ToUpdateOrderLocationRequest(this Delivery.DeliveryOrderLocation location)
+        {
+            return new UpdateDeliveryOrderLocation
+            {
+                Address = location.Address
+            };
+        }
+
         public static DeliveryItemPayment ToDeliveryItemPaymentRequest(this Delivery.DeliveryItemPayment itemPayment)
         {
             return new DeliveryItemPayment
@@ -173,9 +181,9 @@
             };
         }
 
-        public static AdditionalServiceBase ToAdditionalServiceRequest(this Delivery.AdditionalServiceRequest additionalService)
+        public static AdditionalService ToAdditionalServiceRequest(this Delivery.AdditionalServiceRequest additionalService)
         {
-            return new AdditionalServiceBase
+            return new AdditionalService
             {
                 Code = (AdditionalServiceType)Enum.Parse(typeof(AdditionalServiceType), additionalService.Code),
                 Parameter = additionalService.Parameter
@@ -277,7 +285,7 @@
             {
                 Uuid = request.Uuid,
                 CdekNumber= request.Number,
-                FromLocation = request.FromLocation?.ToOrderLocationRequest(),
+                FromLocation = request.FromLocation?.ToUpdateOrderLocationRequest(),
                 ToLocation = request.ToLocation?.ToOrderLocationRequest(),
                 Packages = request.Packages?.Select(x => x.ToOrderPackageRequest()).ToList(),
                 Recipient = request.Recipient?.ToContactRequest(),

@@ -142,6 +142,11 @@
 
         public static DeliveryOrderRequest ToOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
         {
+            if (request.TariffCode == null)
+            {
+                throw new ArgumentNullException(nameof(request.TariffCode));
+            }
+
             return new DeliveryOrderRequest
             {
                 OrderNumber = request.Number ?? string.Empty,

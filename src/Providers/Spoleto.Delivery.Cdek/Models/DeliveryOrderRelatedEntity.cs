@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -14,7 +15,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// client_return_order, client_direct_order.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; } //todo: enum
+        [JsonConverter(typeof(JsonEnumValueConverter<OrderRelatedEntityType>))]
+        public OrderRelatedEntityType Type { get; set; }
 
         /// <summary>
         /// Идентификатор сущности, связанной с заказом.

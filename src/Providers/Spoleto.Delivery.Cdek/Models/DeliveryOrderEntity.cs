@@ -170,7 +170,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Дополнительные услуги (подробнее см. приложение 3).
         /// </summary>
         [JsonPropertyName("services")]
-        public List<AdditionalServiceBase> Services { get; set; }
+        public List<AdditionalServiceInfo> Services { get; set; }
 
         /// <summary>
         /// Список информации по местам (упаковкам).
@@ -219,5 +219,11 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// </summary>
         [JsonPropertyName("keep_free_until")]
         public DateTime? KeepFreeUntil { get; set; }
+
+        /// <summary>
+        /// Информация о транспорте для сопроводительной накладной на товар (СНТ).
+        /// </summary>
+        [JsonPropertyName("accompanying_waybill")]
+        public AccompanyingWaybill? AccompanyingWaybill { get; set; }
     }
 }

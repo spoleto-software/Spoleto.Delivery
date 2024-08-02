@@ -20,6 +20,11 @@
         /// </summary>
         public string? Description { get; set; }
 
+        /// <summary>
+        /// Стоимость.
+        /// </summary>
+        public decimal? Cost { get; set; }
+
         //todo: указать возможность указания параметра с привязкой к конкректной доп услуги (не у всех доп услуг будут параметры)
         public bool ParameterRequired => ParameterType != null;
 

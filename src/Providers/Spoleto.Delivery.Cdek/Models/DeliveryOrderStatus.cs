@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Common.JsonConverters;
 using Spoleto.Delivery.Providers.Cdek.Converters;
 
 namespace Spoleto.Delivery.Providers.Cdek
@@ -12,7 +13,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Код статуса.
         /// </summary>
         [JsonPropertyName("code")]
-        public string Code { get; set; } //todo: enum?
+        [JsonConverter(typeof(JsonEnumValueConverter<OrderStatus>))]
+        public OrderStatus Code { get; set; }
 
         /// <summary>
         /// Название статуса.
@@ -31,7 +33,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Дополнительный код статуса.
         /// </summary>
         [JsonPropertyName("reason_code")]
-        public string? ReasonCode { get; set; } // todo: enum?
+        [JsonConverter(typeof(JsonIntEnumConverter<OrderAdditionalStatus>))]
+        public OrderAdditionalStatus? ReasonCode { get; set; }
 
         /// <summary>
         /// Наименование места возникновения статуса.

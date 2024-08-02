@@ -93,13 +93,13 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Не может использоваться одновременно с <see cref="ShipmentPoint"/>.
         /// </summary>
         [JsonPropertyName("from_location")]
-        public DeliveryOrderLocation? FromLocation { get; set; } //todo: only address as in manual?
+        public UpdateDeliveryOrderLocation? FromLocation { get; set; }
 
         /// <summary>
         /// Дополнительные услуги.
         /// </summary>
         [JsonPropertyName("services")]
-        public List<AdditionalServiceBase>? Services { get; set; }
+        public List<AdditionalService>? Services { get; set; }
 
         /// <summary>
         /// Список информации по местам (упаковкам).

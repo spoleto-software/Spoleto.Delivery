@@ -7,37 +7,37 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <summary>
     /// Ставка НДС.
     /// </summary>
-    [JsonConverter(typeof(JsonEnumValueConverter<VatRate>))]//todo???
+    [JsonConverter(typeof(JsonEnumIntValueConverter<VatRate>))]//todo???
     public enum VatRate
     {
         /// <summary>
         /// Без НДС.
         /// </summary>
-        [JsonEnumValue(null)]
+        [JsonEnumIntValue]
         WO_VAT = -1,
 
         /// <summary>
         /// Ставка НДС 0%.
         /// </summary>
-        [JsonEnumValue("0")]
+        [JsonEnumIntValue(0)]
         NO_VAT = 0,
 
         /// <summary>
         /// Ставка НДС 10%.
         /// </summary>
-        [JsonEnumValue("10")]
+        [JsonEnumIntValue(10)]
         VAT_10 = 10,
 
         /// <summary>
         /// Ставка НДС 10%.
         /// </summary>
-        [JsonEnumValue("10")]
+        [JsonEnumIntValue(12)]
         VAT_12 = 12,
 
         /// <summary>
         /// Ставка НДС 20%.
         /// </summary>
-        [JsonEnumValue("20")]
+        [JsonEnumIntValue(20)]
         VAT_20 = 20
     }
 }

@@ -21,14 +21,14 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <summary>
         /// Ставка НДС 0%.
         /// </summary>
-        [Description("")]
+        [Description("Ставка НДС 0%")]
         [JsonEnumValue("0")]
         NO_VAT = 0,
 
         /// <summary>
         /// Ставка НДС 10%.
         /// </summary>
-        [Description("Ставка НДС 0%")]
+        [Description("Ставка НДС 10%")]
         [JsonEnumValue("10")]
         VAT_10 = 10,
 

@@ -8,7 +8,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Информация о заказе.
         /// </summary>
         [JsonPropertyName("entity")]
-        public DeliveryOrderEntity Entity { get; set; } //todo: additional services extend enum items
+        public DeliveryOrderEntity Entity { get; set; }
 
         /// <summary>
         /// Список запросов над заказом.

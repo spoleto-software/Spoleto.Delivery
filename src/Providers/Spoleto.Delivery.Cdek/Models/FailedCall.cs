@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -17,6 +18,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Причина недозвона (подробнее см. приложение 5)
         /// </summary>
         [JsonPropertyName("reason_code")]
-        public int ReasonCode { get; set; } //todo: enum
+        [JsonConverter(typeof(JsonIntEnumConverter<FailedCallReason>))]
+        public FailedCallReason ReasonCode { get; set; }
     }
 }
