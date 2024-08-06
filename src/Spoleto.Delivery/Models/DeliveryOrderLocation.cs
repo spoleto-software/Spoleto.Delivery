@@ -6,14 +6,9 @@
     public record DeliveryOrderLocation : Location
     {
         /// <summary>
-        /// Уникальный идентификатор ФИАС города.
-        /// </summary>
-        public Guid? CityFiasGuid { get; set; }
-
-        /// <summary>
         /// Уникальный идентификатор ФИАС улицы.
         /// </summary>
-        public Guid? StreetFiasGuid { get; set; }
+        public Guid? StreetFiasId { get; set; }
 
         /// <summary>
         /// Долгота.
@@ -48,11 +43,5 @@
         ///  Не может быть передано без <see cref="Region"/>.
         ///  </remarks>
         public string? SubRegion { get; set; }
-
-        /// <summary>
-        /// Код КЛАДР.
-        /// Устаревшее поле.
-        /// </summary>
-        public string? KladrCode { get; set; }
     }
 }

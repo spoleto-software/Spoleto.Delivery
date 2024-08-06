@@ -74,11 +74,11 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public List<Delivery.Tariff> GetTariffs(TariffRequest tariffRequest)
+        public List<Delivery.Tariff> GetTariffs(Delivery.TariffRequest tariffRequest)
             => GetTariffsAsync(tariffRequest).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public async Task<List<Delivery.Tariff>> GetTariffsAsync(TariffRequest tariffRequest)
+        public async Task<List<Delivery.Tariff>> GetTariffsAsync(Delivery.TariffRequest tariffRequest)
         {
             // Получим все тарифы с их ценами в N + 1 запросов:
             // 1. Получение всех тарифов (без фильтрации по входным данным)
@@ -88,7 +88,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             var tariffList = new List<Tariff>();
             foreach (var service in serviceList) //todo: parallel.foreach?
             {
-                var model = tariffRequest.ToTariffCalcRequest();
+                var model = tariffRequest.ToTariffRequest();
                 model.DeliveryMode = service.DeliveryMode;
                 model.IndividualClientNumber = _options.IndividualClientNumber;
 

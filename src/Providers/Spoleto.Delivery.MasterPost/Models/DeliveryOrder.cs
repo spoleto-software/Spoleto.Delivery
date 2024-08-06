@@ -85,7 +85,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <remarks>Пример: 93b3df57-4c89-44df-ac42-96f05e9cd3b9.</remarks>
         [JsonPropertyName("DN_SEND_CITY")]
         [JsonConverter(typeof(JsonGuidConverter))]
-        public Guid? SenderCityFiasGuid { get; set; }
+        public Guid? SenderCityFiasId { get; set; }
 
         /// <summary>
         /// Город отправителя код КЛАДР.
@@ -105,7 +105,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// </summary>
         [JsonPropertyName("DN_SEND_STR")]
         [JsonConverter(typeof(JsonGuidConverter))]
-        public Guid? SenderStreetFiasGuid { get; set; }
+        public Guid? SenderStreetFiasId { get; set; }
 
         /// <summary>
         /// Улица отправителя код КЛАДР.
@@ -149,7 +149,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// </summary>
         [JsonPropertyName("DN_REC_CITY")]
         [JsonConverter(typeof(JsonGuidConverter))]
-        public Guid? ReceiverCityFiasGuid { get; set; }
+        public Guid? ReceiverCityFiasId { get; set; }
 
         /// <summary>
         /// Город получателя код КЛАДР.
@@ -169,7 +169,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// </summary>
         [JsonPropertyName("DN_REC_STR")]
         [JsonConverter(typeof(JsonGuidConverter))]
-        public Guid? ReceiverStreetFiasGuid { get; set; }
+        public Guid? ReceiverStreetFiasId { get; set; }
 
         /// <summary>
         /// Улица получателя код КЛАДР.
@@ -305,6 +305,18 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// </summary>
         [JsonPropertyName("DN_DELTIME")]
         public DateTime? DeliveryDateTime { get; set; }
+
+        /// <summary>
+        /// Дата и время доставки (Min).
+        /// </summary>
+        [JsonPropertyName("DN_DELTIMEMIN")]
+        public DateTime? DeliveryMinDateTime { get; set; }
+
+        /// <summary>
+        /// Дата и время доставки (Max).
+        /// </summary>
+        [JsonPropertyName("DN_DELTIMEMAX")]
+        public DateTime? DeliveryMaxDateTime { get; set; }
 
         /// <summary>
         /// Номер резерва.

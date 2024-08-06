@@ -3,14 +3,24 @@
     public record City
     {
         /// <summary>
-        /// Уникальный числовой код города внутри провайдера.
+        /// Уникальный числовой код города внутри провайдера (СДЭК).
         /// </summary>
-        public int NumCode { get; set; }
+        public int? ProviderCityNumCode
+        {
+            get
+            {
+                if (int.TryParse(ProviderCityCode, out int result))
+                {
+                    return result;
+                }
 
+                return null;
+            }
+        }
         /// <summary>
-        /// Уникальный код города внутри провайдера.
+        /// Уникальный код города внутри провайдера (СДЭК).
         /// </summary>
-        public string? Code { get; set; }
+        public string? ProviderCityCode { get; set; }
 
         /// <summary>
         /// Наименование города.
@@ -18,9 +28,9 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Код ФИАС.
+        /// Идентификатор ФИАС.
         /// </summary>
-        public Guid? FiasCode { get; set; }
+        public Guid? FiasId { get; set; }
 
         /// <summary>
         /// Код КЛАДР.

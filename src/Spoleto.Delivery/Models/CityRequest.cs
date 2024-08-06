@@ -6,13 +6,13 @@
     public record CityRequest
     {
         /// <summary>
-        /// Уникальный числовой код города внутри провайдера.
+        /// Уникальный числовой код города внутри провайдера (СДЭК).
         /// </summary>
-        public int? NumCode
+        public int? ProviderCityNumCode
         {
             get
             {
-                if (int.TryParse(Code, out int result))
+                if (int.TryParse(ProviderCityCode, out int result))
                 {
                     return result;
                 }
@@ -22,14 +22,14 @@
         }
 
         /// <summary>
-        /// Уникальный код города внутри провайдера.
+        /// Уникальный код города внутри провайдера (СДЭК).
         /// </summary>
-        public string? Code { get; set; }
+        public string? ProviderCityCode { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор ФИАС населенного пункта.
         /// </summary>
-        public Guid? FiasGuid { get; set; }
+        public Guid? FiasId { get; set; }
 
         /// <summary>
         /// Название города.

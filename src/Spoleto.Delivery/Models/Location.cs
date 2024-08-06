@@ -6,9 +6,19 @@
     public record Location
     {
         /// <summary>
-        /// Код населенного пункта (код из конкретного провайдера (Сдэк, МастерПост) либо Фиас, Кладр).
+        /// Код населенного пункта (код из конкретного провайдера, например, Сдэк).
         /// </summary>
-        public string? Code { get; set; }
+        public string? ProviderLocationCode { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор ФИАС города.
+        /// </summary>
+        public Guid? CityFiasId { get; set; }
+
+        /// <summary>
+        /// Код КЛАДР.
+        /// </summary>
+        public string? KladrCode { get; set; }
 
         /// <summary>
         /// Почтовый индекс

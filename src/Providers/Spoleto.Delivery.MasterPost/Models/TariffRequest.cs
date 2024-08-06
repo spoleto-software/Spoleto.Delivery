@@ -5,7 +5,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
     /// <summary>
     /// Запрос на расчет стоимости тарифа.
     /// </summary>
-    internal record TariffCalcRequest
+    public record TariffRequest
     {
         /// <summary>
         /// Клиентский Номер (ID).
@@ -123,7 +123,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Если тег не заполнен, тариф рассчитывается на текущую дату.
         /// </remarks>
         [JsonPropertyName("DN_PLAN_DATE")]
-        public DateTime? PlannedPickupnDate { get; set; }
+        public DateTime PlannedPickupnDate { get; set; }
 
         /// <summary>
         /// Дополнительные Услуги.

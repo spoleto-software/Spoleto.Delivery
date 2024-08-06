@@ -39,13 +39,15 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Код валюты, в которой необходимо произвести расчет. По умолчанию - валюта договора
         /// </summary>
         [JsonPropertyName("currency")]
-        public int? Currency { get; set; }
+        [JsonConverter(typeof(JsonIntEnumConverter<Currency>))]
+        public Currency? Currency { get; set; }
 
         /// <summary>
         /// Язык вывода информации о тарифах. Возможные значения: rus, eng, zho. По умолчанию - rus
         /// </summary>
         [JsonPropertyName("lang")]
-        public string? Lang { get; set; }
+        [JsonConverter(typeof(JsonEnumValueConverter<Language>))]
+        public Language? Lang { get; set; }
 
         /// <summary>
         /// Адрес отправления

@@ -26,7 +26,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Уникальный идентификатор ФИАС населенного пункта.
         /// </summary>
         [JsonPropertyName("fias_guid")]
-        public Guid? FiasGuid { get; set; }
+        public Guid? FiasId { get; set; }
 
         /// <summary>
         /// Код КЛАДР населенного пункта.

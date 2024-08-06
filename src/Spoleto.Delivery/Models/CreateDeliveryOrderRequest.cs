@@ -173,5 +173,20 @@
         ///// Иначе необходимо использовать отдельный метод "Клиентские возвраты" <see href="https://api-docs.cdek.ru/122762174.html"/>.
         ///// </remarks>
         //public bool? IsClientReturn { get; set; }
+
+        /// <summary>
+        /// Gets the additional order data.
+        /// </summary>
+        public List<DeliveryOrderData> AdditionalProviderData { get; } = [];
+
+        /// <summary>
+        /// Adds the additional data to create a delivery order..
+        /// </summary>
+        public CreateDeliveryOrderRequest WithProviderData(string name, object value)
+        {
+            AdditionalProviderData.Add(new(name, value));
+
+            return this;
+        }
     }
 }

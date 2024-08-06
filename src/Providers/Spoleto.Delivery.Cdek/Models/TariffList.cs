@@ -5,7 +5,7 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <summary>
     /// Список тарифов доставки.
     /// </summary>
-    internal record TariffList
+    public record TariffList
     {
         /// <summary>
         /// Доступные тарифы

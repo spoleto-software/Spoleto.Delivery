@@ -32,7 +32,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Уникальный идентификатор ФИАС региона (устаревшее поле).
         /// </summary>
         [JsonPropertyName("fias_region_guid")]
-        public Guid? FiasRegionGuid { get; set; }
+        public Guid? FiasRegionId { get; set; }
 
         /// <summary>
         /// Код КЛАДР населенного пункта (устаревшее поле).
@@ -44,7 +44,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Уникальный идентификатор ФИАС населенного пункта.
         /// </summary>
         [JsonPropertyName("fias_guid")]
-        public Guid? FiasGuid { get; set; }
+        public Guid? FiasId { get; set; }
 
         /// <summary>
         /// Почтовый индекс.

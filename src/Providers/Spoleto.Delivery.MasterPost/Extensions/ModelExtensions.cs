@@ -1,17 +1,30 @@
-﻿namespace Spoleto.Delivery.Providers.MasterPost
+﻿using Spoleto.Delivery.Helpers;
+
+namespace Spoleto.Delivery.Providers.MasterPost
 {
     internal static class ModelExtensions
     {
-        public static TariffCalcRequest ToTariffCalcRequest(this Delivery.TariffRequest request)
+        public static TariffRequest ToTariffRequest(this Delivery.TariffRequest request)
         {
-            return new TariffCalcRequest
+            var tariffRequest = new TariffRequest
             {
                 SenderAddress = request.FromLocation.Address ?? String.Empty,
-                SenderCity = request.FromLocation.Code ?? string.Empty,
+                SenderCity = request.FromLocation.CityFiasId?.ToString() ?? request.FromLocation.KladrCode ?? string.Empty,
                 //ReceiverAddress = request.ToLocation.Address,
-                ReceiverCity = request.ToLocation.Code ?? string.Empty,
+                ReceiverCity = request.ToLocation.CityFiasId?.ToString() ?? request.FromLocation.KladrCode ?? string.Empty,
                 CargoPlaces = request.Packages.Select(x => x.ToCargoPlaceBaseRequest()).ToList()
             };
+
+            var providerData = request.AdditionalProviderData;
+            if (providerData?.Count > 0)
+            {
+                foreach (var data in providerData)
+                {
+                    ReflectionHelper.SetPropertyValue(tariffRequest, data.Name, data.Value);
+                }
+            }
+
+            return tariffRequest;
         }
 
         public static CargoPlaceBase ToCargoPlaceBaseRequest(this Delivery.Package package)
@@ -74,7 +87,7 @@
             return new Delivery.City
             {
                 Name = city.Name,
-                FiasCode = city.FiasGuid,
+                FiasId = city.FiasId,
                 KladrCode = city.KladrCode,
                 Region = city.Region,
                 Country = city.Country
@@ -147,23 +160,22 @@
                 throw new ArgumentNullException(nameof(request.TariffCode));
             }
 
-            return new DeliveryOrderRequest
+            var orderRequest = new DeliveryOrderRequest
             {
                 OrderNumber = request.Number ?? string.Empty,
                 DeliveryMode = request.TariffCode,
                 Comment = request.Comment ?? string.Empty,
 
                 SenderAddress = request.FromLocation.Address,
-                SenderAddressCode = request.FromLocation.Code ?? string.Empty,
-                SenderCity = request.FromLocation.CityFiasGuid?.ToString() ?? string.Empty,
-                SenderStreet = request.FromLocation.StreetFiasGuid?.ToString() ?? string.Empty,
+                SenderCity = request.FromLocation.CityFiasId?.ToString() ?? string.Empty,
+                SenderStreet = request.FromLocation.StreetFiasId?.ToString() ?? string.Empty,
                 SenderContact = request.Sender.Name,
                 SenderCompany = request.Sender.Company,
                 SenderPhone = request.Sender.Phones?.FirstOrDefault().Number,
 
                 RecipientAddress = request.ToLocation.Address,
-                RecipientCity = request.ToLocation.CityFiasGuid?.ToString() ?? string.Empty,
-                RecipientStreet = request.ToLocation.StreetFiasGuid.ToString() ?? string.Empty,
+                RecipientCity = request.ToLocation.CityFiasId?.ToString() ?? string.Empty,
+                RecipientStreet = request.ToLocation.StreetFiasId.ToString() ?? string.Empty,
                 RecipientCompany = request.Recipient.Company,
                 RecipientContact = request.Recipient.Name,
                 RecipientEmail = request.Recipient.Email,
@@ -175,6 +187,17 @@
 
                 PaymentType = request.PaymentType == null ? PaymentType.CashRecipient : (PaymentType)Enum.Parse(typeof(PaymentType), request.PaymentType.Value.ToString()),
             };
+
+            var providerData = request.AdditionalProviderData;
+            if (providerData?.Count > 0)
+            {
+                foreach (var data in providerData)
+                {
+                    ReflectionHelper.SetPropertyValue(orderRequest, data.Name, data.Value);
+                }
+            }
+
+            return orderRequest;
         }
 
         public static Delivery.DeliveryOrder ToDeliveryOrder(this DeliveryOrder order)
@@ -184,6 +207,7 @@
                 Number = order.Number,
                 Status = order.CurrentStatus,
                 CisNumber = order.OrderNumber,
+                PlannedDeliveryDate = order.DeliveryDateTime
             };
         }
     }

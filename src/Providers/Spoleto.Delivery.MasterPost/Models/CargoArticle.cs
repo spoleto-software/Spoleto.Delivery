@@ -2,7 +2,7 @@
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
-    internal record CargoArticle
+    public record CargoArticle
     {
         /// <summary>
         /// ОценочнаяСтоимость

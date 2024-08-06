@@ -151,13 +151,13 @@ public class Example
             Comment = "Just another test order",
             FromLocation = new()
             {
-                Code = "44",
+                ProviderLocationCode = "44",
                 Address = "пр. Ленинградский, д.4",
             },
             ToLocation = new()
             {
                 Code = "44",
-                FiasGuid = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
+                FiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
                 Address = "ул. Блюхера, 32"
             },
             NumTariffCode = tariffs.First().NumCode,

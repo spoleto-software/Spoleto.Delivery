@@ -14,7 +14,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Код населенного пункта СДЭК (метод "Список населенных пунктов")
         /// </summary>
         [JsonPropertyName("code")]
-        public int? Code { get; set; }
+        public int? CityCode { get; set; }
 
         /// <summary>
         /// Почтовый индекс

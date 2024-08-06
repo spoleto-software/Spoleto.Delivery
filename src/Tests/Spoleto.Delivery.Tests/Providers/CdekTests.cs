@@ -12,7 +12,7 @@ namespace Spoleto.Delivery.Tests.Providers
             var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
             var cityRequest = new CityRequest
             {
-                Code = "44"
+                ProviderCityCode = "44"
                 // Name = "Москва"
             };
 
@@ -32,13 +32,10 @@ namespace Spoleto.Delivery.Tests.Providers
                 Comment = "Test order",
                 FromLocation = new()
                 {
-                    // Code = "44",
                     Address = "Санкт-Петербург, пр. Ленинградский, д.4"
                 },
                 ToLocation = new()
                 {
-                    // Code = "44",
-                    //FiasGuid = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
                     Address = "Москва, Кастанаевская улица, 65"
                 },
                 TariffCode = "480",
@@ -110,6 +107,9 @@ namespace Spoleto.Delivery.Tests.Providers
                 ],
             };
 
+            tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.TariffRequest.Lang), Spoleto.Delivery.Providers.Cdek.Language.Russian);
+            tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.TariffRequest.Currency), Spoleto.Delivery.Providers.Cdek.Currency.RussianRuble);
+
             // Act
             var tariffs = await provider.GetTariffsAsync(tariffRequest);
 
@@ -141,6 +141,9 @@ namespace Spoleto.Delivery.Tests.Providers
             var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
             var deliveryOrderRequest = GetOrderRequest();
 
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.DeveloperKey), "XX-DEV-123-456");
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);
+
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
             var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
@@ -161,13 +164,20 @@ namespace Spoleto.Delivery.Tests.Providers
             // Arrange
             var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
             var deliveryOrderRequest = GetOrderRequest();
+            var updateRequest = new UpdateDeliveryOrderRequest { Recipient = new Contact() { Company = "My company", Name = "My name" } };
+
+            updateRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.UpdateDeliveryOrderRequest.Comment), "New comment here");
+            updateRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.UpdateDeliveryOrderRequest.Sender), new ContactBase { Company = "Sender company", Name = "Sender name here" });
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
             await Task.Delay(5000);
 
             var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
-            var updateOrder = await provider.UpdateDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid, Recipient = new Contact() { Company = "My company", Name = "My name" } });
+            updateRequest.Uuid = deliveryOrder.Uuid;
+            var updateOrder = await provider.UpdateDeliveryOrderAsync(updateRequest);
+            await Task.Delay(5000);
+
             var getOrder2 = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
 
             // Assert

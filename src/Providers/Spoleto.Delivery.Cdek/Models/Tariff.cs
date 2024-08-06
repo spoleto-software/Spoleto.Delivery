@@ -8,7 +8,7 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <remarks>
     /// <see href="https://api-docs.cdek.ru/63345519.html"/>
     /// </remarks>
-    internal record Tariff
+    public record Tariff
     {
         /// <summary>
         /// Код тарифа.

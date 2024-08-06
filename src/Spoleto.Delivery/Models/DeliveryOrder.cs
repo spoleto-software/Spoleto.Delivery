@@ -18,12 +18,17 @@
         /// <summary>
         /// Номер заказа в ИС Клиента.
         /// </summary>
-        public string? CisNumber { get;set; }
+        public string? CisNumber { get; set; }
 
         /// <summary>
         /// Текущий статус.
         /// </summary>
         public string Status { get; set; }
+
+        /// <summary>
+        /// Плановая дата доставки.
+        /// </summary>
+        public DateTime? PlannedDeliveryDate { get; set; }
 
         /// <summary>
         /// Получает или задает ошибки, возникшие в ходе выполнения запроса.

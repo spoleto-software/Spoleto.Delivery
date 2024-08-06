@@ -31,12 +31,12 @@ namespace Spoleto.Delivery.Tests.Providers
             {
                 FromLocation = new()
                 {
-                   // Code = "0c5b2444-70a0-4932-980c-b4dc0d3f02b5"
+                    CityFiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
                     Address = "г Москва, Бережковская наб, д 20 стр 64"
                 },
                 ToLocation = new()
                 {
-                    //Code = "c2deb16a-0330-4f05-821f-1d09c93331e6"
+                    CityFiasId = Guid.Parse("c2deb16a-0330-4f05-821f-1d09c93331e6"),
                     Address = "г Новосибирск, ул Кривощековская, зд 15 к 1"
                 },
                 Packages =
@@ -50,6 +50,11 @@ namespace Spoleto.Delivery.Tests.Providers
                     }
                 ]
             };
+
+            tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.EstimatedCost), 2000M);
+            tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.SenderSms), "79001234567");
+            //tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.IsStraightDelivery), true);
+            //tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.SenderAddressCode), "Санкт-Петербург, пр. Ленинградский, д.4" );
 
             // Act
             var tariffs = await provider.GetTariffsAsync(tariffRequest);
@@ -66,12 +71,12 @@ namespace Spoleto.Delivery.Tests.Providers
                 Comment = "Test order",
                 FromLocation = new()
                 {
-                    CityFiasGuid = Guid.Parse("c2deb16a-0330-4f05-821f-1d09c93331e6"),
+                    CityFiasId = Guid.Parse("c2deb16a-0330-4f05-821f-1d09c93331e6"),
                     Address = "Санкт-Петербург, пр. Ленинградский, д.4"
                 },
                 ToLocation = new()
                 {
-                    CityFiasGuid = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
+                    CityFiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
                     Address = "Москва, ул. Блюхера, 32"
                 },
                 TariffCode = "Экспресс",
@@ -116,6 +121,9 @@ namespace Spoleto.Delivery.Tests.Providers
             // Arrange
             var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
             var deliveryOrderRequest = GetOrderRequest();
+
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.DeliveryOrderRequest.Comment), "test");
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.DeliveryOrderRequest.CollectionAtDelivery), "123-456-789");
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);

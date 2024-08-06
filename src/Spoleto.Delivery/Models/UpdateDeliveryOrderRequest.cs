@@ -100,5 +100,20 @@
         /// Список информации по местам (упаковкам).
         /// </summary>
         public List<DeliveryOrderPackage>? Packages { get; set; }
+
+        /// <summary>
+        /// Gets the additional order data.
+        /// </summary>
+        public List<DeliveryOrderData> AdditionalProviderData { get; } = [];
+
+        /// <summary>
+        /// Adds the additional data to update the delivery order.
+        /// </summary>
+        public UpdateDeliveryOrderRequest WithProviderData(string name, object value)
+        {
+            AdditionalProviderData.Add(new(name, value));
+
+            return this;
+        }
     }
 }

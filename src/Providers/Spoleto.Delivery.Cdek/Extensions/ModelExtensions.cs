@@ -1,16 +1,29 @@
-﻿namespace Spoleto.Delivery.Providers.Cdek
+﻿using Spoleto.Delivery.Helpers;
+
+namespace Spoleto.Delivery.Providers.Cdek
 {
     internal static class ModelExtensions
     {
         public static TariffRequest ToTariffRequest(this Delivery.TariffRequest request)
         {
-            return new TariffRequest
+            var tariffRequest = new TariffRequest
             {
                 Type = request.Type == null ? null : (OrderType)Enum.Parse(typeof(OrderType), request.Type.Value.ToString()),
                 FromLocation = request.FromLocation.ToLocationRequest(),
                 ToLocation = request.ToLocation.ToLocationRequest(),
                 Packages = request.Packages.Select(x => x.ToPackageRequest()).ToList(),
             };
+
+            var providerData = request.AdditionalProviderData;
+            if (providerData?.Count > 0)
+            {
+                foreach (var data in providerData)
+                {
+                    ReflectionHelper.SetPropertyValue(tariffRequest, data.Name, data.Value);
+                }
+            }
+
+            return tariffRequest;
         }
 
         public static Location ToLocationRequest(this Delivery.Location location)
@@ -19,7 +32,7 @@
             {
                 Address = location.Address,
                 City = location.City,
-                Code = Int32.TryParse(location.Code, out var v) ? v : null,
+                CityCode = Int32.TryParse(location.ProviderLocationCode, out var v) ? v : null,
                 CountryCode = location.CountryCode,
                 PostalCode = location.PostalCode
             };
@@ -57,10 +70,9 @@
         {
             return new Delivery.City
             {
-                Code = city.Code.ToString(),
-                NumCode = city.Code,
+                ProviderCityCode = city.Code.ToString(),
                 Name = city.Name,
-                FiasCode = city.FiasGuid,
+                FiasId = city.FiasId,
                 KladrCode = city.KladrCode,
                 Country = city.Country,
                 Region = city.Region
@@ -75,8 +87,8 @@
                 PostalCode = request.PostalCode,
                 Size = request.Size,
                 Page = request.Page,
-                Code = request.NumCode,
-                FiasGuid = request.FiasGuid
+                Code = request.ProviderCityNumCode,
+                FiasId = request.FiasId
             };
 
             return cityRequest;
@@ -88,10 +100,10 @@
             {
                 Address = location.Address,
                 City = location.City,
-                Code = Int32.TryParse(location.Code, out var v) ? v : null,
+                Code = Int32.TryParse(location.ProviderLocationCode, out var v) ? v : null,
                 CountryCode = location.CountryCode,
                 PostalCode = location.PostalCode,
-                FiasGuid = location.CityFiasGuid,
+                FiasId = location.CityFiasId,
                 KladrCode = location.KladrCode,
                 Latitude = location.Latitude,
                 Longitude = location.Longitude,
@@ -195,7 +207,7 @@
             if (request.NumTariffCode == null)
                 throw new NullReferenceException(nameof(request.TariffCode));
 
-            return new CreateDeliveryOrderRequest
+            var orderRequest = new CreateDeliveryOrderRequest
             {
                 Type = request.Type == null ? null : (OrderType)Enum.Parse(typeof(OrderType), request.Type.Value.ToString()),
                 FromLocation = request.FromLocation.ToOrderLocationRequest(),
@@ -213,6 +225,17 @@
                 TariffCode = request.NumTariffCode.Value,
                 Comment = request.Comment
             };
+
+            var providerData = request.AdditionalProviderData;
+            if (providerData?.Count > 0)
+            {
+                foreach (var data in providerData)
+                {
+                    ReflectionHelper.SetPropertyValue(orderRequest, data.Name, data.Value);
+                }
+            }
+
+            return orderRequest;
         }
 
 
@@ -250,7 +273,7 @@
                 Uuid = order.Entity.Uuid,
                 Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
                 Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
-                Status = order.Requests?.First().State.ToString(),
+                //Status = order.Requests?.First().State.ToString(),
                 RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList(),
             };
         }
@@ -274,14 +297,15 @@
                 CisNumber = order.Entity.Number,
                 Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
                 Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
-                Status = order.Requests?.First().State.ToString(),
+                Status = order.Entity?.Statuses?.First().Code.ToString(),
+                PlannedDeliveryDate = order.Entity?.PlannedDeliveryDate,
                 RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList()
             };
         }
 
         public static UpdateDeliveryOrderRequest ToOrderRequest(this Delivery.UpdateDeliveryOrderRequest request)
         {
-            return new UpdateDeliveryOrderRequest
+            var orderRequest = new UpdateDeliveryOrderRequest
             {
                 Uuid = request.Uuid,
                 CdekNumber= request.Number,
@@ -296,6 +320,17 @@
                 TariffCode = request.NumTariffCode,
                 Comment = request.Comment
             };
+
+            var providerData = request.AdditionalProviderData;
+            if (providerData?.Count > 0)
+            {
+                foreach (var data in providerData)
+                {
+                    ReflectionHelper.SetPropertyValue(orderRequest, data.Name, data.Value);
+                }
+            }
+
+            return orderRequest;
         }
 
         public static Delivery.DeliveryOrder ToDeliveryOrder(this UpdatedDeliveryOrder order)
@@ -305,7 +340,7 @@
                 Uuid = order.Entity.Uuid,
                 Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
                 Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
-                Status = order.Requests?.First().State.ToString()
+                //Status = order.Requests?.First().State.ToString()
             };
         }
     }

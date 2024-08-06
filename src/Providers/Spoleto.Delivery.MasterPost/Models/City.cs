@@ -2,13 +2,13 @@
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
-    internal record City
+    public record City
     {
         /// <summary>
         /// Код ФИАС.
         /// </summary>
         [JsonPropertyName("FIAS")]
-        public Guid FiasGuid { get; set; }
+        public Guid FiasId { get; set; }
 
         /// <summary>
         /// Код КЛАДР.
