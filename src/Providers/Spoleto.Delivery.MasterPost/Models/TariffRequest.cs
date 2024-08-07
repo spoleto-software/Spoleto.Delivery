@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Delivery.Providers.MasterPost.Converters;
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
@@ -37,7 +38,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно должно быть заполнен либо этот тег, либо тег <see cref="SenderCity"/> (DN_SEND_CITY).
         /// </remarks>
         [JsonPropertyName("DN_SEND_ADR_CODE")]
-        public string SenderAddressCode { get; set; } = string.Empty;
+        [JsonConverter(typeof(JsonSenderAddressCodeConverter))]
+        public List<string> SenderAddressCodes { get; set; } = [];
 
         /// <summary>
         /// Адрес Отправителя.
@@ -50,7 +52,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// </summary>
         /// <remarks>
         /// УИД ФИАС, либо код КЛАДР.<br/>
-        /// Обязательно должно быть заполнен либо этот тег, либо тег <see cref="SenderAddressCode"/> (DN_SEND_ADR_CODE).
+        /// Обязательно должно быть заполнен либо этот тег, либо тег <see cref="SenderAddressCodes"/> (DN_SEND_ADR_CODE).
         /// </remarks>
         [JsonPropertyName("DN_SEND_CITY")]
         public string SenderCity { get; set; } = string.Empty;

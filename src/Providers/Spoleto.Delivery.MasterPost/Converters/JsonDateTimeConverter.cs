@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Spoleto.Delivery.Providers.MasterPost.Converters
 {
-    public class JsonDateTimeConverter : JsonConverter<DateTime?>
+    internal class JsonDateTimeConverter : JsonConverter<DateTime?>
     {
         public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

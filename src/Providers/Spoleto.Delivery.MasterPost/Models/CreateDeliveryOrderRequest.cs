@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using Spoleto.Common.JsonConverters;
+using Spoleto.Delivery.Providers.MasterPost.Converters;
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
@@ -27,24 +28,25 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Если передать значение true, то доставка может быть осуществлена день в день напрямую от отправителя получателю, минуя склад Мастерпост.
         /// </remarks>
         [JsonPropertyName("STRAIGHT_DELIVERY")]
-        public bool StraightDelivery { get; set; }
+        public bool IsStraightDelivery { get; set; }
 
         /// <summary>
         /// Код Адреса Отправителя
         /// </summary>
         /// <remarks>
-        /// Если в <see cref="StraightDelivery">STRAIGHT_DELIVERY</see> передано значение true, то ожидается список адресов в этом теге.<br/>
+        /// Если в <see cref="IsStraightDelivery">STRAIGHT_DELIVERY</see> передано значение true, то ожидается список адресов в этом теге.<br/>
         /// Если этот тег заполнен, то теги <see cref="SenderCompany">DN_SEND_COMP</see>, <see cref="SenderInfo">DN_SEND_INFO</see>, <see cref="SenderCity">DN_SEND_CITY</see>, <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see> игнорируются.<br/>
-        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
+        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCodes">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
         [JsonPropertyName("DN_SEND_ADR_CODE")]
-        public string SenderAddressCode { get; set; } = string.Empty;
+        [JsonConverter(typeof(JsonSenderAddressCodeConverter))]
+        public List<string> SenderAddressCodes { get; set; } = [];
 
         /// <summary>
         /// Организация Отправителя
         /// </summary>
         /// <remarks>
-        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
+        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCodes">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
         [JsonPropertyName("DN_SEND_COMP")]
         public string SenderCompany { get; set; } = string.Empty;
@@ -59,7 +61,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Город Отправителя. УИД ФИАС.
         /// </summary>
         /// <remarks>
-        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
+        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCodes">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
         [JsonPropertyName("DN_SEND_CITY")]
         public string SenderCity { get; set; } = string.Empty;
@@ -68,7 +70,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Улица Отправителя. УИД ФИАС.
         /// </summary>
         /// <remarks>
-        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
+        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCodes">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
         [JsonPropertyName("DN_SEND_STR")]
         public string SenderStreet { get; set; } = string.Empty;
@@ -77,7 +79,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Дом Отправителя
         /// </summary>
         /// <remarks>
-        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
+        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCodes">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
         [JsonPropertyName("DN_SEND_HOME")]
         public int SenderHome { get; set; }
@@ -86,7 +88,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Адрес Отправителя В Свободной Форме
         /// </summary>
         /// <remarks>
-        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCode">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
+        /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCodes">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
         [JsonPropertyName("DN_SEND_ADR")]
         public string SenderAddress { get; set; } = string.Empty;

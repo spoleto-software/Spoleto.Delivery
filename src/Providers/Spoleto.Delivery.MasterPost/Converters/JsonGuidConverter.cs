@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Spoleto.Delivery.Providers.MasterPost.Converters
 {
-    public class JsonGuidConverter : JsonConverter<Guid?>
+    internal class JsonGuidConverter : JsonConverter<Guid?>
     {
         public override Guid? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

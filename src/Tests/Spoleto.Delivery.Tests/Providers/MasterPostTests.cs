@@ -54,7 +54,7 @@ namespace Spoleto.Delivery.Tests.Providers
             tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.EstimatedCost), 2000M);
             tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.SenderSms), "79001234567");
             //tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.IsStraightDelivery), true);
-            //tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.SenderAddressCode), "Санкт-Петербург, пр. Ленинградский, д.4" );
+            //tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.SenderAddressCodes), new List<string> { "code1", "code2", "code3" });
 
             // Act
             var tariffs = await provider.GetTariffsAsync(tariffRequest);
@@ -124,6 +124,8 @@ namespace Spoleto.Delivery.Tests.Providers
 
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.Comment), "test");
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.CollectionAtDelivery), "123-456-789");
+            //deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.IsStraightDelivery), true);
+            //deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.SenderAddressCodes), new List<string> { "code1", "code2", "code3" });
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
