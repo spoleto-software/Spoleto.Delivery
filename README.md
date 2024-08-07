@@ -126,11 +126,10 @@ public class Example
         };
         var cities = await deliveryService.GetCitiesAsync(cityRequest);
 
-
         var tariffRequest = new TariffRequest
         {
-            FromLocation = new() { Code = "270" },
-            ToLocation = new() { Code = "44" },
+            FromLocation = new() { ProviderLocationCode = "270" },
+            ToLocation = new() { ProviderLocationCode = "44" },
             Packages =
             [
                 new()
@@ -143,7 +142,6 @@ public class Example
             ],
         };
         var tariffs = await deliveryService.GetTariffsAsync(tariffRequest);
-        
 
         var deliveryOrderRequest = new DeliveryOrderRequest
         {
@@ -156,11 +154,11 @@ public class Example
             },
             ToLocation = new()
             {
-                Code = "44",
+                ProviderLocationCode = "44",
                 FiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
                 Address = "ул. Блюхера, 32"
             },
-            NumTariffCode = tariffs.First().NumCode,
+            TariffCode = tariffs.First().Code,
             Packages =
             [
                 new()
