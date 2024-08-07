@@ -153,14 +153,14 @@ namespace Spoleto.Delivery.Providers.MasterPost
             };
         }
 
-        public static DeliveryOrderRequest ToOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
+        public static CreateDeliveryOrderRequest ToOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
         {
             if (request.TariffCode == null)
             {
                 throw new ArgumentNullException(nameof(request.TariffCode));
             }
 
-            var orderRequest = new DeliveryOrderRequest
+            var orderRequest = new CreateDeliveryOrderRequest
             {
                 OrderNumber = request.Number ?? string.Empty,
                 DeliveryMode = request.TariffCode,

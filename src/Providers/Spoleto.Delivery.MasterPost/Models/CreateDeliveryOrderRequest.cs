@@ -6,7 +6,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
     /// <summary>
     /// Masterpost delivery order request.
     /// </summary>
-    public record DeliveryOrderRequest
+    public record CreateDeliveryOrderRequest
     {
         /// <summary>
         /// Клиентский Номер (ID)

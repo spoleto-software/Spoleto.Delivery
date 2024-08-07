@@ -122,8 +122,8 @@ namespace Spoleto.Delivery.Tests.Providers
             var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
             var deliveryOrderRequest = GetOrderRequest();
 
-            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.DeliveryOrderRequest.Comment), "test");
-            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.DeliveryOrderRequest.CollectionAtDelivery), "123-456-789");
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.Comment), "test");
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.CollectionAtDelivery), "123-456-789");
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
