@@ -299,6 +299,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
                 Status = order.Entity?.Statuses?.First().Code.ToString(),
                 PlannedDeliveryDate = order.Entity?.PlannedDeliveryDate,
+                TrackUrl = order.GetTrackUrl(),
                 RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList()
             };
         }

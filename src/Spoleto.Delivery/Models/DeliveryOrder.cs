@@ -31,6 +31,11 @@
         public DateTime? PlannedDeliveryDate { get; set; }
 
         /// <summary>
+        /// Ссылка для отслеживания заказа.
+        /// </summary>
+        public string TrackUrl { get; set; }
+
+        /// <summary>
         /// Получает или задает ошибки, возникшие в ходе выполнения запроса.
         /// </summary>
         public List<Error>? Errors { get; set; }
