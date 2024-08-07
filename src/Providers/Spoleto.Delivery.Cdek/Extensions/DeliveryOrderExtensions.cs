@@ -7,9 +7,15 @@
         /// </summary>
         public static string GetTrackUrl(this DeliveryOrder deliveryOrder)
         {
-            const string trackUrl = "https://www.cdek.ru/ru/tracking?order_id=";
+            const string trackPath = "/ru/tracking?order_id=";
+            var baseUrl = GetBaseUrl();
 
-            return $"{trackUrl}{deliveryOrder.Entity.CdekNumber}";
+            return $"{baseUrl}{trackPath}{deliveryOrder.Entity.CdekNumber}";
+        }
+
+        private static string GetBaseUrl()
+        {
+            return "https://www.cdek.ru";
         }
     }
 }

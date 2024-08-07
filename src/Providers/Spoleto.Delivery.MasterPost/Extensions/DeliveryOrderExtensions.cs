@@ -10,7 +10,7 @@
             const string trackPath = "/mp_api/hs/api/v1/tracking?dn=";
             var baseUrl = GetBaseUrl(serviceUrl);
 
-            return  $"{baseUrl}{trackPath}{deliveryOrder.Number}";
+            return $"{baseUrl}{trackPath}{deliveryOrder.Number}";
         }
 
         private static string GetBaseUrl(string fullUri)
