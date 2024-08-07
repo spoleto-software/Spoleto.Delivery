@@ -129,7 +129,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         {
             return new CargoPlace
             {
-                Id = package.Number,
+                Id = package.CisNumber,
                 Height = package.Height ?? 0,
                 Length = package.Length ?? 0,
                 Width = package.Width ?? 0,
@@ -162,7 +162,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
 
             var orderRequest = new CreateDeliveryOrderRequest
             {
-                OrderNumber = request.Number ?? string.Empty,
+                OrderNumber = request.CisNumber ?? string.Empty,
                 DeliveryMode = request.TariffCode,
                 Comment = request.Comment ?? string.Empty,
 
@@ -200,15 +200,15 @@ namespace Spoleto.Delivery.Providers.MasterPost
             return orderRequest;
         }
 
-        public static Delivery.DeliveryOrder ToDeliveryOrder(this DeliveryOrder order)
+        public static Delivery.DeliveryOrder ToDeliveryOrder(this DeliveryOrder order, string serviceUrl)
         {
             return new Delivery.DeliveryOrder
             {
                 Number = order.Number,
                 Status = order.CurrentStatus,
-                CisNumber = order.OrderNumber,
+                CisNumber = order.CisNumber,
                 PlannedDeliveryDate = order.DeliveryDateTime,
-                TrackUrl = order.GetTrackUrl()
+                TrackUrl = order.GetTrackUrl(serviceUrl)
             };
         }
     }

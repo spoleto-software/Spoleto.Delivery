@@ -67,6 +67,7 @@ namespace Spoleto.Delivery.Tests.Providers
         {
             return new CreateDeliveryOrderRequest
             {
+                CisNumber = "CIS-12345_" + new Random().Next(0, 10000),
                 Type = OrderType.RegularDelivery,
                 Comment = "Test order",
                 FromLocation = new()
@@ -84,7 +85,7 @@ namespace Spoleto.Delivery.Tests.Providers
                 [
                     new()
                     {
-                        Number = "1",
+                        CisNumber = "1",
                         Comment = "Test",
                         Weight = 1000,
                         Width = 10,

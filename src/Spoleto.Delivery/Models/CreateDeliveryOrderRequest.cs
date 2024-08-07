@@ -26,7 +26,7 @@
         /// <remarks>
         /// Может содержать только цифры, буквы латинского алфавита или спецсимволы (формат ASCII).
         /// </remarks>
-        public string? Number { get; set; }
+        public string? CisNumber { get; set; }
 
         /// <summary>
         /// Числовой код тарифа.

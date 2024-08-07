@@ -162,7 +162,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 Weight = package.Weight,
                 Comment = package.Comment,
                 Items = package.Items?.Select(x => x.ToDeliveryPackageItemRequest()).ToList(),
-                Number = package.Number
+                CisNumber = package.CisNumber
             };
         }
 
@@ -212,7 +212,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 Type = request.Type == null ? null : (OrderType)Enum.Parse(typeof(OrderType), request.Type.Value.ToString()),
                 FromLocation = request.FromLocation.ToOrderLocationRequest(),
                 ToLocation = request.ToLocation.ToOrderLocationRequest(),
-                Number = request.Number,
+                CisNumber = request.CisNumber,
                 Packages = request.Packages.Select(x => x.ToOrderPackageRequest()).ToList(),
                 Recipient = request.Recipient.ToContactRequest(),
                 Sender = request.Sender?.ToContactRequest(),
@@ -294,7 +294,7 @@ namespace Spoleto.Delivery.Providers.Cdek
             {
                 Uuid = order.Entity.Uuid,
                 Number = order.Entity.CdekNumber,
-                CisNumber = order.Entity.Number,
+                CisNumber = order.Entity.CisNumber,
                 Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
                 Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
                 Status = order.Entity?.Statuses?.First().Code.ToString(),

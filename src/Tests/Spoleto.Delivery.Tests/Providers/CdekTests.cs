@@ -43,12 +43,12 @@ namespace Spoleto.Delivery.Tests.Providers
                 [
                     new()
                     {
-                        Number = "1",
+                        CisNumber = "1",
                         Comment = "Test",
                         Weight = 1000,
                         Width = 10,
                         Height = 10,
-                        Length = 10,
+                        Length = 10
                     },
                 ],
                 Sender = new()
@@ -70,7 +70,71 @@ namespace Spoleto.Delivery.Tests.Providers
                     [
                         new() { Number = "+79876543210" },
                     ],
+                }
+            };
+
+            return deliveryOrderRequest;
+        }
+
+        private static CreateDeliveryOrderRequest GetOnlineOrderRequest()
+        {
+            var deliveryOrderRequest = new CreateDeliveryOrderRequest
+            {
+                CisNumber = "CIS-12345_" + new Random().Next(0, 10000),
+                Type = OrderType.OnlineStore,
+                Comment = "Test order",
+                FromLocation = new()
+                {
+                    Address = "Санкт-Петербург, пр. Ленинградский, д.4"
                 },
+                ToLocation = new()
+                {
+                    Address = "Москва, Кастанаевская улица, 65"
+                },
+                TariffCode = "480",
+                Packages =
+                [
+                    new()
+                    {
+                        CisNumber = "1",
+                        Comment = "Test",
+                        Weight = 1000,
+                        Width = 10,
+                        Height = 10,
+                        Length = 10,
+                        Items =
+                        [
+                            new()
+                            {
+                                Name = "good 1",
+                                Article = "article 1",
+                                Amount = 1,
+                                Weight = 1000,
+                                Payment = new() { Value = 1000 }
+                            }
+                        ]
+                    },
+                ],
+                Sender = new()
+                {
+                    Company = "Burattino",
+                    Name = "Basilio",
+                    Email = "basilio@example.com",
+                    Phones =
+                    [
+                        new() { Number = "+71234567890" },
+                    ],
+                },
+                Recipient = new()
+                {
+                    Company = "Burattino",
+                    Name = "Alice",
+                    Email = "alice@example.com",
+                    Phones =
+                    [
+                        new() { Number = "+79876543210" },
+                    ],
+                }
             };
 
             return deliveryOrderRequest;
@@ -140,6 +204,30 @@ namespace Spoleto.Delivery.Tests.Providers
             // Arrange
             var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
             var deliveryOrderRequest = GetOrderRequest();
+
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.DeveloperKey), "XX-DEV-123-456");
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.RegularDelivery);
+
+            // Act
+            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
+            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(deliveryOrder, Is.Not.Null);
+
+                Assert.That(getOrder, Is.Not.Null);
+                Assert.That(getOrder.Errors, Is.Empty);
+            });
+        }
+
+        [Test]
+        public async Task CreateOnlineOrder()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var deliveryOrderRequest = GetOnlineOrderRequest();
 
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.DeveloperKey), "XX-DEV-123-456");
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);

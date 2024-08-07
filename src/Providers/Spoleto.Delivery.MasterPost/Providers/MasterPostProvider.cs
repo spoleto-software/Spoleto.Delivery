@@ -137,7 +137,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
             var deliveryOrder = deliveryOrderList[0];
             
-            var order = deliveryOrder.ToDeliveryOrder();
+            var order = deliveryOrder.ToDeliveryOrder(_options.ServiceUrl);
             order.RawBody = rawBody;
 
             return order;
@@ -157,7 +157,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
             var deliveryOrder = deliveryOrderList[0];
 
-            var order = deliveryOrder.ToDeliveryOrder();
+            var order = deliveryOrder.ToDeliveryOrder(_options.ServiceUrl);
             order.RawBody = rawBody;
 
             return order;
@@ -176,7 +176,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
             var deliveryOrder = deliveryOrderList[0];
             
-            var order = deliveryOrder.ToDeliveryOrder();
+            var order = deliveryOrder.ToDeliveryOrder(_options.ServiceUrl);
             order.RawBody = rawBody;
 
             return order;

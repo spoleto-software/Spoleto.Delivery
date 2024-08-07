@@ -15,7 +15,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Идентификатор заказа в ИС Клиента
         /// </summary>
         [JsonPropertyName("number")]
-        public string Number { get; set; }
+        public string CisNumber { get; set; }
 
         /// <summary>
         /// Комментарий к упаковке.

@@ -53,7 +53,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Номер заказа в ИС Клиента.
         /// </summary>
         [JsonPropertyName("number")]
-        public string? Number { get; set; }
+        public string? CisNumber { get; set; }
 
         /// <summary>
         /// Истинный режим заказа.

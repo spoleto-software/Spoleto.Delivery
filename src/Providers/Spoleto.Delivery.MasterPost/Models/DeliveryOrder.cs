@@ -238,7 +238,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// </summary>
         /// <remarks>Внутренний номер клиента.</remarks>
         [JsonPropertyName("DN_ORDER")]
-        public string OrderNumber { get; set; }
+        public string CisNumber { get; set; }
 
         /// <summary>
         /// Оценочная стоимость.

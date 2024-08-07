@@ -5,11 +5,24 @@
         /// <summary>
         /// Получить ссылку для отслеживания статуса заказа.
         /// </summary>
-        public static string GetTrackUrl(this DeliveryOrder deliveryOrder)
+        public static string GetTrackUrl(this DeliveryOrder deliveryOrder, string serviceUrl)
         {
-            //const string trackUrl = "https://mplogistics.ru/delivery-monitoring?invoice=";
+            const string trackPath = "/mp_api/hs/api/v1/tracking?dn=";
+            var baseUrl = GetBaseUrl(serviceUrl);
 
-            return null;// $"{trackUrl}{deliveryOrder.Number}";
+            return  $"{baseUrl}{trackPath}{deliveryOrder.Number}";
+        }
+
+        private static string GetBaseUrl(string fullUri)
+        {
+            var uri = new Uri(fullUri);
+            var baseUrl = $"{uri.Scheme}://{uri.Host}";
+            if (!uri.IsDefaultPort)
+            {
+                baseUrl += $":{uri.Port}";
+            }
+
+            return baseUrl;
         }
     }
 }
