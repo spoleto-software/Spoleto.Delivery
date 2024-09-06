@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -32,7 +33,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Режим тарифа (подробнее см. приложение 3).
         /// </summary>
         [JsonPropertyName("delivery_mode")]
-        public int DeliveryMode { get; set; }
+        [JsonConverter(typeof(JsonIntEnumConverter<DeliveryMode>))]
+        public DeliveryMode DeliveryMode { get; set; }
 
         /// <summary>
         /// Стоимость доставки.

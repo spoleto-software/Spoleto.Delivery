@@ -41,7 +41,7 @@
         /// <summary>
         /// Режим тарифа.
         /// </summary>
-        public int? DeliveryMode { get; set; }
+        public DeliveryMode? DeliveryMode { get; set; }
 
         /// <summary>
         /// Стоимость доставки.

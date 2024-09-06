@@ -14,7 +14,7 @@
         <Description>Delivery sender with different Delivery providers such as CDEK, MasterPost</Description>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="Spoleto.Common" Version="2.8.2.1225" />
+      <PackageReference Include="Spoleto.Common" Version="2.9.6.818" />
     </ItemGroup>
 
 </Project>

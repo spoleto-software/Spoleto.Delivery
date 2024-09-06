@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -70,7 +71,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// 10 - постамат-постамат
         /// </remarks>
         [JsonPropertyName("delivery_mode")]
-        public string? DeliveryMode { get; set; }
+        [JsonConverter(typeof(JsonStrIntEnumConverter<DeliveryMode>))]
+        public DeliveryMode? DeliveryMode { get; set; }
 
         /// <summary>
         /// Код тарифа.

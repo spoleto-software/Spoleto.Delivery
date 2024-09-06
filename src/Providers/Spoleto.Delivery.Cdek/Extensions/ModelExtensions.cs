@@ -57,7 +57,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 CalendarMax = tariff.CalendarMax,
                 CalendarMin = tariff.CalendarMin,
                 Code = tariff.Code.ToString(),
-                DeliveryMode = tariff.DeliveryMode,
+                DeliveryMode =  (Delivery.DeliveryMode)Enum.Parse(typeof(Delivery.DeliveryMode), tariff.DeliveryMode.ToString()),
                 DeliverySum = tariff.DeliverySum,
                 Description = tariff.Description,
                 Name = tariff.Name,
