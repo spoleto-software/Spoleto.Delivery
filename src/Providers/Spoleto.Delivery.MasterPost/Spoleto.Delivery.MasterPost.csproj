@@ -15,7 +15,7 @@
         <Description>MasterPost provider for Spoleto.Delivery</Description>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="Spoleto.RestClient" Version="1.0.8" />
+      <PackageReference Include="Spoleto.RestClient" Version="1.0.9" />
     </ItemGroup>
 
     <ItemGroup>
