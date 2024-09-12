@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
 
-namespace Spoleto.Delivery
+namespace Spoleto.Delivery.Providers.MasterPost
 {
     /// <summary>
-    /// The cargo place type.
+    /// Вид пакета.
     /// </summary>
-    public enum CargoPlaceType
+    public enum PackageType
     {
         /// <summary>
         /// Документ

@@ -17,11 +17,6 @@
         public string? Comment { get; set; }
 
         /// <summary>
-        /// Вид грузо-места.
-        /// </summary>
-        public CargoPlaceType? CargoPlaceType { get; set; }
-
-        /// <summary>
         /// Позиции товаров в упаковке
         /// </summary>
         public List<DeliveryPackageItem> Items { get; set; }

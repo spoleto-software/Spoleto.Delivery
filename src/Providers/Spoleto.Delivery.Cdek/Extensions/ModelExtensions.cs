@@ -57,7 +57,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 CalendarMax = tariff.CalendarMax,
                 CalendarMin = tariff.CalendarMin,
                 Code = tariff.Code.ToString(),
-                DeliveryMode =  (Delivery.DeliveryMode)Enum.Parse(typeof(Delivery.DeliveryMode), tariff.DeliveryMode.ToString()),
+                DeliveryMode = (Delivery.DeliveryMode)Enum.Parse(typeof(Delivery.DeliveryMode), tariff.DeliveryMode.ToString()),
                 DeliverySum = tariff.DeliverySum,
                 Description = tariff.Description,
                 Name = tariff.Name,
@@ -92,6 +92,140 @@ namespace Spoleto.Delivery.Providers.Cdek
             };
 
             return cityRequest;
+        }
+
+        public static Delivery.DeliveryPoint ToDeliveryPoint(this DeliveryPoint deliveryPoint)
+        {
+            return new Delivery.DeliveryPoint
+            {
+                AddressComment = deliveryPoint.AddressComment,
+                AllowedCod = deliveryPoint.AllowedCod,
+                Code = deliveryPoint.Code,
+                Dimensions = deliveryPoint.Dimensions?.Select(x => x.ToDeliveryDimension()).ToList(),
+                Email = deliveryPoint.Email,
+                Errors = deliveryPoint.Errors?.Select(x => x.ToDeliveryError()).ToList(),
+                Fulfillment = deliveryPoint.Fulfillment,
+                HaveCash = deliveryPoint.HaveCash,
+                HaveCashless = deliveryPoint.HaveCashless,
+                HaveFastPaymentSystem = deliveryPoint.HaveFastPaymentSystem,
+                IsDressingRoom = deliveryPoint.IsDressingRoom,
+                IsHandout = deliveryPoint.IsHandout,
+                IsLtl = deliveryPoint.IsLtl,
+                IsReception = deliveryPoint.IsReception,
+                Location = deliveryPoint.Location.ToDeliveryPointLocation(),
+                Name = deliveryPoint.Name,
+                NearestMetroStation = deliveryPoint.NearestMetroStation,
+                NearestStation = deliveryPoint.NearestStation,
+                Note = deliveryPoint.Note,
+                OfficeImageList = deliveryPoint.OfficeImageList?.Select(x => x.ToDeliveryImageInfo()).ToList(),
+                OwnerCode = deliveryPoint.OwnerCode,
+                Phones = deliveryPoint.Phones.Select(x => x.ToDeliveryPhone()).ToList(),
+                Site = deliveryPoint.Site,
+                TakeOnly = deliveryPoint.TakeOnly,
+                Type = (Delivery.DeliveryPointType)Enum.Parse(typeof(Delivery.DeliveryPointType), deliveryPoint.Type.ToString()),
+                Uuid = deliveryPoint.Uuid,
+                WeightMax = deliveryPoint.WeightMax,
+                WeightMin = deliveryPoint.WeightMin,
+                WorkTime = deliveryPoint.WorkTime,
+                WorkTimeExceptionList = deliveryPoint.WorkTimeExceptionList?.Select(x => x.ToDeliveryWorkTimeException()).ToList(),
+                WorkTimeList = deliveryPoint.WorkTimeList.Select(x=>x.ToDeliveryWorkTime()).ToList()
+            };
+        }
+
+        public static Delivery.Phone ToDeliveryPhone(this Phone phone)
+        {
+            return new()
+            {
+                Additional = phone.Additional,
+                Number = phone.Number
+            };
+        }
+
+        public static Delivery.Dimension ToDeliveryDimension(this Dimension dimension)
+        {
+            return new()
+            {
+                Depth = dimension.Depth,
+                Height = dimension.Height,
+                Width = dimension.Width
+            };
+        }
+
+        public static Delivery.DeliveryPointLocation ToDeliveryPointLocation(this DeliveryPointLocation location)
+        {
+            return new()
+            {
+                Address = location.Address,
+                AddressFull = location.AddressFull,
+                City = location.City,
+                Region = location.Region,
+                CityCode = location.CityCode,
+                CityUuid = location.CityUuid,
+                CountryCode = location.CountryCode,
+                FiasGuid = location.FiasGuid,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude,
+                PostalCode = location.PostalCode,
+                RegionCode = location.RegionCode
+            };
+        }
+
+        public static Delivery.ImageInfo ToDeliveryImageInfo(this ImageInfo imageInfo)
+        {
+            return new()
+            {
+                Url = imageInfo.Url
+            };
+        }
+
+        public static Delivery.WorkTimeException ToDeliveryWorkTimeException(this WorkTimeException workTimeException)
+        {
+            return new()
+            {
+                DateEnd = workTimeException.DateEnd,
+                DateStart = workTimeException.DateStart,
+                IsWorking = workTimeException.IsWorking,
+                TimeEnd = workTimeException.TimeEnd,
+                TimeStart = workTimeException.TimeStart
+            };
+        }
+
+        public static Delivery.WorkTime ToDeliveryWorkTime(this WorkTime workTime)
+        {
+            return new()
+            {
+                Day = workTime.Day,
+                Time = workTime.Time
+            };
+        }
+
+        public static DeliveryPointRequest ToDeliveryPointRequest(this Delivery.DeliveryPointRequest request)
+        {
+            var deliveryPointRequest = new DeliveryPointRequest
+            {
+                AllowedCod = request.AllowedCod,
+                CityCode = request.ProviderCityNumCode,
+                Code = request.Code,
+                CountryCode = request.CountryCode,
+                FiasGuid = request.FiasGuid,
+                Fulfillment = request.Fulfillment,
+                HaveCash = request.HaveCash,
+                HaveCashless = request.HaveCashless,
+                IsDressingRoom = request.IsDressingRoom,
+                IsHandout = request.IsHandout,
+                IsLtl = request.IsLtl,
+                IsReception = request.IsReception,
+                PostalCode = request.PostalCode,
+                RegionCode = request.RegionCode,
+                TakeOnly = request.TakeOnly,
+                Type = request.Type == null ? null : (DeliveryPointType)Enum.Parse(typeof(DeliveryPointType), request.Type.Value.ToString()),
+                WeightMax = request.WeightMax,
+                WeightMin = request.WeightMin,
+                Page = request.Page,
+                Size = request.Size
+            };
+
+            return deliveryPointRequest;
         }
 
         public static DeliveryOrderLocation ToOrderLocationRequest(this Delivery.DeliveryOrderLocation location)
@@ -309,7 +443,7 @@ namespace Spoleto.Delivery.Providers.Cdek
             var orderRequest = new UpdateDeliveryOrderRequest
             {
                 Uuid = request.Uuid,
-                CdekNumber= request.Number,
+                CdekNumber = request.Number,
                 FromLocation = request.FromLocation?.ToUpdateOrderLocationRequest(),
                 ToLocation = request.ToLocation?.ToOrderLocationRequest(),
                 Packages = request.Packages?.Select(x => x.ToOrderPackageRequest()).ToList(),

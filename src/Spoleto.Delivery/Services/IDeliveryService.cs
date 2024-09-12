@@ -91,6 +91,80 @@ namespace Spoleto.Delivery
         Task<List<City>> GetCitiesAsync(IDeliveryProvider provider, CityRequest cityRequest);
         #endregion
 
+        #region DeliveryPoints
+        /// <summary>
+        /// Gets delivery points.
+        /// </summary>
+        /// <param name="deliveryPointRequest">The delivery point filter request.</param>
+        /// <returns>The list of delivery points.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        List<DeliveryPoint> GetDeliveryPoints(DeliveryPointRequest deliveryPointRequest);
+
+        /// <summary>
+        /// Gets delivery points.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryPointRequest">The delivery point filter request.</param>
+        /// <returns>The list of delivery points.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        List<DeliveryPoint> GetDeliveryPoints(string providerName, DeliveryPointRequest deliveryPointRequest);
+
+        /// <summary>
+        /// Gets delivery points.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryPointRequest">The delivery point filter request.</param>
+        /// <returns>The list of delivery points.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        List<DeliveryPoint> GetDeliveryPoints(DeliveryProviderName providerName, DeliveryPointRequest deliveryPointRequest);
+
+        /// <summary>
+        /// Gets delivery points.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="deliveryPointRequest">The delivery point filter request.</param>
+        /// <returns>The list of delivery points.</returns>
+        List<DeliveryPoint> GetDeliveryPoints(IDeliveryProvider provider, DeliveryPointRequest deliveryPointRequest);
+
+        /// <summary>
+        /// Async gets delivery points.
+        /// </summary>
+        /// <param name="deliveryPointRequest">The delivery point filter request.</param>
+        /// <returns>The list of delivery points.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        Task<List<DeliveryPoint>> GetDeliveryPointsAsync(DeliveryPointRequest deliveryPointRequest);
+
+        /// <summary>
+        /// Async gets delivery points.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryPointRequest">The delivery point filter request.</param>
+        /// <returns>The list of delivery points.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<List<DeliveryPoint>> GetDeliveryPointsAsync(string providerName, DeliveryPointRequest deliveryPointRequest);
+
+        /// <summary>
+        /// Async gets delivery points.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryPointRequest">The delivery point filter request.</param>
+        /// <returns>The list of delivery points.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<List<DeliveryPoint>> GetDeliveryPointsAsync(DeliveryProviderName providerName, DeliveryPointRequest deliveryPointRequest);
+
+        /// <summary>
+        /// Async gets delivery points.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="deliveryPointRequest">The delivery point filter request.</param>
+        /// <returns>The list of delivery points.</returns>
+        Task<List<DeliveryPoint>> GetDeliveryPointsAsync(IDeliveryProvider provider, DeliveryPointRequest deliveryPointRequest);
+        #endregion
+
         #region Tariffs
         /// <summary>
         /// Gets tariffs.

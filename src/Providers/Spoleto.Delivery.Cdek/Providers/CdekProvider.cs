@@ -83,6 +83,23 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
+        public List<Delivery.DeliveryPoint> GetDeliveryPoints(Delivery.DeliveryPointRequest deliveryPointRequest)
+            => GetDeliveryPointsAsync(deliveryPointRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<List<Delivery.DeliveryPoint>> GetDeliveryPointsAsync(Delivery.DeliveryPointRequest deliveryPointRequest)
+        {
+            var model = deliveryPointRequest.ToDeliveryPointRequest();
+            var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"deliverypoints")
+                .WithQueryString(model)
+                .Build();
+
+            var deliveryPointList = await _cdekClient.ExecuteAsync<List<DeliveryPoint>>(restRequest).ConfigureAwait(false);
+
+            return deliveryPointList.Select(x => x.ToDeliveryPoint()).ToList();
+        }
+
+        /// <inheritdoc/>
         public List<Delivery.Tariff> GetTariffs(Delivery.TariffRequest tariffRequest)
             => GetTariffsAsync(tariffRequest).GetAwaiter().GetResult();
 

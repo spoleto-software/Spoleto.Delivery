@@ -25,6 +25,20 @@
         Task<List<City>> GetCitiesAsync(CityRequest cityRequest);
 
         /// <summary>
+        /// Gets delivery points filtered by <paramref name="deliveryPointRequest"/>.
+        /// </summary>
+        /// <param name="cityRequest">The delivery point request.</param>
+        /// <returns>List of <see cref="DeliveryPoint"/>.</returns>
+        List<DeliveryPoint> GetDeliveryPoints(DeliveryPointRequest deliveryPointRequest);
+
+        /// <summary>
+        /// Async gets delivery points filtered by <paramref name="deliveryPointRequest"/>.
+        /// </summary>
+        /// <param name="cityRequest">The delivery point request.</param>
+        /// <returns>List of <see cref="DeliveryPoint"/>.</returns>
+        Task<List<DeliveryPoint>> GetDeliveryPointsAsync(DeliveryPointRequest deliveryPointRequest);
+
+        /// <summary>
         /// Gets available delivery tariffs.
         /// </summary>
         /// <param name="tariffRequest">The tariffs request.</param>

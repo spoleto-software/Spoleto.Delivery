@@ -23,6 +23,26 @@ namespace Spoleto.Delivery.Tests.Providers
             Assert.That(cities, Is.Not.Null);
         }
 
+        [Test]
+        public async Task GetDeliveryPoints()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var deliveryPointRequest = new DeliveryPointRequest
+            {
+                ProviderCityCode = "44",
+                HaveCashless = true,
+                AllowedCod = true,
+                IsHandout = true
+            };
+
+            // Act
+            var deliveryPoints = await provider.GetDeliveryPointsAsync(deliveryPointRequest);
+
+            // Assert
+            Assert.That(deliveryPoints, Is.Not.Null);
+        }
+
 
         private static CreateDeliveryOrderRequest GetOrderRequest()
         {

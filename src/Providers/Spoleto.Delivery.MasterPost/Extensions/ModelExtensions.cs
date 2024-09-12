@@ -39,7 +39,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             };
         }
 
-        public static CargoPlace ToCargoPlaceRequest(this Delivery.Package package)
+        public static CargoPlace ToCargoPlace(this Delivery.Package package)
         {
             return new CargoPlace
             {
@@ -135,7 +135,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 Length = package.Length ?? 0,
                 Width = package.Width ?? 0,
                 Weight = package.Weight,
-                CargoPlaceType = package.CargoPlaceType == null ? CargoPlaceType.Cargo : (CargoPlaceType)Enum.Parse(typeof(CargoPlaceType), package.CargoPlaceType.Value.ToString())
+                CargoPlaceType = package.PackageType == null ? CargoPlaceType.Cargo : (CargoPlaceType)Enum.Parse(typeof(CargoPlaceType), package.PackageType.Value.ToString())
             };
         }
 

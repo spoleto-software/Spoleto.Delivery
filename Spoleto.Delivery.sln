@@ -38,6 +38,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Extensions
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Extensions.MasterPost", "src\Extensions\Spoleto.Delivery.Extensions.MasterPost\Spoleto.Delivery.Extensions.MasterPost.csproj", "{699D0A28-AD37-4633-9025-1AD586464D27}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.RestClient", "..\Spoleto.RestClient\src\Spoleto.RestClient\Spoleto.RestClient.csproj", "{77CCFAEF-8902-421C-ABE0-2C99AF8966D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Callback", "Spoleto.Delivery.Callback\Spoleto.Delivery.Callback.csproj", "{F35CE0B6-DC0B-4A15-9006-C57F05C83208}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +76,14 @@ Global
 		{699D0A28-AD37-4633-9025-1AD586464D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{699D0A28-AD37-4633-9025-1AD586464D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{699D0A28-AD37-4633-9025-1AD586464D27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77CCFAEF-8902-421C-ABE0-2C99AF8966D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77CCFAEF-8902-421C-ABE0-2C99AF8966D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77CCFAEF-8902-421C-ABE0-2C99AF8966D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77CCFAEF-8902-421C-ABE0-2C99AF8966D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F35CE0B6-DC0B-4A15-9006-C57F05C83208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F35CE0B6-DC0B-4A15-9006-C57F05C83208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F35CE0B6-DC0B-4A15-9006-C57F05C83208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F35CE0B6-DC0B-4A15-9006-C57F05C83208}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

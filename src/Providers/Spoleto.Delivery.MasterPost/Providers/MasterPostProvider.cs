@@ -74,6 +74,16 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
+        public List<Delivery.DeliveryPoint> GetDeliveryPoints(Delivery.DeliveryPointRequest deliveryPointRequest)
+            => GetDeliveryPointsAsync(deliveryPointRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public  Task<List<Delivery.DeliveryPoint>> GetDeliveryPointsAsync(Delivery.DeliveryPointRequest deliveryPointRequest)
+        {
+            return Task.FromResult(new List<Delivery.DeliveryPoint>());
+        }
+
+        /// <inheritdoc/>
         public List<Delivery.Tariff> GetTariffs(Delivery.TariffRequest tariffRequest)
             => GetTariffsAsync(tariffRequest).GetAwaiter().GetResult();
 

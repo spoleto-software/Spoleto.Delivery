@@ -35,8 +35,7 @@ namespace Spoleto.Delivery.Tests.Providers
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            _serviceProvider.Dispose();
-
+            _serviceProvider?.Dispose();
         }
     }
 }

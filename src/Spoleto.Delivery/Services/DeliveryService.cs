@@ -138,6 +138,72 @@ namespace Spoleto.Delivery
         }
         #endregion
 
+        #region Delivery points
+        /// <inheritdoc/>
+        public List<DeliveryPoint> GetDeliveryPoints(DeliveryPointRequest deliveryPointRequest)
+            => GetDeliveryPoints(_defaultProvider, deliveryPointRequest);
+
+        /// <inheritdoc/>
+        public List<DeliveryPoint> GetDeliveryPoints(string providerName, DeliveryPointRequest deliveryPointRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return GetDeliveryPoints(provider, deliveryPointRequest);
+        }
+
+        /// <inheritdoc/>
+        public List<DeliveryPoint> GetDeliveryPoints(DeliveryProviderName providerName, DeliveryPointRequest deliveryPointRequest)
+            => GetDeliveryPoints(providerName.ToString(), deliveryPointRequest);
+
+        /// <inheritdoc/>
+        public List<DeliveryPoint> GetDeliveryPoints(IDeliveryProvider provider, DeliveryPointRequest deliveryPointRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (deliveryPointRequest is null)
+                throw new ArgumentNullException(nameof(deliveryPointRequest));
+
+            return provider.GetDeliveryPoints(deliveryPointRequest);
+        }
+
+        /// <inheritdoc/>
+        public Task<List<DeliveryPoint>> GetDeliveryPointsAsync(DeliveryPointRequest deliveryPointRequest)
+            => GetDeliveryPointsAsync(_defaultProvider, deliveryPointRequest);
+
+        /// <inheritdoc/>
+        public Task<List<DeliveryPoint>> GetDeliveryPointsAsync(string providerName, DeliveryPointRequest deliveryPointRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return GetDeliveryPointsAsync(provider, deliveryPointRequest);
+        }
+
+        /// <inheritdoc/>
+        public Task<List<DeliveryPoint>> GetDeliveryPointsAsync(DeliveryProviderName providerName, DeliveryPointRequest deliveryPointRequest)
+            => GetDeliveryPointsAsync(providerName.ToString(), deliveryPointRequest);
+
+        /// <inheritdoc/>
+        public Task<List<DeliveryPoint>> GetDeliveryPointsAsync(IDeliveryProvider provider, DeliveryPointRequest deliveryPointRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (deliveryPointRequest is null)
+                throw new ArgumentNullException(nameof(deliveryPointRequest));
+
+            return provider.GetDeliveryPointsAsync(deliveryPointRequest);
+        }
+        #endregion
+
         #region Tariffs
         /// <inheritdoc/>
         public List<Tariff> GetTariffs(TariffRequest tariffRequest)
