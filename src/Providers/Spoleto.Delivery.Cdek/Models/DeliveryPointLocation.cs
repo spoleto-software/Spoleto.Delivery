@@ -41,7 +41,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Код города ФИАС (UUID).
         /// </summary>
         [JsonPropertyName("fias_guid")]
-        public Guid? FiasGuid { get; set; }
+        public Guid? FiasId { get; set; }
 
         /// <summary>
         /// Почтовый индекс (до 6 символов).

@@ -45,7 +45,7 @@
         /// <summary>
         /// Код региона по базе провайдера (транспортной компании).
         /// </summary>
-        public int? RegionCode { get; set; }
+        public string ProviderRegionCode { get; set; }
 
         /// <summary>
         /// Наличие терминала оплаты. Может принимать значения: "1", "true" - есть; "0", "false" - нет.
@@ -99,9 +99,14 @@
         public bool? IsReception { get; set; }
 
         /// <summary>
+        /// Адрес офиса, склада, пункта выдачи.
+        /// </summary>
+        public string? Address { get; set; }
+
+        /// <summary>
         /// Код города ФИАС.
         /// </summary>
-        public Guid? FiasGuid { get; set; }
+        public Guid? FiasId { get; set; }
 
         /// <summary>
         /// Код ПВЗ.

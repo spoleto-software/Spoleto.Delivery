@@ -1,4 +1,5 @@
-﻿using Spoleto.RestClient;
+﻿using Spoleto.AddressResolver;
+using Spoleto.RestClient;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -16,13 +17,14 @@ namespace Spoleto.Delivery.Providers.Cdek
         public const string ProviderName = nameof(DeliveryProviderName.Cdek);
 
         private readonly CdekOptions _options;
+        private readonly IAddressResolver? _addressResolver;
         private readonly CdekClient _cdekClient;
 
         public CdekProvider() : this(CdekOptions.Demo)
         {
         }
 
-        public CdekProvider(CdekOptions options)
+        public CdekProvider(CdekOptions options, IAddressResolver? addressResolver = null)
         {
             if (options is null)
                 throw new ArgumentNullException(nameof(options));
@@ -34,6 +36,7 @@ namespace Spoleto.Delivery.Providers.Cdek
             options.Validate();
 
             _options = options;
+            _addressResolver = addressResolver;
 
             _cdekClient = new CdekClient(_options);
         }
@@ -89,6 +92,21 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <inheritdoc/>
         public async Task<List<Delivery.DeliveryPoint>> GetDeliveryPointsAsync(Delivery.DeliveryPointRequest deliveryPointRequest)
         {
+            if (deliveryPointRequest.ProviderCityCode == null && deliveryPointRequest.FiasId == null && _addressResolver == null)
+                throw new ArgumentNullException(nameof(deliveryPointRequest.FiasId), $"{nameof(deliveryPointRequest.FiasId)} or {nameof(deliveryPointRequest.ProviderCityCode)} must be specified or the address resolver must be initialized.");
+
+            if (deliveryPointRequest.Address == null)
+                throw new ArgumentNullException(nameof(deliveryPointRequest.Address));
+
+            if (deliveryPointRequest.ProviderCityCode == null && deliveryPointRequest.FiasId == null && _addressResolver != null)
+            {
+                var location = await _addressResolver.ResolveLocationAsync(deliveryPointRequest.Address).ConfigureAwait(false);
+                if (location == null)
+                    throw new ArgumentException($"Could not find the full address for <{deliveryPointRequest.Address}>.");
+
+                deliveryPointRequest.FiasId = location.CityFiasId;
+            }
+
             var model = deliveryPointRequest.ToDeliveryPointRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"deliverypoints")
                 .WithQueryString(model)

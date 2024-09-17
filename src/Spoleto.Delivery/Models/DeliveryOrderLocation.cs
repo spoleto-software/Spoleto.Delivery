@@ -29,12 +29,12 @@
         public string? Region { get; set; }
 
         /// <summary>
-        /// Код региона СДЭК, уточняющий параметр для поля <see cref="City"/>.
+        /// Код региона, уточняющий параметр для поля <see cref="City"/>.
         /// </summary>
         /// <remarks>
         ///  Не может быть передано без <see cref="City"/>.
         ///  </remarks>
-        public int? RegionCode { get; set; }
+        public string ProviderRegionCode { get; set; }
 
         /// <summary>
         /// Название района региона, уточняющий параметр для поля <see cref="Region"/>.

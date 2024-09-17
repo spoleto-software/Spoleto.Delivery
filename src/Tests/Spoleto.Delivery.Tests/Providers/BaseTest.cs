@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Spoleto.AddressResolver;
+using Spoleto.AddressResolver.Dadata;
 using Spoleto.Delivery.Providers.Cdek;
 using Spoleto.Delivery.Providers.MasterPost;
 
@@ -20,6 +16,10 @@ namespace Spoleto.Delivery.Tests.Providers
         public void OneTimeSetUp()
         {
             var services = new ServiceCollection();
+
+            var dadataOptions = ConfigurationHelper.GetDadataptions();
+            services.AddSingleton(dadataOptions);
+            services.AddSingleton<IAddressResolver, DadataAddressResolver>();
 
             var cdekOptions = ConfigurationHelper.GetCdekOptions();
             services.AddSingleton(cdekOptions);

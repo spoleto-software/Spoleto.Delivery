@@ -48,7 +48,7 @@
 
 
             // add the provider to the Delivery service factory
-            builder.AddProvider(new CdekProvider(options));
+            builder.AddProvider(new CdekProvider(options, builder.AddressResolver));
 
             return builder;
         }

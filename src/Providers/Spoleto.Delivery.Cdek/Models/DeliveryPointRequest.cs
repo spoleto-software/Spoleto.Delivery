@@ -114,7 +114,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Код города ФИАС.
         /// </summary>
         [JsonPropertyName("fias_guid")]
-        public Guid? FiasGuid { get; set; }
+        public Guid? FiasId { get; set; }
 
         /// <summary>
         /// Код ПВЗ.

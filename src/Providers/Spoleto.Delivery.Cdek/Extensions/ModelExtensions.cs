@@ -159,14 +159,13 @@ namespace Spoleto.Delivery.Providers.Cdek
                 AddressFull = location.AddressFull,
                 City = location.City,
                 Region = location.Region,
-                CityCode = location.CityCode,
-                CityUuid = location.CityUuid,
+                ProviderCityCode = location.CityCode.ToString(),
                 CountryCode = location.CountryCode,
-                FiasGuid = location.FiasGuid,
+                FiasId = location.FiasId,
                 Latitude = location.Latitude,
                 Longitude = location.Longitude,
                 PostalCode = location.PostalCode,
-                RegionCode = location.RegionCode
+                ProviderRegionCode = location.RegionCode.ToString()
             };
         }
 
@@ -207,7 +206,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 CityCode = request.ProviderCityNumCode,
                 Code = request.Code,
                 CountryCode = request.CountryCode,
-                FiasGuid = request.FiasGuid,
+                FiasId = request.FiasId,
                 Fulfillment = request.Fulfillment,
                 HaveCash = request.HaveCash,
                 HaveCashless = request.HaveCashless,
@@ -216,7 +215,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 IsLtl = request.IsLtl,
                 IsReception = request.IsReception,
                 PostalCode = request.PostalCode,
-                RegionCode = request.RegionCode,
+                RegionCode = Int32.TryParse(request.ProviderRegionCode, out var r) ? r : null,
                 TakeOnly = request.TakeOnly,
                 Type = request.Type == null ? null : (DeliveryPointType)Enum.Parse(typeof(DeliveryPointType), request.Type.Value.ToString()),
                 WeightMax = request.WeightMax,
@@ -234,7 +233,7 @@ namespace Spoleto.Delivery.Providers.Cdek
             {
                 Address = location.Address,
                 City = location.City,
-                Code = Int32.TryParse(location.ProviderLocationCode, out var v) ? v : null,
+                Code = Int32.TryParse(location.ProviderLocationCode, out var c) ? c : null,
                 CountryCode = location.CountryCode,
                 PostalCode = location.PostalCode,
                 FiasId = location.CityFiasId,
@@ -242,7 +241,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 Latitude = location.Latitude,
                 Longitude = location.Longitude,
                 Region = location.Region,
-                RegionCode = location.RegionCode,
+                RegionCode = Int32.TryParse(location.ProviderRegionCode, out var r) ? r : null,
                 SubRegion = location.SubRegion
             };
         }

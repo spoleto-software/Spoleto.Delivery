@@ -11,9 +11,9 @@
         public string CountryCode { get; set; }
 
         /// <summary>
-        /// Код региона СДЭК.
+        /// Код региона в ИС транспортной компании.
         /// </summary>
-        public int RegionCode { get; set; }
+        public string ProviderRegionCode { get; set; }
 
         /// <summary>
         /// Название региона.
@@ -21,9 +21,9 @@
         public string Region { get; set; }
 
         /// <summary>
-        /// Код населенного пункта СДЭК.
+        /// Код населенного пункта в ИС транспортной компании.
         /// </summary>
-        public int CityCode { get; set; }
+        public string ProviderCityCode { get; set; }
 
         /// <summary>
         /// Название города.
@@ -33,7 +33,7 @@
         /// <summary>
         /// Код города ФИАС (UUID).
         /// </summary>
-        public Guid? FiasGuid { get; set; }
+        public Guid? FiasId { get; set; }
 
         /// <summary>
         /// Почтовый индекс (до 6 символов).
@@ -59,10 +59,5 @@
         /// Полный адрес с указанием страны, региона, города и т.д..
         /// </summary>
         public string AddressFull { get; set; }
-
-        /// <summary>
-        /// Идентификатор города (UUID).
-        /// </summary>
-        public Guid? CityUuid { get; set; }
     }
 }

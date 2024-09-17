@@ -30,7 +30,7 @@ namespace Spoleto.Delivery.Tests.Providers
             var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
             var deliveryPointRequest = new DeliveryPointRequest
             {
-                ProviderCityCode = "44",
+                Address = "Москва, Спортивная",
                 HaveCashless = true,
                 AllowedCod = true,
                 IsHandout = true

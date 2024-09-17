@@ -1,4 +1,5 @@
-﻿using Spoleto.Delivery.Providers;
+﻿using Spoleto.AddressResolver;
+using Spoleto.Delivery.Providers;
 
 namespace Spoleto.Delivery
 {
@@ -9,6 +10,11 @@ namespace Spoleto.Delivery
     {
         private readonly DeliveryServiceOptions _options = new();
         private readonly List<IDeliveryProvider> _providers = new();
+
+        /// <summary>
+        /// Gets the address resolver to be used in delivery providers.
+        /// </summary>
+        public IAddressResolver AddressResolver { get; private set; }
 
         /// <summary>
         /// Sets the options of the Delivery service.
@@ -24,6 +30,22 @@ namespace Spoleto.Delivery
             // set the Delivery options and validate it.
             options(_options);
             _options.Validate();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the <see cref="IAddressResolver"/> to be used by the delivery providers.
+        /// </summary>
+        /// <param name="addressResolver">The <see cref="IAddressResolver"/> instance.</param>
+        /// <returns>The <see cref="DeliveryServiceFactory"/> instance is provided to support method chaining capabilities.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="addressResolver"/> is null.</exception>
+        public DeliveryServiceFactory WithAddressResolver(IAddressResolver addressResolver)
+        {
+            if (addressResolver is null)
+                throw new ArgumentNullException(nameof(addressResolver));
+
+            AddressResolver = addressResolver;
 
             return this;
         }

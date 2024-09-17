@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Spoleto.AddressResolver.Dadata;
 using Spoleto.Delivery.Providers.Cdek;
 using Spoleto.Delivery.Providers.MasterPost;
 
@@ -28,6 +29,13 @@ namespace Spoleto.Delivery.Tests
         public static MasterPostOptions GetMasterPostOptions()
         {
             var options = _config.GetSection(nameof(MasterPostOptions)).Get<MasterPostOptions>()!;
+
+            return options;
+        }
+
+        public static DadataOptions GetDadataptions()
+        {
+            var options = _config.GetSection(nameof(DadataOptions)).Get<DadataOptions>()!;
 
             return options;
         }

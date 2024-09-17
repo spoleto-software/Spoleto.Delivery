@@ -1,4 +1,5 @@
-﻿using Spoleto.RestClient;
+﻿using Spoleto.AddressResolver;
+using Spoleto.RestClient;
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
@@ -16,9 +17,10 @@ namespace Spoleto.Delivery.Providers.MasterPost
         public const string ProviderName = nameof(DeliveryProviderName.MasterPost);
 
         private readonly MasterPostOptions _options;
+        private readonly IAddressResolver? _addressResolver;
         private readonly MasterPostClient _masterPostClient;
 
-        public MasterPostProvider(MasterPostOptions options)
+        public MasterPostProvider(MasterPostOptions options, IAddressResolver? addressResolver = null)
         {
             if (options is null)
                 throw new ArgumentNullException(nameof(options));
@@ -30,6 +32,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             options.Validate();
 
             _options = options;
+            _addressResolver = addressResolver;
 
             _masterPostClient = new MasterPostClient(options);
         }
@@ -94,6 +97,18 @@ namespace Spoleto.Delivery.Providers.MasterPost
             // 1. Получение всех тарифов (без фильтрации по входным данным)
             // 2. N запросов для каждого тарифа из пункта 1, но уже с указанием входных данных (тарифный калькулятор).
             var serviceList = await GetServicesAsync().ConfigureAwait(false);
+
+            if (tariffRequest.FromLocation.CityFiasId == null && _addressResolver != null)
+            {
+                var addressFrom = await _addressResolver.ResolveLocationAsync(tariffRequest.FromLocation.Address).ConfigureAwait(false);
+                tariffRequest.FromLocation.CityFiasId = addressFrom.CityFiasId;
+            }
+
+            if (tariffRequest.ToLocation.CityFiasId == null && _addressResolver != null)
+            {
+                var addressTo = await _addressResolver.ResolveLocationAsync(tariffRequest.FromLocation.Address).ConfigureAwait(false);
+                tariffRequest.ToLocation.CityFiasId = addressTo.CityFiasId;
+            }
 
             var tariffList = new List<Tariff>();
             foreach (var service in serviceList) //todo: parallel.foreach?

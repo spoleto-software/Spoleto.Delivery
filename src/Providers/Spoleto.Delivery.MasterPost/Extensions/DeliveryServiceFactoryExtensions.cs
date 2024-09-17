@@ -43,7 +43,7 @@
             options.Validate();
 
             // add the provider to the Delivery service factory
-            builder.AddProvider(new MasterPostProvider(options));
+            builder.AddProvider(new MasterPostProvider(options, builder.AddressResolver));
 
             return builder;
         }
