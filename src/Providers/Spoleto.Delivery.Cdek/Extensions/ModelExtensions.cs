@@ -112,14 +112,14 @@ namespace Spoleto.Delivery.Providers.Cdek
                 IsHandout = deliveryPoint.IsHandout,
                 IsLtl = deliveryPoint.IsLtl,
                 IsReception = deliveryPoint.IsReception,
-                Location = deliveryPoint.Location.ToDeliveryPointLocation(),
+                Location = deliveryPoint.Location?.ToDeliveryPointLocation(),
                 Name = deliveryPoint.Name,
                 NearestMetroStation = deliveryPoint.NearestMetroStation,
                 NearestStation = deliveryPoint.NearestStation,
                 Note = deliveryPoint.Note,
                 OfficeImageList = deliveryPoint.OfficeImageList?.Select(x => x.ToDeliveryImageInfo()).ToList(),
                 OwnerCode = deliveryPoint.OwnerCode,
-                Phones = deliveryPoint.Phones.Select(x => x.ToDeliveryPhone()).ToList(),
+                Phones = deliveryPoint.Phones?.Select(x => x.ToDeliveryPhone()).ToList() ?? [],
                 Site = deliveryPoint.Site,
                 TakeOnly = deliveryPoint.TakeOnly,
                 Type = (Delivery.DeliveryPointType)Enum.Parse(typeof(Delivery.DeliveryPointType), deliveryPoint.Type.ToString()),
@@ -128,7 +128,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 WeightMin = deliveryPoint.WeightMin,
                 WorkTime = deliveryPoint.WorkTime,
                 WorkTimeExceptionList = deliveryPoint.WorkTimeExceptionList?.Select(x => x.ToDeliveryWorkTimeException()).ToList(),
-                WorkTimeList = deliveryPoint.WorkTimeList.Select(x=>x.ToDeliveryWorkTime()).ToList()
+                WorkTimeList = deliveryPoint.WorkTimeList?.Select(x => x.ToDeliveryWorkTime()).ToList() ?? []
             };
         }
 
