@@ -95,11 +95,11 @@ namespace Spoleto.Delivery.Providers.Cdek
             if (deliveryPointRequest.ProviderCityCode == null && deliveryPointRequest.FiasId == null && _addressResolver == null)
                 throw new ArgumentNullException(nameof(deliveryPointRequest.FiasId), $"{nameof(deliveryPointRequest.FiasId)} or {nameof(deliveryPointRequest.ProviderCityCode)} must be specified or the address resolver must be initialized.");
 
-            if (deliveryPointRequest.Address == null)
-                throw new ArgumentNullException(nameof(deliveryPointRequest.Address));
-
             if (deliveryPointRequest.ProviderCityCode == null && deliveryPointRequest.FiasId == null && _addressResolver != null)
             {
+                if (deliveryPointRequest.Address == null)
+                    throw new ArgumentNullException(nameof(deliveryPointRequest.Address));
+
                 var location = await _addressResolver.ResolveLocationAsync(deliveryPointRequest.Address).ConfigureAwait(false);
                 if (location == null)
                     throw new ArgumentException($"Could not find the full address for <{deliveryPointRequest.Address}>.");
