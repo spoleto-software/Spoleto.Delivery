@@ -58,7 +58,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 Code = tariff.Name,
                 DeliverySum = tariff.Cost,
                 Name = tariff.Name,
-                DeliveryMode = DeliveryMode.DoorToDoor,
+                DeliveryMode = DeliveryMode.DoorDoor,
                 Services = tariff.Rates.Select(x => x.ToDeliveryTariffService()).ToList()
             };
         }
