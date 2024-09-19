@@ -9,7 +9,7 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <remarks>
     /// <see href="https://api-docs.cdek.ru/29923741.html"/>
     /// </remarks>
-    public partial class CdekProvider : ICdekProvider, IDisposable
+    public partial class CdekProvider : DeliveryProviderBase, ICdekProvider, IDisposable
     {
         /// <summary>
         /// The name of the delivery provider.
@@ -47,7 +47,10 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public string Name => ProviderName;
+        public override string Name => ProviderName;
+
+        /// <inheritdoc/>
+        public override List<Delivery.OrderType> SupportedOrderTypes => new() { Delivery.OrderType.RegularDelivery, Delivery.OrderType.OnlineStore };
 
         #region IDisposable
         bool _disposed;
@@ -69,11 +72,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         #endregion
 
         /// <inheritdoc/>
-        public List<Delivery.City> GetCities(Delivery.CityRequest cityRequest)
-            => GetCitiesAsync(cityRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<List<Delivery.City>> GetCitiesAsync(Delivery.CityRequest cityRequest)
+        public override async Task<List<Delivery.City>> GetCitiesAsync(Delivery.CityRequest cityRequest)
         {
             var model = cityRequest.ToCityRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"location/cities")
@@ -86,11 +85,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public List<Delivery.DeliveryPoint> GetDeliveryPoints(Delivery.DeliveryPointRequest deliveryPointRequest)
-            => GetDeliveryPointsAsync(deliveryPointRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<List<Delivery.DeliveryPoint>> GetDeliveryPointsAsync(Delivery.DeliveryPointRequest deliveryPointRequest)
+        public override async Task<List<Delivery.DeliveryPoint>> GetDeliveryPointsAsync(Delivery.DeliveryPointRequest deliveryPointRequest)
         {
             if (deliveryPointRequest.ProviderCityCode == null && deliveryPointRequest.FiasId == null && _addressResolver == null)
                 throw new ArgumentNullException(nameof(deliveryPointRequest.FiasId), $"{nameof(deliveryPointRequest.FiasId)} or {nameof(deliveryPointRequest.ProviderCityCode)} must be specified or the address resolver must be initialized.");
@@ -118,11 +113,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public List<Delivery.Tariff> GetTariffs(Delivery.TariffRequest tariffRequest)
-            => GetTariffsAsync(tariffRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<List<Delivery.Tariff>> GetTariffsAsync(Delivery.TariffRequest tariffRequest)
+        public override async Task<List<Delivery.Tariff>> GetTariffsAsync(Delivery.TariffRequest tariffRequest)
         {
             var model = tariffRequest.ToTariffRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Post, "calculator/tarifflist")
@@ -139,13 +130,8 @@ namespace Spoleto.Delivery.Providers.Cdek
             return tariffList.Tariffs.Select(x => x.ToDeliveryTariff()).ToList();
         }
 
-
         /// <inheritdoc/>
-        public List<Delivery.AdditionalService> GetAdditionalServices(Delivery.Tariff tariff)
-            => GetAdditionalServicesAsync(tariff).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public Task<List<Delivery.AdditionalService>> GetAdditionalServicesAsync(Delivery.Tariff tariff)
+        public override Task<List<Delivery.AdditionalService>> GetAdditionalServicesAsync(Delivery.Tariff tariff)
         {
             var allAdditionalServices = GetAdditionalServices();
             var additionalServices = allAdditionalServices.Select(x => new Delivery.AdditionalService { Code = x.Code, Name = x.Name, Description = x.Description }).ToList();
@@ -154,11 +140,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
-            => CreateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
+        public override async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
         {
             var model = deliveryOrderRequest.ToOrderRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Post, "orders")
@@ -174,11 +156,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public Delivery.DeliveryOrder GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest)
-            => GetDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<Delivery.DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
+        public override async Task<Delivery.DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
         {
             var uri = deliveryOrderRequest.Uuid != null ? $"orders/{deliveryOrderRequest.Uuid}"
                 : !string.IsNullOrEmpty(deliveryOrderRequest.Number) ? $"orders?cdek_number={deliveryOrderRequest.Number}"
@@ -197,11 +175,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public Delivery.DeliveryOrder DeleteDeliveryOrder(string orderId)
-            => DeleteDeliveryOrderAsync(orderId).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<Delivery.DeliveryOrder> DeleteDeliveryOrderAsync(string orderId)
+        public override async Task<Delivery.DeliveryOrder> DeleteDeliveryOrderAsync(string orderId)
         {
             var restRequest = new RestRequestFactory(RestHttpMethod.Delete, $"orders/{orderId}")
                 .Build();
@@ -212,11 +186,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public Delivery.DeliveryOrder UpdateDeliveryOrder(Delivery.UpdateDeliveryOrderRequest deliveryOrderRequest)
-            => UpdateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<Delivery.DeliveryOrder> UpdateDeliveryOrderAsync(Delivery.UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public override async Task<Delivery.DeliveryOrder> UpdateDeliveryOrderAsync(Delivery.UpdateDeliveryOrderRequest deliveryOrderRequest)
         {
             var model = deliveryOrderRequest.ToOrderRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Patch, "orders")

@@ -9,7 +9,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
     /// <remarks>
     /// <see href="https://mplogistics.ru"/>
     /// </remarks>
-    public partial class MasterPostProvider : IDeliveryProvider, IDisposable
+    public partial class MasterPostProvider : DeliveryProviderBase, IDeliveryProvider, IDisposable
     {
         /// <summary>
         /// The name of the delivery provider.
@@ -38,7 +38,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public string Name => ProviderName;
+        public override string Name => ProviderName;
 
         #region IDisposable
         bool _disposed;
@@ -60,11 +60,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         #endregion
 
         /// <inheritdoc/>
-        public List<Delivery.City> GetCities(Delivery.CityRequest cityRequest)
-            => GetCitiesAsync(cityRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<List<Delivery.City>> GetCitiesAsync(Delivery.CityRequest cityRequest)
+        public override async Task<List<Delivery.City>> GetCitiesAsync(Delivery.CityRequest cityRequest)
         {
             var model = cityRequest.ToCityRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"cities")
@@ -77,21 +73,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public List<Delivery.DeliveryPoint> GetDeliveryPoints(Delivery.DeliveryPointRequest deliveryPointRequest)
-            => GetDeliveryPointsAsync(deliveryPointRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public  Task<List<Delivery.DeliveryPoint>> GetDeliveryPointsAsync(Delivery.DeliveryPointRequest deliveryPointRequest)
+        public override Task<List<Delivery.DeliveryPoint>> GetDeliveryPointsAsync(Delivery.DeliveryPointRequest deliveryPointRequest)
         {
             return Task.FromResult(new List<Delivery.DeliveryPoint>());
         }
 
         /// <inheritdoc/>
-        public List<Delivery.Tariff> GetTariffs(Delivery.TariffRequest tariffRequest)
-            => GetTariffsAsync(tariffRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<List<Delivery.Tariff>> GetTariffsAsync(Delivery.TariffRequest tariffRequest)
+        public override async Task<List<Delivery.Tariff>> GetTariffsAsync(Delivery.TariffRequest tariffRequest)
         {
             // Получим все тарифы с их ценами в N + 1 запросов:
             // 1. Получение всех тарифов (без фильтрации по входным данным)
@@ -130,11 +118,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public List<Delivery.AdditionalService> GetAdditionalServices(Delivery.Tariff tariff)
-            => GetAdditionalServicesAsync(tariff).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<List<Delivery.AdditionalService>> GetAdditionalServicesAsync(Delivery.Tariff tariff)
+        public override async Task<List<Delivery.AdditionalService>> GetAdditionalServicesAsync(Delivery.Tariff tariff)
         {
             var allAdditionalServiceList = await GetAdditionalServicesAsync().ConfigureAwait(false);
             var additionalServiceList = allAdditionalServiceList
@@ -146,11 +130,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
-            => CreateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
+        public override async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
         {
             var model = deliveryOrderRequest.ToOrderRequest();
             model.IndividualClientNumber = _options.IndividualClientNumber;
@@ -169,11 +149,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public Delivery.DeliveryOrder GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest)
-            => GetDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<Delivery.DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
+        public override async Task<Delivery.DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
         {
             var number = deliveryOrderRequest.Uuid?.ToString() ?? deliveryOrderRequest.Number ?? deliveryOrderRequest.CisNumber ?? throw new ArgumentNullException(nameof(deliveryOrderRequest.CisNumber));
            
@@ -189,11 +165,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public Delivery.DeliveryOrder DeleteDeliveryOrder(string orderId)
-            => DeleteDeliveryOrderAsync(orderId).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public async Task<Delivery.DeliveryOrder> DeleteDeliveryOrderAsync(string orderId)
+        public override async Task<Delivery.DeliveryOrder> DeleteDeliveryOrderAsync(string orderId)
         {
             var restRequest = new RestRequestFactory(RestHttpMethod.Put, $"dns/{_options.IndividualClientNumber}/{orderId}")
                 .Build();
@@ -208,11 +180,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public Delivery.DeliveryOrder UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest)
-            => UpdateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
-
-        /// <inheritdoc/>
-        public Task<Delivery.DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public override Task<Delivery.DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest)
         {
             throw new NotImplementedException();
         }

@@ -11,6 +11,11 @@
         string Name { get; }
 
         /// <summary>
+        /// Gets the supported order types.
+        /// </summary>
+        public List<OrderType> SupportedOrderTypes { get; }
+
+        /// <summary>
         /// Gets cities filtered by <paramref name="cityRequest"/>.
         /// </summary>
         /// <param name="cityRequest">The cities request.</param>
