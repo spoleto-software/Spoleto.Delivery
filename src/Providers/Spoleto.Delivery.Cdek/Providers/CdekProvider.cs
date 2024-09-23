@@ -134,7 +134,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         public override Task<List<Delivery.AdditionalService>> GetAdditionalServicesAsync(Delivery.Tariff tariff)
         {
             var allAdditionalServices = GetAdditionalServices();
-            var additionalServices = allAdditionalServices.Select(x => new Delivery.AdditionalService { Code = x.Code, Name = x.Name, Description = x.Description }).ToList();
+            var additionalServices = allAdditionalServices.Select(x => new Delivery.AdditionalService { Code = x.Code, Name = x.Name, Description = x.Description, ParameterType = x.ParameterType }).ToList();
 
             return Task.FromResult(additionalServices);
         }
