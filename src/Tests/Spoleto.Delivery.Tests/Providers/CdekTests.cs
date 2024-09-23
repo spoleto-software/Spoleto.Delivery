@@ -189,6 +189,7 @@ namespace Spoleto.Delivery.Tests.Providers
                         Length = 10
                     }
                 ],
+                Type = OrderType.RegularDelivery
             };
 
             tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.TariffRequest.Lang), Spoleto.Delivery.Providers.Cdek.Language.Russian);
