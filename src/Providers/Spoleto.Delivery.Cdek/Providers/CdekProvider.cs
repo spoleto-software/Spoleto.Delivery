@@ -142,7 +142,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <inheritdoc/>
         public override async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
         {
-            var model = deliveryOrderRequest.ToOrderRequest();
+            var model = deliveryOrderRequest.ToCreateOrderRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Post, "orders")
                 .WithJsonContent(model)
                 .Build();

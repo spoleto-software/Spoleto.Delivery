@@ -335,7 +335,7 @@ namespace Spoleto.Delivery.Providers.Cdek
             };
         }
 
-        public static CreateDeliveryOrderRequest ToOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
+        public static CreateDeliveryOrderRequest ToCreateOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
         {
             if (request.NumTariffCode == null)
                 throw new NullReferenceException(nameof(request.TariffCode));
@@ -343,8 +343,8 @@ namespace Spoleto.Delivery.Providers.Cdek
             var orderRequest = new CreateDeliveryOrderRequest
             {
                 Type = request.Type == null ? null : (OrderType)Enum.Parse(typeof(OrderType), request.Type.Value.ToString()),
-                FromLocation = request.FromLocation.ToOrderLocationRequest(),
-                ToLocation = request.ToLocation.ToOrderLocationRequest(),
+                FromLocation = request.FromLocation?.ToOrderLocationRequest(),
+                ToLocation = request.ToLocation?.ToOrderLocationRequest(),
                 CisNumber = request.CisNumber,
                 Packages = request.Packages.Select(x => x.ToOrderPackageRequest()).ToList(),
                 Recipient = request.Recipient.ToContactRequest(),

@@ -151,14 +151,14 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Не может использоваться одновременно с <see cref="ShipmentPoint"/>.
         /// </summary>
         [JsonPropertyName("from_location")]
-        public DeliveryOrderLocation FromLocation { get; set; }
+        public DeliveryOrderLocation? FromLocation { get; set; }
 
         /// <summary>
         /// Адрес получения.
         /// Не может использоваться одновременно с <see cref="DeliveryPoint"/>.
         /// </summary>
         [JsonPropertyName("to_location")]
-        public DeliveryOrderLocation ToLocation { get; set; }
+        public DeliveryOrderLocation? ToLocation { get; set; }
 
         /// <summary>
         /// Дополнительные услуги.
