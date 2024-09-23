@@ -10,15 +10,16 @@
             {
                 var code = enumValue.GetJsonEnumValue();
                 var name = enumValue.ToString();
-                var description = enumValue.GetDescription();
-                var parameterType = GetAdditionalServiceParameterType(enumValue);
+                var description = enumValue.GetDescription()!;
+                var (parameterDescription, parameterType) = GetAdditionalServiceParameterType(enumValue);
 
                 if (code != null && name != null)
                 {
-                    var additionalService = new Delivery.AdditionalService { Code = code, Name = name, Description = description };
+                    var additionalService = new Delivery.AdditionalService { Code = name, Name = description };
                     if (parameterType != null)
                     {
                         additionalService.ParameterType = parameterType;
+                        additionalService.Description = parameterDescription;
                     }
 
                     list.Add(additionalService);
@@ -28,26 +29,26 @@
             return list;
         }
 
-        private ParameterType? GetAdditionalServiceParameterType(AdditionalServiceType enumValue)
+        private (string ParameterDescription, ParameterType? ParameterType) GetAdditionalServiceParameterType(AdditionalServiceType enumValue)
         {
             if (enumValue == AdditionalServiceType.BubbleWrap
                 || enumValue == AdditionalServiceType.WastePaper)
-                return ParameterType.Number;
+                return ("Параметр услуги: длина", ParameterType.Number);
 
             if (enumValue == AdditionalServiceType.Insurance)
-                return ParameterType.Number;
+                return ("Параметр услуги: объявленная стоимость заказа (только для заказов с типом \"Доставка\")", ParameterType.Number);
 
             if (enumValue.ToString().StartsWith("CartonBox", StringComparison.Ordinal)
                 || enumValue == AdditionalServiceType.CartonFiller)
-                return ParameterType.Int;
+                return ("Параметр услуги: количество", ParameterType.Int);
 
             if (enumValue == AdditionalServiceType.Sms)
-                return ParameterType.String;
+                return ("Параметр услуги: номер телефона", ParameterType.String);
 
             if (enumValue == AdditionalServiceType.PhotoOfDocuments)
-                return ParameterType.String;
+                return ("Параметр услуги: код фотопроекта", ParameterType.String);
 
-            return null;
+            return (null, null);
         }
     }
 }
