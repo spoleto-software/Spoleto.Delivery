@@ -202,7 +202,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 deliveryOrderRequest.ToLocation.CityFiasId = addressTo.CityFiasId;
             }
 
-            var model = deliveryOrderRequest.ToOrderRequest();
+            var model = deliveryOrderRequest.ToCreateOrderRequest();
             model.IndividualClientNumber = _options.IndividualClientNumber;
 
             var restRequest = new RestRequestFactory(RestHttpMethod.Post, "dns")

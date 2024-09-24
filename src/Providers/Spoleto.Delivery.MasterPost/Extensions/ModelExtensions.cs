@@ -154,7 +154,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             };
         }
 
-        public static CreateDeliveryOrderRequest ToOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
+        public static CreateDeliveryOrderRequest ToCreateOrderRequest(this Delivery.CreateDeliveryOrderRequest request)
         {
             if (request.TariffCode == null)
             {
@@ -171,13 +171,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 SenderCity = request.FromLocation.CityFiasId?.ToString() ?? string.Empty,
                 SenderStreet = request.FromLocation.StreetFiasId?.ToString() ?? string.Empty,
                 SenderContact = request.Sender.Name,
-                SenderCompany = request.Sender.Company,
+                SenderCompany = request.Sender.Company ?? string.Empty,
                 SenderPhone = request.Sender.Phones?.FirstOrDefault().Number,
 
                 RecipientAddress = request.ToLocation.Address,
                 RecipientCity = request.ToLocation.CityFiasId?.ToString() ?? string.Empty,
                 RecipientStreet = request.ToLocation.StreetFiasId.ToString() ?? string.Empty,
-                RecipientCompany = request.Recipient.Company,
+                RecipientCompany = request.Recipient.Company ?? string.Empty,
                 RecipientContact = request.Recipient.Name,
                 RecipientEmail = request.Recipient.Email,
                 RecipientPhone = request.Recipient.Phones?.FirstOrDefault().Number,
