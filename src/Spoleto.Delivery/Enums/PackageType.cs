@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Spoleto.Delivery.Providers.MasterPost
+namespace Spoleto.Delivery
 {
     /// <summary>
     /// Вид пакета.

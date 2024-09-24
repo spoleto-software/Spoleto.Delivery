@@ -88,13 +88,19 @@ namespace Spoleto.Delivery.Providers.MasterPost
 
             if (tariffRequest.FromLocation.CityFiasId == null && _addressResolver != null)
             {
+                if (tariffRequest.FromLocation.Address == null)
+                    throw new ArgumentNullException($"{nameof(tariffRequest.FromLocation)}.{nameof(tariffRequest.FromLocation.Address)}");
+
                 var addressFrom = await _addressResolver.ResolveLocationAsync(tariffRequest.FromLocation.Address).ConfigureAwait(false);
                 tariffRequest.FromLocation.CityFiasId = addressFrom.CityFiasId;
             }
 
             if (tariffRequest.ToLocation.CityFiasId == null && _addressResolver != null)
             {
-                var addressTo = await _addressResolver.ResolveLocationAsync(tariffRequest.FromLocation.Address).ConfigureAwait(false);
+                if (tariffRequest.ToLocation.Address == null)
+                    throw new ArgumentNullException($"{nameof(tariffRequest.ToLocation)}.{nameof(tariffRequest.ToLocation.Address)}");
+
+                var addressTo = await _addressResolver.ResolveLocationAsync(tariffRequest.ToLocation.Address).ConfigureAwait(false);
                 tariffRequest.ToLocation.CityFiasId = addressTo.CityFiasId;
             }
 
@@ -132,6 +138,24 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <inheritdoc/>
         public override async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
         {
+            if (deliveryOrderRequest.FromLocation.CityFiasId == null && _addressResolver != null)
+            {
+                if (deliveryOrderRequest.FromLocation.Address == null)
+                    throw new ArgumentNullException($"{nameof(deliveryOrderRequest.FromLocation)}.{nameof(deliveryOrderRequest.FromLocation.Address)}");
+
+                var addressFrom = await _addressResolver.ResolveLocationAsync(deliveryOrderRequest.FromLocation.Address).ConfigureAwait(false);
+                deliveryOrderRequest.FromLocation.CityFiasId = addressFrom.CityFiasId;
+            }
+
+            if (deliveryOrderRequest.ToLocation.CityFiasId == null && _addressResolver != null)
+            {
+                if (deliveryOrderRequest.ToLocation.Address == null)
+                    throw new ArgumentNullException($"{nameof(deliveryOrderRequest.ToLocation)}.{nameof(deliveryOrderRequest.ToLocation.Address)}");
+
+                var addressTo = await _addressResolver.ResolveLocationAsync(deliveryOrderRequest.ToLocation.Address).ConfigureAwait(false);
+                deliveryOrderRequest.ToLocation.CityFiasId = addressTo.CityFiasId;
+            }
+
             var model = deliveryOrderRequest.ToOrderRequest();
             model.IndividualClientNumber = _options.IndividualClientNumber;
 

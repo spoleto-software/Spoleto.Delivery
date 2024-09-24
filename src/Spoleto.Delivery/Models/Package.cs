@@ -1,6 +1,4 @@
-﻿using Spoleto.Delivery.Providers.MasterPost;
-
-namespace Spoleto.Delivery
+﻿namespace Spoleto.Delivery
 {
     /// <summary>
     /// Класс для представления информации о пакете.
