@@ -78,6 +78,29 @@ namespace Spoleto.Delivery.Providers.MasterPost
             return Task.FromResult(new List<Delivery.DeliveryPoint>());
         }
 
+        public override List<Delivery.Tariff> GetTariffs(Delivery.TariffRequest tariffRequest)
+        {
+            if (tariffRequest.FromLocation.CityFiasId == null && _addressResolver != null)
+            {
+                if (tariffRequest.FromLocation.Address == null)
+                    throw new ArgumentNullException($"{nameof(tariffRequest.FromLocation)}.{nameof(tariffRequest.FromLocation.Address)}");
+
+                var addressFrom = _addressResolver.ResolveLocation(tariffRequest.FromLocation.Address);
+                tariffRequest.FromLocation.CityFiasId = addressFrom.CityFiasId;
+            }
+
+            if (tariffRequest.ToLocation.CityFiasId == null && _addressResolver != null)
+            {
+                if (tariffRequest.ToLocation.Address == null)
+                    throw new ArgumentNullException($"{nameof(tariffRequest.ToLocation)}.{nameof(tariffRequest.ToLocation.Address)}");
+
+                var addressTo = _addressResolver.ResolveLocation(tariffRequest.ToLocation.Address);
+                tariffRequest.ToLocation.CityFiasId = addressTo.CityFiasId;
+            }
+
+            return base.GetTariffs(tariffRequest);
+        }
+
         /// <inheritdoc/>
         public override async Task<List<Delivery.Tariff>> GetTariffsAsync(Delivery.TariffRequest tariffRequest)
         {
@@ -133,6 +156,29 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 .Where(x => x.Usage != UsageKind.Never);
 
             return additionalServiceList.Select(x => x.ToDeliveryAdditionalService()).ToList();
+        }
+
+        public override Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
+        {
+            if (deliveryOrderRequest.FromLocation.CityFiasId == null && _addressResolver != null)
+            {
+                if (deliveryOrderRequest.FromLocation.Address == null)
+                    throw new ArgumentNullException($"{nameof(deliveryOrderRequest.FromLocation)}.{nameof(deliveryOrderRequest.FromLocation.Address)}");
+
+                var addressFrom = _addressResolver.ResolveLocation(deliveryOrderRequest.FromLocation.Address);
+                deliveryOrderRequest.FromLocation.CityFiasId = addressFrom.CityFiasId;
+            }
+
+            if (deliveryOrderRequest.ToLocation.CityFiasId == null && _addressResolver != null)
+            {
+                if (deliveryOrderRequest.ToLocation.Address == null)
+                    throw new ArgumentNullException($"{nameof(deliveryOrderRequest.ToLocation)}.{nameof(deliveryOrderRequest.ToLocation.Address)}");
+
+                var addressTo = _addressResolver.ResolveLocation(deliveryOrderRequest.ToLocation.Address);
+                deliveryOrderRequest.ToLocation.CityFiasId = addressTo.CityFiasId;
+            }
+
+            return base.CreateDeliveryOrder(deliveryOrderRequest);
         }
 
         /// <inheritdoc/>

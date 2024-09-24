@@ -84,6 +84,26 @@ namespace Spoleto.Delivery.Providers.Cdek
             return cityList.Select(x => x.ToDeliveryCity()).ToList();
         }
 
+        public override List<Delivery.DeliveryPoint> GetDeliveryPoints(Delivery.DeliveryPointRequest deliveryPointRequest)
+        {
+            if (deliveryPointRequest.ProviderCityCode == null && deliveryPointRequest.FiasId == null && _addressResolver == null)
+                throw new ArgumentNullException(nameof(deliveryPointRequest.FiasId), $"{nameof(deliveryPointRequest.FiasId)} or {nameof(deliveryPointRequest.ProviderCityCode)} must be specified or the address resolver must be initialized.");
+
+            if (deliveryPointRequest.ProviderCityCode == null && deliveryPointRequest.FiasId == null && _addressResolver != null)
+            {
+                if (deliveryPointRequest.Address == null)
+                    throw new ArgumentNullException(nameof(deliveryPointRequest.Address));
+
+                var location = _addressResolver.ResolveLocation(deliveryPointRequest.Address);
+                if (location == null)
+                    throw new ArgumentException($"Could not find the full address for <{deliveryPointRequest.Address}>.");
+
+                deliveryPointRequest.FiasId = location.CityFiasId;
+            }
+
+            return base.GetDeliveryPoints(deliveryPointRequest);
+        }
+
         /// <inheritdoc/>
         public override async Task<List<Delivery.DeliveryPoint>> GetDeliveryPointsAsync(Delivery.DeliveryPointRequest deliveryPointRequest)
         {
