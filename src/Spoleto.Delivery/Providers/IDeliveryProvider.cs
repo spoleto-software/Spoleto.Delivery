@@ -75,15 +75,17 @@
         /// Creates a delivery order.
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The delivery order.</returns>
-        DeliveryOrder CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest);
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
+        /// <returns>The created delivery order.</returns>
+        DeliveryOrder CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates a delivery order.
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The delivery order.</returns>
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest);
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
+        /// <returns>The created delivery order.</returns>
+        Task<DeliveryOrder> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Gets the delivery order.
@@ -131,15 +133,17 @@
         /// Creates the courier pickup order.
         /// </summary>
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
-        CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest);
+        CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates the courier pickup order.
         /// </summary>
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
-        Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest);
+        Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Gets the courier pickup order.

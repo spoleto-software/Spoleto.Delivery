@@ -158,7 +158,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             return additionalServiceList.Select(x => x.ToDeliveryAdditionalService()).ToList();
         }
 
-        public override Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
+        public override Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
         {
             if (deliveryOrderRequest.FromLocation.CityFiasId == null && _addressResolver != null)
             {
@@ -178,11 +178,11 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 deliveryOrderRequest.ToLocation.CityFiasId = addressTo.CityFiasId;
             }
 
-            return base.CreateDeliveryOrder(deliveryOrderRequest);
+            return base.CreateDeliveryOrder(deliveryOrderRequest, ensureStatus);
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
+        public override async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
         {
             if (deliveryOrderRequest.FromLocation.CityFiasId == null && _addressResolver != null)
             {
@@ -214,6 +214,17 @@ namespace Spoleto.Delivery.Providers.MasterPost
             
             var order = deliveryOrder.ToDeliveryOrder(_options.ServiceUrl);
             order.RawBody = rawBody;
+
+            if (ensureStatus)
+            {
+                if (order.Status == null)
+                {
+                    order = await GetDeliveryOrderAsync(new GetDeliveryOrderRequest { Number = order.Number });
+
+                    if (order.Status == null)
+                        throw new ArgumentException("The created order status is null.");
+                }
+            }
 
             return order;
         }
@@ -257,7 +268,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public override Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest)
+        public override Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
         {
             return Task.FromResult<CourierPickup>(default);
         }

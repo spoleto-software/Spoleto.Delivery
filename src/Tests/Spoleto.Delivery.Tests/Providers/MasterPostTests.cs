@@ -129,7 +129,7 @@ namespace Spoleto.Delivery.Tests.Providers
             //deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.SenderAddressCodes), new List<string> { "code1", "code2", "code3" });
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
+            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
             var getOrder = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
 
             // Assert
@@ -150,7 +150,7 @@ namespace Spoleto.Delivery.Tests.Providers
             var deliveryOrderRequest = GetOrderRequest();
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
+            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
             var getOrder = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
             var deleteOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Number);
             var getOrder2 = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });

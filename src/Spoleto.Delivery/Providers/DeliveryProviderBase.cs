@@ -40,11 +40,11 @@
         public abstract Task<List<AdditionalService>> GetAdditionalServicesAsync(Tariff tariff);
 
         /// <inheritdoc/>
-        public virtual DeliveryOrder CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest)
-            => CreateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
+        public virtual DeliveryOrder CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+            => CreateDeliveryOrderAsync(deliveryOrderRequest, ensureStatus).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public abstract Task<DeliveryOrder> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest);
+        public abstract Task<DeliveryOrder> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <inheritdoc/>
         public virtual DeliveryOrder GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest)
@@ -68,11 +68,11 @@
         public abstract Task<DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <inheritdoc/>
-        public virtual CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest)
-            => CreateCourierPickupAsync(createCourierPickupRequest).GetAwaiter().GetResult();
+        public virtual CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+            => CreateCourierPickupAsync(createCourierPickupRequest, ensureStatus).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public abstract Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest);
+        public abstract Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <inheritdoc/>
         public virtual CourierPickup GetCourierPickup(GetCourierPickupRequest getCourierPickupRequest)

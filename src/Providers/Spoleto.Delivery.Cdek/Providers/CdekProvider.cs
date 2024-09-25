@@ -160,7 +160,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest)
+        public override async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
         {
             var model = deliveryOrderRequest.ToCreateOrderRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Post, "orders")
@@ -171,6 +171,26 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             var order = deliveryOrder.ToDeliveryOrder();
             order.RawBody = rawBody;
+
+            if (ensureStatus)
+            {
+                const int maxWaitingTimeMinutes = 3;
+                if (order.Status == null)
+                {
+                    var dateTime = DateTime.Now.AddMinutes(maxWaitingTimeMinutes);
+                    var firstStatus = OrderStatus.Accepted.GetJsonEnumValue();
+                    
+                    while (order.Status == null || order.Status == firstStatus)
+                    {
+                        order = await GetDeliveryOrderAsync(new () { Uuid = order.Uuid }).ConfigureAwait(false);
+
+                        if (DateTime.Now > dateTime)
+                            break;
+
+                        await Task.Delay(3000).ConfigureAwait(false);
+                    }
+                }
+            }
 
             return order;
         }
@@ -225,7 +245,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.CourierPickup> CreateCourierPickupAsync(Delivery.CreateCourierPickupRequest createCourierPickupRequest)
+        public override async Task<Delivery.CourierPickup> CreateCourierPickupAsync(Delivery.CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
         {
             var model = createCourierPickupRequest.ToCreatePickupRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Post, "intakes")
@@ -236,6 +256,26 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             var courierPickup = deliveryCourierPickup.ToDeliveryCourierPickup();
             courierPickup.RawBody = rawBody;
+
+            if (ensureStatus)
+            {
+                const int maxWaitingTimeMinutes = 3;
+                if (courierPickup.Status == null)
+                {
+                    var dateTime = DateTime.Now.AddMinutes(maxWaitingTimeMinutes);
+                    var firstStatus = PickupStatus.Accepted.GetJsonEnumValue();
+
+                    while (courierPickup.Status == null || courierPickup.Status == firstStatus)
+                    {
+                        courierPickup = await GetCourierPickupAsync(new() { Uuid = courierPickup.Uuid }).ConfigureAwait(false);
+
+                        if (DateTime.Now > dateTime)
+                            break;
+
+                        await Task.Delay(3000).ConfigureAwait(false);
+                    }
+                }
+            }
 
             return courierPickup;
         }

@@ -312,73 +312,81 @@ namespace Spoleto.Delivery
         /// Creates a delivery order.
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The delivery order.</returns>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
+        /// <returns>The created delivery order.</returns>
         /// <remarks>
         /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
         /// </remarks>
-        DeliveryOrder CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest);
+        DeliveryOrder CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Creates a delivery order.
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The delivery order.</returns>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
+        /// <returns>The created delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        DeliveryOrder CreateDeliveryOrder(string providerName, CreateDeliveryOrderRequest deliveryOrderRequest);
+        DeliveryOrder CreateDeliveryOrder(string providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Creates a delivery order.
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The delivery order.</returns>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
+        /// <returns>The created delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        DeliveryOrder CreateDeliveryOrder(DeliveryProviderName providerName, CreateDeliveryOrderRequest deliveryOrderRequest);
+        DeliveryOrder CreateDeliveryOrder(DeliveryProviderName providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Creates a delivery order.
         /// </summary>
         /// <param name="providerName">The delivery provider.</param>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The delivery order.</returns>
-        DeliveryOrder CreateDeliveryOrder(IDeliveryProvider provider, CreateDeliveryOrderRequest deliveryOrderRequest);
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
+        /// <returns>The created delivery order.</returns>
+        DeliveryOrder CreateDeliveryOrder(IDeliveryProvider provider, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates a delivery order.
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The delivery order.</returns>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
+        /// <returns>The created delivery order.</returns>
         /// <remarks>
         /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
         /// </remarks>
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest);
+        Task<DeliveryOrder> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates a delivery order.
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The delivery order.</returns>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
+        /// <returns>The created delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(string providerName, CreateDeliveryOrderRequest deliveryOrderRequest);
+        Task<DeliveryOrder> CreateDeliveryOrderAsync(string providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates a delivery order.
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The delivery order.</returns>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
+        /// <returns>The created delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryProviderName providerName, CreateDeliveryOrderRequest deliveryOrderRequest);
+        Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryProviderName providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates a delivery order.
         /// </summary>
         /// <param name="providerName">The delivery provider.</param>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The delivery order.</returns>
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(IDeliveryProvider provider, CreateDeliveryOrderRequest deliveryOrderRequest);
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
+        /// <returns>The created delivery order.</returns>
+        Task<DeliveryOrder> CreateDeliveryOrderAsync(IDeliveryProvider provider, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Gets the delivery order.
@@ -602,73 +610,81 @@ namespace Spoleto.Delivery
         /// Creates the courier pickup order.
         /// </summary>
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
         /// <remarks>
         /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
         /// </remarks>
-        CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest);
+        CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Creates the courier pickup order.
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        CourierPickup CreateCourierPickup(string providerName, CreateCourierPickupRequest createCourierPickupRequest);
+        CourierPickup CreateCourierPickup(string providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Creates the courier pickup order.
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        CourierPickup CreateCourierPickup(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest);
+        CourierPickup CreateCourierPickup(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Creates the courier pickup order.
         /// </summary>
         /// <param name="providerName">The delivery provider.</param>
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
-        CourierPickup CreateCourierPickup(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest);
+        CourierPickup CreateCourierPickup(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates the courier pickup order.
         /// </summary>
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
         /// <remarks>
         /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
         /// </remarks>
-        Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest);
+        Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates the courier pickup order.
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        Task<CourierPickup> CreateCourierPickupAsync(string providerName, CreateCourierPickupRequest createCourierPickupRequest);
+        Task<CourierPickup> CreateCourierPickupAsync(string providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates the courier pickup order.
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
-        Task<CourierPickup> CreateCourierPickupAsync(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest);
+        Task<CourierPickup> CreateCourierPickupAsync(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates the courier pickup order.
         /// </summary>
         /// <param name="providerName">The delivery provider.</param>
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
-        Task<CourierPickup> CreateCourierPickupAsync(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest);
+        Task<CourierPickup> CreateCourierPickupAsync(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Gets the courier pickup order.
