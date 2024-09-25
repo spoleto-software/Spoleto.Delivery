@@ -200,15 +200,18 @@ namespace Spoleto.Delivery.Providers.Cdek
             var restRequest = new RestRequestFactory(RestHttpMethod.Delete, $"orders/{orderId}")
                 .Build();
 
-            var deliveryOrder = await _cdekClient.ExecuteAsync<CreatedDeliveryOrder>(restRequest).ConfigureAwait(false);
+            (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<CreatedDeliveryOrder>(restRequest).ConfigureAwait(false);
 
-            return deliveryOrder.ToDeliveryOrder();
+            var order = deliveryOrder.ToDeliveryOrder();
+            order.RawBody = rawBody;
+
+            return order;
         }
 
         /// <inheritdoc/>
         public override async Task<Delivery.DeliveryOrder> UpdateDeliveryOrderAsync(Delivery.UpdateDeliveryOrderRequest deliveryOrderRequest)
         {
-            var model = deliveryOrderRequest.ToOrderRequest();
+            var model = deliveryOrderRequest.ToUpdateOrderRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Patch, "orders")
                 .WithJsonContent(model)
                 .Build();
@@ -219,6 +222,55 @@ namespace Spoleto.Delivery.Providers.Cdek
             order.RawBody = rawBody;
 
             return order;
+        }
+
+        /// <inheritdoc/>
+        public override async Task<Delivery.CourierPickup> CreateCourierPickupAsync(Delivery.CreateCourierPickupRequest createCourierPickupRequest)
+        {
+            var model = createCourierPickupRequest.ToCreatePickupRequest();
+            var restRequest = new RestRequestFactory(RestHttpMethod.Post, "intakes")
+                .WithJsonContent(model)
+                .Build();
+
+            (var deliveryCourierPickup, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<CreatedCourierPickup>(restRequest).ConfigureAwait(false);
+
+            var courierPickup = deliveryCourierPickup.ToDeliveryCourierPickup();
+            courierPickup.RawBody = rawBody;
+
+            return courierPickup;
+        }
+
+        /// <inheritdoc/>
+        public override async Task<Delivery.CourierPickup> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest)
+        {
+            if (getCourierPickupRequest.Uuid == default)
+                throw new ArgumentNullException(nameof(getCourierPickupRequest.Uuid));
+
+            var uri = $"intakes/{getCourierPickupRequest.Uuid}";
+
+            var restRequest = new RestRequestFactory(RestHttpMethod.Get, uri)
+                .Build();
+
+            (var deliveryCourierPickup, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<CourierPickup>(restRequest).ConfigureAwait(false);
+
+            var courierPickup = deliveryCourierPickup.ToDeliveryCourierPickup();
+            courierPickup.RawBody = rawBody;
+
+            return courierPickup;
+        }
+
+        /// <inheritdoc/>
+        public override async Task<Delivery.CourierPickup> DeleteCourierPickupAsync(string pickupOrderId)
+        {
+            var restRequest = new RestRequestFactory(RestHttpMethod.Delete, $"intakes/{pickupOrderId}")
+                .Build();
+
+            (var deliveryCourierPickup, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<CreatedCourierPickup>(restRequest).ConfigureAwait(false);
+
+            var courierPickup = deliveryCourierPickup.ToDeliveryCourierPickup();
+            courierPickup.RawBody = rawBody;
+
+            return courierPickup;
         }
     }
 }

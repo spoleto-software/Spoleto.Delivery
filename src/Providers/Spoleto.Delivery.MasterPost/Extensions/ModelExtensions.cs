@@ -163,7 +163,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
 
             var orderRequest = new CreateDeliveryOrderRequest
             {
-                OrderNumber = request.CisNumber ?? string.Empty,
+                OrderNumber = GetOrderNumber(request),
                 DeliveryMode = request.TariffCode,
                 Comment = request.Comment ?? string.Empty,
 
@@ -199,6 +199,24 @@ namespace Spoleto.Delivery.Providers.MasterPost
             }
 
             return orderRequest;
+        }
+
+        private static string GetOrderNumber(Delivery.CreateDeliveryOrderRequest request)
+        {
+            var number = request.CisNumber ?? string.Empty;
+            
+            //todo: ???
+            //if (number.Length > 25)
+            //{
+            //    if (Guid.TryParse(number, out var guid))
+            //    {
+            //        return Convert.ToBase64String(guid.ToByteArray());
+            //    }
+
+            //    throw new ArgumentException($"The length of {request.CisNumber} can't be more than 25 symbols");
+            //}
+
+            return number;
         }
 
         public static Delivery.DeliveryOrder ToDeliveryOrder(this DeliveryOrder order, string serviceUrl)

@@ -313,7 +313,7 @@ namespace Spoleto.Delivery.Providers.Cdek
             return new ContactBase
             {
                 Company = contact.Company,
-                ContragentType = contact.ContragentType != null ? (ContragentType)Enum.Parse(typeof(ContragentType), contact.ToString()) : null,
+                ContragentType = contact.ContragentType != null ? (ContragentType)Enum.Parse(typeof(ContragentType), contact.ContragentType.ToString()!) : null,
                 Email = contact.Email,
                 Name = contact.Name,
                 PassportDateOfBirth = contact.PassportDateOfBirth,
@@ -406,7 +406,6 @@ namespace Spoleto.Delivery.Providers.Cdek
                 Uuid = order.Entity.Uuid,
                 Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
                 Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
-                //Status = order.Requests?.First().State.ToString(),
                 RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList(),
             };
         }
@@ -430,14 +429,14 @@ namespace Spoleto.Delivery.Providers.Cdek
                 CisNumber = order.Entity.CisNumber,
                 Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
                 Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
-                Status = order.Entity?.Statuses?.First().Code.ToString(),
+                Status = order.Entity.Statuses.First().Code.GetJsonEnumValue()!.ToString(),
                 PlannedDeliveryDate = order.Entity?.PlannedDeliveryDate,
                 TrackUrl = order.GetTrackUrl(),
                 RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList()
             };
         }
 
-        public static UpdateDeliveryOrderRequest ToOrderRequest(this Delivery.UpdateDeliveryOrderRequest request)
+        public static UpdateDeliveryOrderRequest ToUpdateOrderRequest(this Delivery.UpdateDeliveryOrderRequest request)
         {
             var orderRequest = new UpdateDeliveryOrderRequest
             {
@@ -474,7 +473,132 @@ namespace Spoleto.Delivery.Providers.Cdek
                 Uuid = order.Entity.Uuid,
                 Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
                 Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
-                //Status = order.Requests?.First().State.ToString()
+            };
+        }
+
+        public static CreateCourierPickupRequest ToCreatePickupRequest(this Delivery.CreateCourierPickupRequest request)
+        {
+            return new()
+            {
+                OrderUuid = request.OrderUuid,
+                CdekOrderNumber = request.OrderNumber,
+                FromLocation = request.FromLocation?.ToPickupLocationRequest(),
+                Sender = request.Sender?.ToPickupContactRequest(),
+                Comment = request.Comment,
+                CourierPowerOfAttorney = request.CourierPowerOfAttorney,
+                CourierIdentityCard = request.CourierIdentityCard,
+                Height = request.Height,
+                IntakeDate = request.IntakeDate,
+                IntakeTimeFrom = request.IntakeTimeFrom,
+                IntakeTimeTo = request.IntakeTimeTo,
+                Length = request.Length,
+                LunchTimeFrom = request.LunchTimeFrom,
+                LunchTimeTo = request.LunchTimeTo,
+                Name = request.Name,
+                NeedCall = request.NeedCall,
+                Weight = request.Weight,
+                Width = request.Width
+            };
+        }
+
+        public static CourierPickupLocation ToPickupLocationRequest(this Delivery.CourierPickupLocation location)
+        {
+            return new()
+            {
+                Address = location.Address,
+                City = location.City,
+                CityCode = Int32.TryParse(location.ProviderLocationCode, out var v) ? v : null,
+                CountryCode = location.CountryCode,
+                PostalCode = location.PostalCode,
+                RegionCode = Int32.TryParse(location.ProviderRegionCode, out var r) ? r : null,
+                FiasId = location.CityFiasId,
+                KladrCode = location.KladrCode,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude,
+                Region = location.Region,
+                SubRegion = location.SubRegion
+            };
+        }
+
+        public static CourierPickupContact ToPickupContactRequest(this Delivery.ContactBase contact)
+        {
+            return new()
+            {
+                Company = contact.Company,
+                ContragentType = contact.ContragentType != null ? (ContragentType)Enum.Parse(typeof(ContragentType), contact.ContragentType.ToString()!) : null,
+                Name = contact.Name,
+                Phones = contact.Phones?.Select(x => x.ToPhoneRequest()).ToList(),
+            };
+        }
+
+        public static Delivery.CourierPickup ToDeliveryCourierPickup(this CreatedCourierPickup courierPickup)
+        {
+            return new ()
+            {
+                Uuid = courierPickup.Entity.Uuid,
+                Errors = courierPickup.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
+                Warnings = courierPickup.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList()
+            };
+        }
+
+        public static Delivery.CourierPickup ToDeliveryCourierPickup(this CourierPickup courierPickup)
+        {
+            return new()
+            {
+                Uuid = courierPickup.Entity.Uuid,
+                Errors = courierPickup.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
+                Warnings = courierPickup.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
+                Status = courierPickup.Entity.Statuses.First().Code.GetJsonEnumValue()!.ToString(),
+                Comment = courierPickup.Entity.Comment,
+                CourierIdentityCard = courierPickup.Entity.CourierIdentityCard,
+                CourierPowerOfAttorney = courierPickup.Entity.CourierPowerOfAttorney,
+                FromLocation = courierPickup.Entity.FromLocation.ToDeliveryPickupLocation(),
+                Height = courierPickup.Entity.Height,
+                IntakeDate = courierPickup.Entity.IntakeDate,
+                IntakeTimeFrom = courierPickup.Entity.IntakeTimeFrom,
+                IntakeTimeTo = courierPickup.Entity.IntakeTimeTo,
+                Length = courierPickup.Entity.Length,
+                LunchTimeFrom = courierPickup.Entity.LunchTimeFrom,
+                LunchTimeTo = courierPickup.Entity.LunchTimeTo,
+                Name = courierPickup.Entity.Name,
+                NeedCall = courierPickup.Entity.NeedCall,
+                Number = courierPickup.Entity.CdekNumber,
+                OrderNumber = courierPickup.Entity.OrderCdekNumber,
+                OrderUuid = courierPickup.Entity.OrderUuid,
+                Sender = courierPickup.Entity.Sender.ToDeliveryPickupContact(),
+                Weight = courierPickup.Entity.Weight,
+                Width = courierPickup.Entity.Width
+
+            };
+        }
+
+        public static Delivery.CourierPickupLocation ToDeliveryPickupLocation(this CourierPickupLocation location)
+        {
+            return new()
+            {
+                Address = location.Address,
+                City = location.City,
+                ProviderLocationCode = location.CityCode?.ToString(),
+                CountryCode = location.CountryCode,
+                PostalCode = location.PostalCode,
+                ProviderRegionCode = location.RegionCode?.ToString(),
+                CityFiasId = location.FiasId,
+                KladrCode = location.KladrCode,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude,
+                Region = location.Region,
+                SubRegion = location.SubRegion
+            };
+        }
+
+        public static Delivery.ContactBase ToDeliveryPickupContact(this CourierPickupContact contact)
+        {
+            return new()
+            {
+                Company = contact.Company,
+                ContragentType = contact.ContragentType != null ? (Delivery.ContragentType)Enum.Parse(typeof(Delivery.ContragentType), contact.ContragentType.ToString()!) : null,
+                Name = contact.Name,
+                Phones = contact.Phones?.Select(x => x.ToDeliveryPhone()).ToList(),
             };
         }
     }

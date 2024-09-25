@@ -103,15 +103,15 @@
         /// Deletes the delivery order.
         /// </summary>
         /// <param name="orderId">The delivery order identifier.</param>
-        /// <returns>The delivery order.</returns>
+        /// <returns>The deleted delivery order.</returns>
         DeliveryOrder DeleteDeliveryOrder(string orderId);
 
         /// <summary>
         /// Async deletes the delivery order.
         /// </summary>
-        /// <param name="orderId">The delivery order identifier.</param>
-        /// <returns>The delivery order.</returns>
-        Task<DeliveryOrder> DeleteDeliveryOrderAsync(string orderId);
+        /// <param name="pickupOrderId">The delivery order identifier.</param>
+        /// <returns>The deleted delivery order.</returns>
+        Task<DeliveryOrder> DeleteDeliveryOrderAsync(string pickupOrderId);
 
         /// <summary>
         /// Updates the delivery order.
@@ -126,5 +126,47 @@
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
         Task<DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Creates the courier pickup order.
+        /// </summary>
+        /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The created courier pickup order.</returns>
+        CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest);
+
+        /// <summary>
+        /// Async creates the courier pickup order.
+        /// </summary>
+        /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The created courier pickup order.</returns>
+        Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest);
+
+        /// <summary>
+        /// Gets the courier pickup order.
+        /// </summary>
+        /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The courier pickup order.</returns>
+        CourierPickup GetCourierPickup(GetCourierPickupRequest getCourierPickupRequest);
+
+        /// <summary>
+        /// Async gets the courier pickup order.
+        /// </summary>
+        /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The courier pickup order.</returns>
+        Task<CourierPickup> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest);
+
+        /// <summary>
+        /// Deletes the courier pickup order.
+        /// </summary>
+        /// <param name="pickupOrderId">The courier pickup order identifier.</param>
+        /// <returns>The courier pickup order.</returns>
+        CourierPickup DeleteCourierPickup(string pickupOrderId);
+
+        /// <summary>
+        /// Async deletes the courier pickup order.
+        /// </summary>
+        /// <param name="pickupOrderId">The courier pickup order identifier.</param>
+        /// <returns>The courier pickup order.</returns>
+        Task<CourierPickup> DeleteCourierPickupAsync(string pickupOrderId);
     }
 }

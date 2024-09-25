@@ -14,13 +14,13 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Получает или задает информацию о заказе.
         /// </summary>
         [JsonPropertyName("entity")]
-        public CreatedDeliveryOrderEntity Entity { get; set; }
+        public CreatedDeliveryEntity Entity { get; set; }
 
         /// <summary>
         /// Получает или задает информацию о запросе над заказом.
         /// </summary>
         [JsonPropertyName("requests")]
-        public List<DeliveryOrderRequestInfo> Requests { get; set; }
+        public List<DeliveryRequestInfo> Requests { get; set; }
 
         /// <summary>
         /// Получает или задает связанные сущности (если в запросе был передан корректный print).

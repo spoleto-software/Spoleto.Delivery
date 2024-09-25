@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Delivery.Providers.Cdek.Converters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -23,6 +24,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Время, на которое согласован повторный прозвон
         /// </summary>
         [JsonPropertyName("time_next")]
+        [JsonConverter(typeof(JsonTimeSpanConverter))]
         public TimeSpan TimeNext { get; set; }
 
         /// <summary>

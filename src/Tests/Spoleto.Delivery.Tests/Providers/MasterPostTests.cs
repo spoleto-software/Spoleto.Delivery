@@ -72,12 +72,12 @@ namespace Spoleto.Delivery.Tests.Providers
                 Comment = "Test order",
                 FromLocation = new()
                 {
-                    CityFiasId = Guid.Parse("c2deb16a-0330-4f05-821f-1d09c93331e6"),
+                    //CityFiasId = Guid.Parse("c2deb16a-0330-4f05-821f-1d09c93331e6"),
                     Address = "Санкт-Петербург, пр. Ленинградский, д.4"
                 },
                 ToLocation = new()
                 {
-                    CityFiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
+                   // CityFiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
                     Address = "Москва, ул. Блюхера, 32"
                 },
                 TariffCode = "Экспресс",
@@ -105,9 +105,9 @@ namespace Spoleto.Delivery.Tests.Providers
                 },
                 Recipient = new()
                 {
-                    Company = "Rec company",
+                    //Company = "Rec company",
                     Name = "Rec name",
-                    Email = "company@example.com",
+                   //Email = "company@example.com",
                     Phones =
                     [
                         new() { Number = "+79876543210" },

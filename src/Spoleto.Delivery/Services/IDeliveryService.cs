@@ -528,7 +528,7 @@ namespace Spoleto.Delivery
         /// Deletes the delivery order.
         /// </summary>
         /// <param name="orderId">The delivery order identifier.</param>
-        /// <returns>The delivery order.</returns>
+        /// <returns>The deleted delivery order.</returns>
         /// <remarks>
         /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
         /// </remarks>
@@ -539,7 +539,7 @@ namespace Spoleto.Delivery
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="orderId">The delivery order identifier.</param>
-        /// <returns>The delivery order.</returns>
+        /// <returns>The deleted delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
         DeliveryOrder DeleteDeliveryOrder(string providerName, string orderId);
 
@@ -548,7 +548,7 @@ namespace Spoleto.Delivery
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="orderId">The delivery order identifier.</param>
-        /// <returns>The delivery order.</returns>
+        /// <returns>The deleted delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
         DeliveryOrder DeleteDeliveryOrder(DeliveryProviderName providerName, string orderId);
 
@@ -557,7 +557,7 @@ namespace Spoleto.Delivery
         /// </summary>
         /// <param name="providerName">The delivery provider.</param>
         /// <param name="orderId">The delivery order identifier.</param>
-        /// <returns>The delivery order.</returns>
+        /// <returns>The deleted delivery order.</returns>
         DeliveryOrder DeleteDeliveryOrder(IDeliveryProvider provider, string orderId);
 
         /// <summary>
@@ -575,7 +575,7 @@ namespace Spoleto.Delivery
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="orderId">The delivery order identifier.</param>
-        /// <returns>The delivery order.</returns>
+        /// <returns>The deleted delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
         Task<DeliveryOrder> DeleteDeliveryOrderAsync(string providerName, string orderId);
 
@@ -584,7 +584,7 @@ namespace Spoleto.Delivery
         /// </summary>
         /// <param name="providerName">The name of the delivery provider.</param>
         /// <param name="orderId">The delivery order identifier.</param>
-        /// <returns>The delivery order.</returns>
+        /// <returns>The deleted delivery order.</returns>
         /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
         Task<DeliveryOrder> DeleteDeliveryOrderAsync(DeliveryProviderName providerName, string orderId);
 
@@ -593,8 +593,226 @@ namespace Spoleto.Delivery
         /// </summary>
         /// <param name="providerName">The delivery provider.</param>
         /// <param name="orderId">The delivery order identifier.</param>
-        /// <returns>The delivery order.</returns>
+        /// <returns>The deleted delivery order.</returns>
         Task<DeliveryOrder> DeleteDeliveryOrderAsync(IDeliveryProvider provider, string orderId);
+        #endregion
+
+        #region CourierPickup
+        /// <summary>
+        /// Creates the courier pickup order.
+        /// </summary>
+        /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The created courier pickup order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest);
+
+        /// <summary>
+        /// Creates the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The created courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        CourierPickup CreateCourierPickup(string providerName, CreateCourierPickupRequest createCourierPickupRequest);
+
+        /// <summary>
+        /// Creates the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The created courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        CourierPickup CreateCourierPickup(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest);
+
+        /// <summary>
+        /// Creates the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The created courier pickup order.</returns>
+        CourierPickup CreateCourierPickup(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest);
+
+        /// <summary>
+        /// Async creates the courier pickup order.
+        /// </summary>
+        /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The created courier pickup order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest);
+
+        /// <summary>
+        /// Async creates the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The created courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<CourierPickup> CreateCourierPickupAsync(string providerName, CreateCourierPickupRequest createCourierPickupRequest);
+
+        /// <summary>
+        /// Async creates the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The created courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<CourierPickup> CreateCourierPickupAsync(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest);
+
+        /// <summary>
+        /// Async creates the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The created courier pickup order.</returns>
+        Task<CourierPickup> CreateCourierPickupAsync(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest);
+
+        /// <summary>
+        /// Gets the courier pickup order.
+        /// </summary>
+        /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The courier pickup order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        CourierPickup GetCourierPickup(GetCourierPickupRequest getCourierPickupRequest);
+
+        /// <summary>
+        /// Gets the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        CourierPickup GetCourierPickup(string providerName, GetCourierPickupRequest getCourierPickupRequest);
+
+        /// <summary>
+        /// Gets the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        CourierPickup GetCourierPickup(DeliveryProviderName providerName, GetCourierPickupRequest getCourierPickupRequest);
+
+        /// <summary>
+        /// Gets the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The courier pickup order.</returns>
+        CourierPickup GetCourierPickup(IDeliveryProvider provider, GetCourierPickupRequest getCourierPickupRequest);
+
+        /// <summary>
+        /// Async gets the courier pickup order.
+        /// </summary>
+        /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The courier pickup order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        Task<CourierPickup> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest);
+
+        /// <summary>
+        /// Async gets the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<CourierPickup> GetCourierPickupAsync(string providerName, GetCourierPickupRequest getCourierPickupRequest);
+
+        /// <summary>
+        /// Async gets the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<CourierPickup> GetCourierPickupAsync(DeliveryProviderName providerName, GetCourierPickupRequest getCourierPickupRequest);
+
+        /// <summary>
+        /// Async gets the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
+        /// <returns>The courier pickup order.</returns>
+        Task<CourierPickup> GetCourierPickupAsync(IDeliveryProvider provider, GetCourierPickupRequest getCourierPickupRequest);
+
+        /// <summary>
+        /// Deletes the courier pickup order.
+        /// </summary>
+        /// <param name="pickupOrderId">The courier pickup order identifier.</param>
+        /// <returns>The deleted courier pickup order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        CourierPickup DeleteCourierPickup(string pickupOrderId);
+
+        /// <summary>
+        /// Deletes the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="pickupOrderId">The courier pickup order identifier.</param>
+        /// <returns>The deleted courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        CourierPickup DeleteCourierPickup(string providerName, string pickupOrderId);
+
+        /// <summary>
+        /// Deletes the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="pickupOrderId">The courier pickup order identifier.</param>
+        /// <returns>The deleted courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        CourierPickup DeleteCourierPickup(DeliveryProviderName providerName, string pickupOrderId);
+
+        /// <summary>
+        /// Deletes the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="pickupOrderId">The courier pickup order identifier.</param>
+        /// <returns>The deleted courier pickup order.</returns>
+        CourierPickup DeleteCourierPickup(IDeliveryProvider provider, string pickupOrderId);
+
+        /// <summary>
+        /// Async deletes the courier pickup order.
+        /// </summary>
+        /// <param name="pickupOrderId">The courier pickup order identifier.</param>
+        /// <returns>The deleted courier pickup order.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        Task<CourierPickup> DeleteCourierPickupAsync(string pickupOrderId);
+
+        /// <summary>
+        /// Async deletes the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="pickupOrderId">The courier pickup order identifier.</param>
+        /// <returns>The deleted courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<CourierPickup> DeleteCourierPickupAsync(string providerName, string pickupOrderId);
+
+        /// <summary>
+        /// Async deletes the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="pickupOrderId">The courier pickup order identifier.</param>
+        /// <returns>The deleted courier pickup order.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<CourierPickup> DeleteCourierPickupAsync(DeliveryProviderName providerName, string pickupOrderId);
+
+        /// <summary>
+        /// Async deletes the courier pickup order.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="pickupOrderId">The courier pickup order identifier.</param>
+        /// <returns>The deleted courier pickup order.</returns>
+        Task<CourierPickup> DeleteCourierPickupAsync(IDeliveryProvider provider, string pickupOrderId);
         #endregion
     }
 }

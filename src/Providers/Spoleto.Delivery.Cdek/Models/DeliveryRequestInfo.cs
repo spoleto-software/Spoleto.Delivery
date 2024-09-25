@@ -7,7 +7,7 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <summary>
     /// Информация о запросе над заказом.
     /// </summary>
-    public record DeliveryOrderRequestInfo
+    public record DeliveryRequestInfo
     {
         /// <summary>
         /// Получает или задает идентификатор запроса в ИС СДЭК.
@@ -19,6 +19,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Получает или задает тип запроса.
         /// </summary>
         [JsonPropertyName("type")]
+        [JsonConverter(typeof(JsonEnumValueConverter<RequestType>))]
         public RequestType Type { get; set; }
 
         /// <summary>
@@ -40,13 +41,13 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Получает или задает ошибки, возникшие в ходе выполнения запроса.
         /// </summary>
         [JsonPropertyName("errors")]
-        public List<Error> Errors { get; set; }
+        public List<Error>? Errors { get; set; }
 
         /// <summary>
         /// Получает или задает предупреждения, возникшие в ходе выполнения запроса.
         /// </summary>
         [JsonPropertyName("warnings")]
-        public List<Warning> Warnings { get; set; }
+        public List<Warning>? Warnings { get; set; }
     }
 
 

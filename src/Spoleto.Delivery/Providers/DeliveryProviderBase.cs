@@ -66,5 +66,26 @@
 
         /// <inheritdoc/>
         public abstract Task<DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <inheritdoc/>
+        public virtual CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest)
+            => CreateCourierPickupAsync(createCourierPickupRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public abstract Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest);
+
+        /// <inheritdoc/>
+        public virtual CourierPickup GetCourierPickup(GetCourierPickupRequest getCourierPickupRequest)
+            => GetCourierPickupAsync(getCourierPickupRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public abstract Task<CourierPickup> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest);
+
+        /// <inheritdoc/>
+        public virtual CourierPickup DeleteCourierPickup(string pickupOrderId)
+            => DeleteCourierPickupAsync(pickupOrderId).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public abstract Task<CourierPickup> DeleteCourierPickupAsync(string pickupOrderId);
     }
 }

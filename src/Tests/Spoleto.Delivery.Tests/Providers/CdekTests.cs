@@ -78,7 +78,7 @@ namespace Spoleto.Delivery.Tests.Providers
                     Email = "basilio@example.com",
                     Phones =
                     [
-                        new() { Number = "+71234567890" },
+                        new() { Number = "79234567890" },
                     ],
                 },
                 Recipient = new()
@@ -88,7 +88,7 @@ namespace Spoleto.Delivery.Tests.Providers
                     Email = "alice@example.com",
                     Phones =
                     [
-                        new() { Number = "+79876543210" },
+                        new() { Number = "79876543210" },
                     ],
                 }
             };
@@ -142,7 +142,7 @@ namespace Spoleto.Delivery.Tests.Providers
                     Email = "basilio@example.com",
                     Phones =
                     [
-                        new() { Number = "+71234567890" },
+                        new() { Number = "79260001122" },
                     ],
                 },
                 Recipient = new()
@@ -152,12 +152,41 @@ namespace Spoleto.Delivery.Tests.Providers
                     Email = "alice@example.com",
                     Phones =
                     [
-                        new() { Number = "+79876543210" },
+                        new() { Number = "79230001122" },
                     ],
                 }
             };
 
             return deliveryOrderRequest;
+        }
+
+        private static CreateCourierPickupRequest GetCourierPickupRequest()
+        {
+            var pickupRequest = new CreateCourierPickupRequest
+            {
+                Comment = "Комментарий для курьера",
+                IntakeDate = DateTime.Now.AddDays(1),
+                IntakeTimeFrom = TimeSpan.FromHours(12),
+                IntakeTimeTo = TimeSpan.FromHours(15),
+                FromLocation = new()
+                {
+                    Address = "Санкт-Петербург, пр. Ленинградский, д.4"
+                },
+                
+                Sender = new()
+                {
+                    Company = "Burattino",
+                    Name = "Basilio",
+                    Phones =
+                    [
+                        new() { Number = "79234567890" },
+                    ],
+                },
+
+                Name = "Заказ от компании"
+            };
+
+            return pickupRequest;
         }
 
         [Test]
@@ -322,6 +351,80 @@ namespace Spoleto.Delivery.Tests.Providers
             // Assert
             Assert.That(deliveryOrder, Is.Not.Null);
             Assert.ThrowsAsync<Exception>(() => provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid }));
+        }
+
+        [Test]
+        public async Task CreateOrderWithCourierPickup()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var deliveryOrderRequest = GetOnlineOrderRequest();
+            var pickupRequest = GetCourierPickupRequest();
+
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.DeveloperKey), "XX-DEV-123-456");
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);
+
+            // Act
+            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
+            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            
+            pickupRequest.OrderUuid = deliveryOrder.Uuid;
+            var pickup = await provider.CreateCourierPickupAsync(pickupRequest);
+            var getPickup = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid });
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(deliveryOrder, Is.Not.Null);
+
+                Assert.That(getOrder, Is.Not.Null);
+                Assert.That(getOrder.Errors, Is.Empty);
+
+                Assert.That(pickup, Is.Not.Null);
+                Assert.That(pickup.Errors, Is.Empty);
+
+                Assert.That(getPickup, Is.Not.Null);
+                Assert.That(getPickup.Errors, Is.Empty);
+            });
+        }
+
+        [Test]
+        public async Task DeleteCourierPickup()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var deliveryOrderRequest = GetOnlineOrderRequest();
+            var pickupRequest = GetCourierPickupRequest();
+
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.DeveloperKey), "XX-DEV-123-456");
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);
+
+            // Act
+            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest);
+            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+
+            pickupRequest.OrderUuid = deliveryOrder.Uuid;
+            var pickup = await provider.CreateCourierPickupAsync(pickupRequest);
+            var getPickup = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid });
+            var deletedPickup = await provider.DeleteCourierPickupAsync(pickup.Uuid.ToString());
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(deliveryOrder, Is.Not.Null);
+
+                Assert.That(getOrder, Is.Not.Null);
+                Assert.That(getOrder.Errors, Is.Empty);
+
+                Assert.That(pickup, Is.Not.Null);
+                Assert.That(pickup.Errors, Is.Empty);
+
+                Assert.That(getPickup, Is.Not.Null);
+                Assert.That(getPickup.Errors, Is.Empty);
+
+                Assert.That(deletedPickup, Is.Not.Null);
+                Assert.That(deletedPickup.Errors, Is.Empty);
+            });
         }
     }
 }

@@ -3,24 +3,23 @@
 namespace Spoleto.Delivery.Providers.Cdek
 {
     /// <summary>
-    /// Updated Cdek delivery order.
+    /// Created Cdek courier pickup order.
     /// </summary>
     /// <remarks>
-    /// <see href="https://api-docs.cdek.ru/36981178.html"/>
+    /// <see href="https://api-docs.cdek.ru/29925274.html"/>
     /// </remarks>
-    public record UpdatedDeliveryOrder
+    public record CreatedCourierPickup
     {
         /// <summary>
-        /// Получает или задает информацию о заказе.
+        /// Получает или задает информацию о заявке.
         /// </summary>
         [JsonPropertyName("entity")]
-        public UpdatedDeliveryOrderEntity Entity { get; set; }
+        public CreatedDeliveryEntity Entity { get; set; }
 
         /// <summary>
-        /// Получает или задает информацию о запросе над заказом.
+        /// Получает или задает информацию о запросе над заявкой.
         /// </summary>
         [JsonPropertyName("requests")]
         public List<DeliveryRequestInfo> Requests { get; set; }
-
     }
 }

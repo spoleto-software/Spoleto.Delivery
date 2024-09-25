@@ -252,7 +252,26 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <inheritdoc/>
         public override Task<Delivery.DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest)
         {
+            //todo: delete + create a new order?
             throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public override Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest)
+        {
+            return Task.FromResult<CourierPickup>(default);
+        }
+
+        /// <inheritdoc/>
+        public override Task<CourierPickup> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest)
+        {
+            return Task.FromResult<CourierPickup>(default);
+        }
+
+        /// <inheritdoc/>
+        public override Task<CourierPickup> DeleteCourierPickupAsync(string pickupOrderId)
+        {
+            return Task.FromResult<CourierPickup>(default);
         }
     }
 }

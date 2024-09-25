@@ -594,6 +594,199 @@ namespace Spoleto.Delivery
         }
         #endregion
 
+        #region CourierPickup
+        /// <inheritdoc/>
+        public CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest)
+            => CreateCourierPickup(_defaultProvider, createCourierPickupRequest);
+
+        /// <inheritdoc/>
+        public CourierPickup CreateCourierPickup(string providerName, CreateCourierPickupRequest createCourierPickupRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return CreateCourierPickup(provider, createCourierPickupRequest);
+        }
+
+        /// <inheritdoc/>
+        public CourierPickup CreateCourierPickup(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest)
+            => CreateCourierPickup(providerName.ToString(), createCourierPickupRequest);
+
+        /// <inheritdoc/>
+        public CourierPickup CreateCourierPickup(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (createCourierPickupRequest is null)
+                throw new ArgumentNullException(nameof(createCourierPickupRequest));
+
+            return provider.CreateCourierPickup(createCourierPickupRequest);
+        }
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest)
+            => CreateCourierPickupAsync(_defaultProvider, createCourierPickupRequest);
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> CreateCourierPickupAsync(string providerName, CreateCourierPickupRequest createCourierPickupRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return CreateCourierPickupAsync(provider, createCourierPickupRequest);
+        }
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> CreateCourierPickupAsync(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest)
+            => CreateCourierPickupAsync(providerName.ToString(), createCourierPickupRequest);
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> CreateCourierPickupAsync(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (createCourierPickupRequest is null)
+                throw new ArgumentNullException(nameof(createCourierPickupRequest));
+
+            return provider.CreateCourierPickupAsync(createCourierPickupRequest);
+        }
+
+        /// <inheritdoc/>
+        public CourierPickup GetCourierPickup(GetCourierPickupRequest getCourierPickupRequest)
+            => GetCourierPickup(_defaultProvider, getCourierPickupRequest);
+
+        /// <inheritdoc/>
+        public CourierPickup GetCourierPickup(string providerName, GetCourierPickupRequest getCourierPickupRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return GetCourierPickup(provider, getCourierPickupRequest);
+        }
+
+        /// <inheritdoc/>
+        public CourierPickup GetCourierPickup(DeliveryProviderName providerName, GetCourierPickupRequest getCourierPickupRequest)
+            => GetCourierPickup(providerName.ToString(), getCourierPickupRequest);
+
+        /// <inheritdoc/>
+        public CourierPickup GetCourierPickup(IDeliveryProvider provider, GetCourierPickupRequest getCourierPickupRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (getCourierPickupRequest is null)
+                throw new ArgumentNullException(nameof(getCourierPickupRequest));
+
+            return provider.GetCourierPickup(getCourierPickupRequest);
+        }
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest)
+            => GetCourierPickupAsync(_defaultProvider, getCourierPickupRequest);
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> GetCourierPickupAsync(string providerName, GetCourierPickupRequest getCourierPickupRequest)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return GetCourierPickupAsync(provider, getCourierPickupRequest);
+        }
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> GetCourierPickupAsync(DeliveryProviderName providerName, GetCourierPickupRequest getCourierPickupRequest)
+            => GetCourierPickupAsync(providerName.ToString(), getCourierPickupRequest);
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> GetCourierPickupAsync(IDeliveryProvider provider, GetCourierPickupRequest getCourierPickupRequest)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (getCourierPickupRequest is null)
+                throw new ArgumentNullException(nameof(getCourierPickupRequest));
+
+            return provider.GetCourierPickupAsync(getCourierPickupRequest);
+        }
+
+        public CourierPickup DeleteCourierPickup(string pickupOrderId)
+            => DeleteCourierPickup(_defaultProvider, pickupOrderId);
+
+        /// <inheritdoc/>
+        public CourierPickup DeleteCourierPickup(string providerName, string pickupOrderId)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return DeleteCourierPickup(provider, pickupOrderId);
+        }
+
+        /// <inheritdoc/>
+        public CourierPickup DeleteCourierPickup(DeliveryProviderName providerName, string pickupOrderId)
+            => DeleteCourierPickup(providerName.ToString(), pickupOrderId);
+
+        /// <inheritdoc/>
+        public CourierPickup DeleteCourierPickup(IDeliveryProvider provider, string pickupOrderId)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (pickupOrderId is null)
+                throw new ArgumentNullException(nameof(pickupOrderId));
+
+            return provider.DeleteCourierPickup(pickupOrderId);
+        }
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> DeleteCourierPickupAsync(string pickupOrderId)
+            => DeleteCourierPickupAsync(_defaultProvider, pickupOrderId);
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> DeleteCourierPickupAsync(string providerName, string pickupOrderId)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return DeleteCourierPickupAsync(provider, pickupOrderId);
+        }
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> DeleteCourierPickupAsync(DeliveryProviderName providerName, string pickupOrderId)
+            => DeleteCourierPickupAsync(providerName.ToString(), pickupOrderId);
+
+        /// <inheritdoc/>
+        public Task<CourierPickup> DeleteCourierPickupAsync(IDeliveryProvider provider, string pickupOrderId)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (pickupOrderId is null)
+                throw new ArgumentNullException(nameof(pickupOrderId));
+
+            return provider.DeleteCourierPickupAsync(pickupOrderId);
+        }
+        #endregion
+
         private bool TryGetDeliveryProvider(string providerName, out IDeliveryProvider deliveryProvider)
         {
             if (_providers[providerName] is not IDeliveryProvider provider)
