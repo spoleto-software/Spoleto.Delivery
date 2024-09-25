@@ -72,12 +72,12 @@ namespace Spoleto.Delivery.Tests.Providers
                 Comment = "Test order",
                 FromLocation = new()
                 {
-                    //CityFiasId = Guid.Parse("c2deb16a-0330-4f05-821f-1d09c93331e6"),
+                    CityFiasId = Guid.Parse("c2deb16a-0330-4f05-821f-1d09c93331e6"),
                     Address = "Санкт-Петербург, пр. Ленинградский, д.4"
                 },
                 ToLocation = new()
                 {
-                   // CityFiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
+                    CityFiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
                     Address = "Москва, ул. Блюхера, 32"
                 },
                 TariffCode = "Экспресс",
@@ -113,6 +113,17 @@ namespace Spoleto.Delivery.Tests.Providers
                         new() { Number = "+79876543210" },
                     ],
                 },
+            };
+        }
+
+        private CourierPickupRequest GetCourierPickupRequest()
+        {
+            return new()
+            {
+                Comment = "Комментарий для курьера",
+                IntakeDate = DateTime.Now.AddDays(1),
+                IntakeTimeFrom = TimeSpan.FromHours(12),
+                IntakeTimeTo = TimeSpan.FromHours(15)
             };
         }
 
@@ -168,6 +179,70 @@ namespace Spoleto.Delivery.Tests.Providers
 
                 Assert.That(getOrder2, Is.Not.Null);
                 Assert.That(getOrder2.Errors, Is.Null);
+            });
+        }
+
+        [Test]
+        public async Task CreateOrderWithCourierPickupAtTheSameTime()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
+            var deliveryOrderRequest = GetOrderRequest();
+            var pickupRequest = GetCourierPickupRequest();
+            deliveryOrderRequest.CourierPickupRequest = new CourierPickupRequest
+            {
+                Comment = pickupRequest.Comment,
+                IntakeDate = pickupRequest.IntakeDate,
+                IntakeTimeFrom = pickupRequest.IntakeTimeFrom,
+                IntakeTimeTo = pickupRequest.IntakeTimeTo
+            };
+
+            // Act
+            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(deliveryOrder, Is.Not.Null);
+
+                Assert.That(deliveryOrder.CourierPickup, Is.Not.Null);
+
+                Assert.That(deliveryOrder.Errors, Is.Empty);
+                Assert.That(deliveryOrder.CourierPickup!.Errors, Is.Empty);
+            });
+        }
+
+        [Test]
+        public async Task CreateAndDeleteOrderWithCourierPickupAtTheSameTime()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
+            var deliveryOrderRequest = GetOrderRequest();
+            var pickupRequest = GetCourierPickupRequest();
+            deliveryOrderRequest.CourierPickupRequest = new CourierPickupRequest
+            {
+                Comment = pickupRequest.Comment,
+                IntakeDate = pickupRequest.IntakeDate,
+                IntakeTimeFrom = pickupRequest.IntakeTimeFrom,
+                IntakeTimeTo = pickupRequest.IntakeTimeTo
+            };
+
+            // Act
+            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deletedOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Number);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(deliveryOrder, Is.Not.Null);
+
+                Assert.That(deliveryOrder.CourierPickup, Is.Not.Null);
+
+                Assert.That(deliveryOrder.Errors, Is.Null);
+                Assert.That(deliveryOrder.CourierPickup!.Errors, Is.Null);
+
+                Assert.That(deletedOrder, Is.Not.Null);
+                Assert.That(deletedOrder.Errors, Is.Null);
             });
         }
     }

@@ -109,13 +109,13 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Отправитель.
         /// </summary>
         [JsonPropertyName("sender")]
-        public CourierPickupContact Sender { get; set; }
+        public CourierPickupContact? Sender { get; set; }
 
         /// <summary>
         /// Адрес отправителя (забора).
         /// </summary>
         [JsonPropertyName("from_location")]
-        public CourierPickupLocation FromLocation { get; set; }
+        public CourierPickupLocation? FromLocation { get; set; }
 
         /// <summary>
         /// Необходим прозвон отправителя (по умолчанию - false).

@@ -533,7 +533,7 @@ namespace Spoleto.Delivery.Providers.Cdek
 
         public static Delivery.CourierPickup ToDeliveryCourierPickup(this CreatedCourierPickup courierPickup)
         {
-            return new ()
+            return new()
             {
                 Uuid = courierPickup.Entity.Uuid,
                 Errors = courierPickup.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
@@ -572,8 +572,11 @@ namespace Spoleto.Delivery.Providers.Cdek
             };
         }
 
-        public static Delivery.CourierPickupLocation ToDeliveryPickupLocation(this CourierPickupLocation location)
+        public static Delivery.CourierPickupLocation? ToDeliveryPickupLocation(this CourierPickupLocation location)
         {
+            if (location == null)
+                return null;
+
             return new()
             {
                 Address = location.Address,
@@ -591,14 +594,34 @@ namespace Spoleto.Delivery.Providers.Cdek
             };
         }
 
-        public static Delivery.ContactBase ToDeliveryPickupContact(this CourierPickupContact contact)
+        public static Delivery.ContactBase? ToDeliveryPickupContact(this CourierPickupContact contact)
         {
+            if (contact == null)
+                return null;
+
             return new()
             {
                 Company = contact.Company,
                 ContragentType = contact.ContragentType != null ? (Delivery.ContragentType)Enum.Parse(typeof(Delivery.ContragentType), contact.ContragentType.ToString()!) : null,
                 Name = contact.Name,
                 Phones = contact.Phones?.Select(x => x.ToDeliveryPhone()).ToList(),
+            };
+        }
+
+        public static Delivery.CreateCourierPickupRequest ToDeliveryCreatePickupRequest(this Delivery.CourierPickupRequest request, Guid orderUuid)
+        {
+            return new()
+            {
+                OrderUuid = orderUuid,
+                Comment = request.Comment,
+                CourierIdentityCard = request.CourierIdentityCard,
+                CourierPowerOfAttorney = request.CourierPowerOfAttorney,
+                IntakeDate = request.IntakeDate,
+                IntakeTimeFrom = request.IntakeTimeFrom,
+                IntakeTimeTo = request.IntakeTimeTo,
+                LunchTimeFrom = request.LunchTimeFrom,
+                LunchTimeTo = request.LunchTimeTo,
+                NeedCall = request.NeedCall
             };
         }
     }

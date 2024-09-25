@@ -172,6 +172,9 @@ namespace Spoleto.Delivery.Providers.Cdek
             var order = deliveryOrder.ToDeliveryOrder();
             order.RawBody = rawBody;
 
+            if (deliveryOrderRequest.CourierPickupRequest != null)
+                ensureStatus = true;
+
             if (ensureStatus)
             {
                 const int maxWaitingTimeMinutes = 3;
@@ -202,6 +205,15 @@ namespace Spoleto.Delivery.Providers.Cdek
 
                     throw new InvalidOperationException(message);
                 }
+            }
+
+            if (deliveryOrderRequest.CourierPickupRequest is CourierPickupRequest courierPickupRequest)
+            {
+                var createCourierPickupRequest = courierPickupRequest.ToDeliveryCreatePickupRequest(order.Uuid!.Value);
+
+                var pickup = await CreateCourierPickupAsync(createCourierPickupRequest, true).ConfigureAwait(false);
+
+                order.CourierPickup = pickup;
             }
 
             return order;
@@ -279,7 +291,7 @@ namespace Spoleto.Delivery.Providers.Cdek
 
                     while (true)
                     {
-                        courierPickup = await GetCourierPickupAsync(new() { Uuid = courierPickup.Uuid }).ConfigureAwait(false);
+                        courierPickup = await GetCourierPickupAsync(new() { Uuid = courierPickup.Uuid!.Value }).ConfigureAwait(false);
 
                         if (courierPickup.Status != null && courierPickup.Status != firstStatus)
                             break;

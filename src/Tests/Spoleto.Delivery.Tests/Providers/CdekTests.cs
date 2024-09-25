@@ -345,7 +345,7 @@ namespace Spoleto.Delivery.Tests.Providers
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
 
             var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
-            var deleteOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Uuid.ToString());
+            var deletedOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Uuid.ToString());
 
             // Assert
             Assert.That(deliveryOrder, Is.Not.Null);
@@ -369,7 +369,7 @@ namespace Spoleto.Delivery.Tests.Providers
             
             pickupRequest.OrderUuid = deliveryOrder.Uuid;
             var pickup = await provider.CreateCourierPickupAsync(pickupRequest, true);
-            var getPickup = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid });
+            var getPickup = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid!.Value });
 
             // Assert
             Assert.Multiple(() =>
@@ -423,6 +423,76 @@ namespace Spoleto.Delivery.Tests.Providers
 
                 Assert.That(deletedPickup, Is.Not.Null);
                 Assert.That(deletedPickup.Errors, Is.Empty);
+            });
+        }
+
+        [Test]
+        public async Task CreateOrderWithCourierPickupAtTheSameTime()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var deliveryOrderRequest = GetOnlineOrderRequest();
+            var pickupRequest = GetCourierPickupRequest();
+            deliveryOrderRequest.CourierPickupRequest = new CourierPickupRequest
+            {
+                Comment = pickupRequest.Comment,
+                IntakeDate = pickupRequest.IntakeDate,
+                IntakeTimeFrom = pickupRequest.IntakeTimeFrom,
+                IntakeTimeTo = pickupRequest.IntakeTimeTo
+            };
+
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.DeveloperKey), "XX-DEV-123-456");
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);
+
+            // Act
+            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(deliveryOrder, Is.Not.Null);
+
+                Assert.That(deliveryOrder.CourierPickup, Is.Not.Null);
+
+                Assert.That(deliveryOrder.Errors, Is.Empty);
+                Assert.That(deliveryOrder.CourierPickup!.Errors, Is.Empty);
+            });
+        }
+
+        [Test]
+        public async Task CreateAndDeleteOrderWithCourierPickupAtTheSameTime()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var deliveryOrderRequest = GetOnlineOrderRequest();
+            var pickupRequest = GetCourierPickupRequest();
+            deliveryOrderRequest.CourierPickupRequest = new CourierPickupRequest
+            {
+                Comment = pickupRequest.Comment,
+                IntakeDate = pickupRequest.IntakeDate,
+                IntakeTimeFrom = pickupRequest.IntakeTimeFrom,
+                IntakeTimeTo = pickupRequest.IntakeTimeTo
+            };
+
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.DeveloperKey), "XX-DEV-123-456");
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);
+
+            // Act
+            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deletedOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Uuid.ToString()!);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(deliveryOrder, Is.Not.Null);
+
+                Assert.That(deliveryOrder.CourierPickup, Is.Not.Null);
+
+                Assert.That(deliveryOrder.Errors, Is.Empty);
+                Assert.That(deliveryOrder.CourierPickup!.Errors, Is.Empty);
+
+                Assert.That(deletedOrder, Is.Not.Null);
+                Assert.That(deletedOrder.Errors, Is.Empty);
             });
         }
     }

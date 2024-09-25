@@ -160,6 +160,11 @@
         /// </summary>
         public List<DeliveryOrderPackage> Packages { get; set; }
 
+        /// <summary>
+        /// Информация, если требуется оформить вызов курьера на забор груза.
+        /// </summary>
+        public CourierPickupRequest? CourierPickupRequest { get; set; }
+
         ///// <summary>
         ///// Необходимость сформировать печатную форму по заказу.
         ///// </summary>

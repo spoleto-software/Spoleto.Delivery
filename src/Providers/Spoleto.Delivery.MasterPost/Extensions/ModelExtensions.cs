@@ -189,6 +189,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 PaymentType = request.PaymentType == null ? PaymentType.CashRecipient : (PaymentType)Enum.Parse(typeof(PaymentType), request.PaymentType.Value.ToString()),
             };
 
+            if (request.CourierPickupRequest != null)
+            {
+                orderRequest.CourierPlannedCollectionDate = request.CourierPickupRequest.IntakeDate;
+                orderRequest.CourierPlannedCollectionTimeFrom = request.CourierPickupRequest.IntakeTimeFrom;
+                orderRequest.CourierPlannedCollectionTimeTo = request.CourierPickupRequest.IntakeTimeTo;
+            }
+
             var providerData = request.AdditionalProviderData;
             if (providerData?.Count > 0)
             {

@@ -284,7 +284,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно, если требуется оформить и вызов курьера
         /// </remarks>
         [JsonPropertyName("DN_PLAN_DATE")]
-        public DateTime PlannedCollectionDate { get; set; }
+        public DateTime CourierPlannedCollectionDate { get; set; }
 
         /// <summary>
         /// ИнтервалВремениСбораС
@@ -293,7 +293,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно, если требуется оформить и вызов курьера
         /// </remarks>
         [JsonPropertyName("DN_PLAN_TIME_FR")]
-        public TimeSpan PlannedCollectionTimeFrom { get; set; }
+        public TimeSpan CourierPlannedCollectionTimeFrom { get; set; }
 
         /// <summary>
         /// ИнтервалВремениСбораПо
@@ -302,7 +302,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Обязательно, если требуется оформить и вызов курьера
         /// </remarks>
         [JsonPropertyName("DN_PLAN_TIME_TO")]
-        public TimeSpan PlannedCollectionTimeTo { get; set; }
+        public TimeSpan CourierPlannedCollectionTimeTo { get; set; }
 
         /// <summary>
         /// Номер резерва

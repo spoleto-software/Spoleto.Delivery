@@ -51,6 +51,11 @@
         public List<DeliveryOrderRelatedEntity>? RelatedEntities { get; set; }
 
         /// <summary>
+        /// Информация о заявке на вызов курьера на забор груза, если информация по вызову курьера была передана в момент создания заказа на доставку.
+        /// </summary>
+        public CourierPickup? CourierPickup { get; set; }
+
+        /// <summary>
         /// Исходный ответ в Json/Xml.
         /// </summary>
         public string RawBody { get; set; }

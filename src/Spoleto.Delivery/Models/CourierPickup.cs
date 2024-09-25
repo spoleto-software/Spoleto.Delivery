@@ -8,7 +8,7 @@
         /// <summary>
         /// Получает или задает идентификатор заявки на вызов курьера в ИС конкретного провайдера (Сдэк, МастерПост).
         /// </summary>
-        public Guid Uuid { get; set; }
+        public Guid? Uuid { get; set; }
 
         /// <summary>
         /// Номер заявки на вызов курьера в ИС конкретного провайдера (Сдэк, МастерПост).
@@ -83,12 +83,12 @@
         /// <summary>
         /// Отправитель.
         /// </summary>
-        public ContactBase Sender { get; set; }
+        public ContactBase? Sender { get; set; }
 
         /// <summary>
         /// Адрес отправителя (забора).
         /// </summary>
-        public CourierPickupLocation FromLocation { get; set; }
+        public CourierPickupLocation? FromLocation { get; set; }
 
         /// <summary>
         /// Необходим прозвон отправителя (по умолчанию - false).

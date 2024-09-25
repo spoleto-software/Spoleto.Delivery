@@ -226,6 +226,17 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 }
             }
 
+            if (deliveryOrderRequest.CourierPickupRequest is CourierPickupRequest courierPickupRequest)
+            {
+                //todo: надо ли тут явно создавать этот CourierPickup?
+                order.CourierPickup = new CourierPickup
+                {
+                    IntakeDate = courierPickupRequest.IntakeDate,
+                    IntakeTimeFrom = courierPickupRequest.IntakeTimeFrom,
+                    IntakeTimeTo = courierPickupRequest.IntakeTimeTo
+                };
+            }
+
             return order;
         }
 
