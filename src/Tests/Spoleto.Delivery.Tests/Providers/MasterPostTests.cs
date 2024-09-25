@@ -207,8 +207,8 @@ namespace Spoleto.Delivery.Tests.Providers
 
                 Assert.That(deliveryOrder.CourierPickup, Is.Not.Null);
 
-                Assert.That(deliveryOrder.Errors, Is.Empty);
-                Assert.That(deliveryOrder.CourierPickup!.Errors, Is.Empty);
+                Assert.That(deliveryOrder.Errors, Is.Null);
+                Assert.That(deliveryOrder.CourierPickup!.Errors, Is.Null);
             });
         }
 
