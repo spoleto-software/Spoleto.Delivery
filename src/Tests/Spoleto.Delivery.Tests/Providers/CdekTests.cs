@@ -73,9 +73,9 @@ namespace Spoleto.Delivery.Tests.Providers
                 ],
                 Sender = new()
                 {
-                    Company = "Burattino",
-                    Name = "Basilio",
-                    Email = "basilio@example.com",
+                    Company = "Компания-Отправитель",
+                    Name = "Петров И.",
+                    //Email = "send@mail.com",
                     Phones =
                     [
                         new() { Number = "79234567890" },
@@ -83,9 +83,9 @@ namespace Spoleto.Delivery.Tests.Providers
                 },
                 Recipient = new()
                 {
-                    Company = "Burattino",
-                    Name = "Alice",
-                    Email = "alice@example.com",
+                    Company = "Компания-Получатель",
+                    Name = "Сидоров А.",
+                    Email = "rec@mail.com",
                     Phones =
                     [
                         new() { Number = "79876543210" },
@@ -137,9 +137,9 @@ namespace Spoleto.Delivery.Tests.Providers
                 ],
                 Sender = new()
                 {
-                    Company = "Burattino",
-                    Name = "Basilio",
-                    Email = "basilio@example.com",
+                    Company = "Компания-Отправитель",
+                    Name = "Петров И.",
+                    Email = "send@mail.com",
                     Phones =
                     [
                         new() { Number = "79260001122" },
@@ -147,9 +147,9 @@ namespace Spoleto.Delivery.Tests.Providers
                 },
                 Recipient = new()
                 {
-                    Company = "Burattino",
-                    Name = "Alice",
-                    Email = "alice@example.com",
+                    Company = "Компания-Получатель",
+                    Name = "Сидоров А.",
+                    Email = "rec@mail.com",
                     Phones =
                     [
                         new() { Number = "79230001122" },
@@ -175,8 +175,8 @@ namespace Spoleto.Delivery.Tests.Providers
                 
                 Sender = new()
                 {
-                    Company = "Burattino",
-                    Name = "Basilio",
+                    Company = "Компания-Отправитель",
+                    Name = "Петров И.",
                     Phones =
                     [
                         new() { Number = "79234567890" },
@@ -343,7 +343,6 @@ namespace Spoleto.Delivery.Tests.Providers
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
-            await Task.Delay(5000);
 
             var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
             var deleteOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Uuid.ToString());

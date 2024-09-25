@@ -14,5 +14,7 @@
         /// Описание ошибки.
         /// </summary>
         public string Message { get; set; }
+
+        public override string ToString() => $"{Message} ({Code})";
     }
 }

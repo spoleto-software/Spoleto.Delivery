@@ -179,16 +179,28 @@ namespace Spoleto.Delivery.Providers.Cdek
                 {
                     var dateTime = DateTime.Now.AddMinutes(maxWaitingTimeMinutes);
                     var firstStatus = OrderStatus.Accepted.GetJsonEnumValue();
-                    
-                    while (order.Status == null || order.Status == firstStatus)
+
+                    while (true)
                     {
-                        order = await GetDeliveryOrderAsync(new () { Uuid = order.Uuid }).ConfigureAwait(false);
+                        order = await GetDeliveryOrderAsync(new() { Uuid = order.Uuid }).ConfigureAwait(false);
+
+                        if (order.Status != null && order.Status != firstStatus)
+                            break;
 
                         if (DateTime.Now > dateTime)
                             break;
 
                         await Task.Delay(3000).ConfigureAwait(false);
                     }
+                }
+
+                if (order.Status == OrderStatus.Invalid.GetJsonEnumValue())
+                {
+                    var message = "The created order is invalid.";
+                    if (order.Errors?.Count > 0)
+                        message += Environment.NewLine + String.Join(Environment.NewLine, order.Errors);
+
+                    throw new InvalidOperationException(message);
                 }
             }
 
@@ -265,14 +277,26 @@ namespace Spoleto.Delivery.Providers.Cdek
                     var dateTime = DateTime.Now.AddMinutes(maxWaitingTimeMinutes);
                     var firstStatus = PickupStatus.Accepted.GetJsonEnumValue();
 
-                    while (courierPickup.Status == null || courierPickup.Status == firstStatus)
+                    while (true)
                     {
                         courierPickup = await GetCourierPickupAsync(new() { Uuid = courierPickup.Uuid }).ConfigureAwait(false);
+
+                        if (courierPickup.Status != null && courierPickup.Status != firstStatus)
+                            break;
 
                         if (DateTime.Now > dateTime)
                             break;
 
                         await Task.Delay(3000).ConfigureAwait(false);
+                    }
+
+                    if (courierPickup.Status == PickupStatus.Invalid.GetJsonEnumValue())
+                    {
+                        var message = "The created courier pickup order is invalid.";
+                        if (courierPickup.Errors?.Count > 0)
+                            message += Environment.NewLine + String.Join(Environment.NewLine, courierPickup.Errors);
+
+                        throw new InvalidOperationException(message);
                     }
                 }
             }

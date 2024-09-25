@@ -97,7 +97,7 @@ namespace Spoleto.Delivery.Tests.Providers
                 {
                     Company = "Sender company",
                     Name = "Sender name",
-                    Email = "sender@example.com",
+                    Email = "sender@mail.com",
                     Phones =
                     [
                         new() { Number = "+71234567890" },
@@ -107,7 +107,7 @@ namespace Spoleto.Delivery.Tests.Providers
                 {
                     //Company = "Rec company",
                     Name = "Rec name",
-                   //Email = "company@example.com",
+                   //Email = "company@mail.com",
                     Phones =
                     [
                         new() { Number = "+79876543210" },
