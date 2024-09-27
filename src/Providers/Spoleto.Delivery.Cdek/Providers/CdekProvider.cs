@@ -225,7 +225,7 @@ namespace Spoleto.Delivery.Providers.Cdek
             var uri = deliveryOrderRequest.Uuid != null ? $"orders/{deliveryOrderRequest.Uuid}"
                 : !string.IsNullOrEmpty(deliveryOrderRequest.Number) ? $"orders?cdek_number={deliveryOrderRequest.Number}"
                 : !string.IsNullOrEmpty(deliveryOrderRequest.CisNumber) ? $"orders?im_number={deliveryOrderRequest.CisNumber}"
-                : throw new ArgumentNullException(nameof(deliveryOrderRequest.CisNumber));
+                : throw new ArgumentNullException(nameof(deliveryOrderRequest.Uuid));
 
             var restRequest = new RestRequestFactory(RestHttpMethod.Get, uri)
                 .Build();

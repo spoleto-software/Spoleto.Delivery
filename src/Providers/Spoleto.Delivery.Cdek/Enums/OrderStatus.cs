@@ -289,6 +289,96 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// </remarks>
         [JsonEnumValue("POSTOMAT_RECEIVED")]
         [Description("Изъят из постамата клиентом")]
-        PostomatReceived
+        PostomatReceived,
+
+        /// <summary>
+        /// Сдан перевозчику в г. отправителе
+        /// </summary>
+        /// <remarks>
+        /// Зарегистрирована отправка в городе-отправителе. Консолидированный груз передан на доставку (в аэропорт/загружен машину).
+        /// </remarks>
+        [JsonEnumValue("PASSED_TO_CARRIER_AT_SENDING_OFFICE")]
+        [Description("Сдан перевозчику в г. отправителе")]
+        PassedToCarrierAtSendingOffice,
+
+        /// <summary>
+        /// Отправлен в г. транзит
+        /// </summary>
+        /// <remarks>
+        /// Зарегистрирована отправка в город-транзит. Проставлены дата и время отправления у перевозчика.
+        /// </remarks>
+        [JsonEnumValue("SEND_TO_TRANSIT_OFFICE")]
+        [Description("Отправлен в г. транзит")]
+        SendToTransitOffice,
+
+        /// <summary>
+        /// Встречен в г. транзите
+        /// </summary>
+        /// <remarks>
+        /// Зарегистрирована встреча в городе-транзите.
+        /// </remarks>
+        [JsonEnumValue("MET_AT_TRANSIT_OFFICE")]
+        [Description("Встречен в г. транзите")]
+        MetAtTransitOffice,
+
+        /// <summary>
+        /// Сдан перевозчику в г. транзите
+        /// </summary>
+        /// <remarks>
+        /// Зарегистрирована отправка у перевозчика в городе-транзите.
+        /// </remarks>
+        [JsonEnumValue("PASSED_TO_CARRIER_AT_TRANSIT_OFFICE")]
+        [Description("Сдан перевозчику в г. транзите")]
+        PassedToCarrierAtTransitOffice,
+
+        /// <summary>
+        /// Встречен в г. отправителе
+        /// </summary>
+        /// <remarks>
+        /// Зарегистрирована встреча груза в городе-отправителе.
+        /// </remarks>
+        [JsonEnumValue("MET_AT_SENDING_OFFICE")]
+        [Description("Встречен в г. отправителе")]
+        MetAtSendingOffice,
+
+        /// <summary>
+        /// Встречен в г. получателе
+        /// </summary>
+        /// <remarks>
+        /// Зарегистрирована встреча груза в городе-получателе.
+        /// </remarks>
+        [JsonEnumValue("MET_AT_RECIPIENT_OFFICE")]
+        [Description("Встречен в г. получателе")]
+        MetAtRecipientOffice,
+
+        /// <summary>
+        /// Поступил в г. транзита
+        /// </summary>
+        /// <remarks>
+        /// Оформлена приемка в городе-транзите.
+        /// </remarks>
+        [JsonEnumValue("ENTERED_TO_OFFICE_TRANSIT_WAREHOUSE")]
+        [Description("Поступил в г. транзита")]
+        EnteredToOfficeTransitWarehouse,
+
+        /// <summary>
+        /// Поступил на склад доставки
+        /// </summary>
+        /// <remarks>
+        /// Оформлена приемка на складе города получателя по заказу до двери.
+        /// </remarks>
+        [JsonEnumValue("ENTERED_TO_DELIVERY_WAREHOUSE")]
+        [Description("Поступил на склад доставки")]
+        EnteredToDeliveryWarehouse,
+
+        /// <summary>
+        /// Поступил на склад до востребования
+        /// </summary>
+        /// <remarks>
+        /// Оформлена приемка на складе города получателя по заказу до склада.
+        /// </remarks>
+        [JsonEnumValue("ENTERED_TO_WAREHOUSE_ON_DEMAND")]
+        [Description("Поступил на склад до востребования")]
+        EnteredToWarehouseOnDemand
     }
 }

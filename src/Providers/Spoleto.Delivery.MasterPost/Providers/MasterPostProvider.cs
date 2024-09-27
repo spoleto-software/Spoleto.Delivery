@@ -243,7 +243,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <inheritdoc/>
         public override async Task<Delivery.DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
         {
-            var number = deliveryOrderRequest.Uuid?.ToString() ?? deliveryOrderRequest.Number ?? deliveryOrderRequest.CisNumber ?? throw new ArgumentNullException(nameof(deliveryOrderRequest.CisNumber));
+            var number = deliveryOrderRequest.Uuid?.ToString() ?? deliveryOrderRequest.Number ?? deliveryOrderRequest.CisNumber ?? throw new ArgumentNullException(nameof(deliveryOrderRequest.Number));
            
             var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"dns/{number}").Build();
 
