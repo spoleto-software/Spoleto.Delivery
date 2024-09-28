@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Spoleto.Common.Helpers;
 using Spoleto.Delivery.Providers.Cdek;
 
 namespace Spoleto.Delivery.Tests.Providers
@@ -260,6 +261,7 @@ namespace Spoleto.Delivery.Tests.Providers
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var fullRawBody = deliveryOrder.GetFullRawBody();
             var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
 
             // Assert
@@ -446,6 +448,10 @@ namespace Spoleto.Delivery.Tests.Providers
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var fullRawBody = deliveryOrder.GetFullRawBody();
+
+            var after = JsonHelper.FromJson<DeliveryOrderFullRawBody>(fullRawBody);
+            var orderAfterJson = JsonHelper.FromJson<Delivery.Providers.Cdek.DeliveryOrder>(after.DeliveryOrder);
 
             // Assert
             Assert.Multiple(() =>
