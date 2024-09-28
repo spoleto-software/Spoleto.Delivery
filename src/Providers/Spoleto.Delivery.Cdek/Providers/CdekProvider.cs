@@ -214,6 +214,8 @@ namespace Spoleto.Delivery.Providers.Cdek
                 var pickup = await CreateCourierPickupAsync(createCourierPickupRequest, true).ConfigureAwait(false);
 
                 order.CourierPickup = pickup;
+                order.RelatedOrderRawBodies ??= [];
+                order.RelatedOrderRawBodies.Add(new() { Type = nameof(CourierPickup), RawBody = pickup.RawBody });
             }
 
             return order;
