@@ -26,6 +26,11 @@
         public List<Package> Packages { get; set; }
 
         /// <summary>
+        /// Сумма страхования.
+        /// </summary>
+        public decimal? SumInsured { get; set; }
+
+        /// <summary>
         /// Gets the additional order data.
         /// </summary>
         public List<DeliveryOrderData> AdditionalProviderData { get; } = [];

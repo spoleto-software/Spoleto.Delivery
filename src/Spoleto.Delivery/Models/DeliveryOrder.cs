@@ -58,6 +58,11 @@ namespace Spoleto.Delivery
         public CourierPickup? CourierPickup { get; set; }
 
         /// <summary>
+        /// Сумма страхования.
+        /// </summary>
+        public decimal? SumInsured { get; set; }
+
+        /// <summary>
         /// Исходный ответ в Json/Xml.
         /// </summary>
         public string RawBody { get; set; }

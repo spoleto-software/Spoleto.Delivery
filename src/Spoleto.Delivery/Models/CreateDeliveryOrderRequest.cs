@@ -165,6 +165,11 @@
         /// </summary>
         public CourierPickupRequest? CourierPickupRequest { get; set; }
 
+        /// <summary>
+        /// Сумма страхования.
+        /// </summary>
+        public decimal? SumInsured { get; set; }
+
         ///// <summary>
         ///// Необходимость сформировать печатную форму по заказу.
         ///// </summary>

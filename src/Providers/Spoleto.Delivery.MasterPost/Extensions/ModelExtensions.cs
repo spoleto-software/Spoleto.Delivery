@@ -12,7 +12,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 SenderCity = request.FromLocation.CityFiasId?.ToString() ?? request.FromLocation.KladrCode ?? string.Empty,
                 //ReceiverAddress = request.ToLocation.Address,
                 ReceiverCity = request.ToLocation.CityFiasId?.ToString() ?? request.FromLocation.KladrCode ?? string.Empty,
-                CargoPlaces = request.Packages.Select(x => x.ToCargoPlaceBaseRequest()).ToList()
+                CargoPlaces = request.Packages.Select(x => x.ToCargoPlaceBaseRequest()).ToList(),
+                EstimatedCost = request.SumInsured ?? 0M
             };
 
             var providerData = request.AdditionalProviderData;
@@ -187,6 +188,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 Items = request.Packages?.Where(x => x.Items != null).Where(x => x.Items != null).SelectMany(x => x.Items).Select(x => x.ToOrderCargoItem()).ToList() ?? [],
 
                 PaymentType = request.PaymentType == null ? PaymentType.CashRecipient : (PaymentType)Enum.Parse(typeof(PaymentType), request.PaymentType.Value.ToString()),
+
+                EstimatedCost = request.SumInsured ?? 0M
             };
 
             if (request.CourierPickupRequest != null)
@@ -234,7 +237,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 Status = order.CurrentStatus,
                 CisNumber = order.CisNumber,
                 PlannedDeliveryDate = order.DeliveryDateTime,
-                TrackUrl = order.GetTrackUrl(serviceUrl)
+                TrackUrl = order.GetTrackUrl(serviceUrl),
+                SumInsured = order.EstimatedCost
             };
         }
     }
