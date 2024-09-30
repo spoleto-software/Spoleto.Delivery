@@ -43,7 +43,7 @@ namespace Spoleto.Delivery.Tests.Providers
                 [
                     new()
                     {
-                        Weight = 4000,
+                        Weight = 4500,
                         Height = 10,
                         Width = 10,
                         Length = 10
@@ -135,7 +135,7 @@ namespace Spoleto.Delivery.Tests.Providers
             var deliveryOrderRequest = GetOrderRequest();
 
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.Comment), "test");
-            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.CollectionAtDelivery), "123-456-789");
+            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.FeeCollectionAtDelivery), "123-456-789");
             //deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.IsStraightDelivery), true);
             //deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.SenderAddressCodes), new List<string> { "code1", "code2", "code3" });
 

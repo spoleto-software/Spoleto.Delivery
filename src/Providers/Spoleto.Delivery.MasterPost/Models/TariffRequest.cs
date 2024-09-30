@@ -41,18 +41,20 @@ namespace Spoleto.Delivery.Providers.MasterPost
         [JsonConverter(typeof(JsonSenderAddressCodeConverter))]
         public List<string> SenderAddressCodes { get; set; } = [];
 
-        /// <summary>
-        /// Адрес Отправителя.
-        /// </summary>
-        [JsonPropertyName("DN_SEND_STR")]
-        public string SenderAddress { get; set; } = string.Empty;
+        ///// <summary>
+        ///// Адрес Отправителя.
+        ///// </summary>
+        //[JsonPropertyName("DN_SEND_STR")]
+        //public string SenderAddress { get; set; } = string.Empty;
 
         /// <summary>
         /// Город Отправителя.
         /// </summary>
         /// <remarks>
         /// УИД ФИАС, либо код КЛАДР.<br/>
-        /// Обязательно должно быть заполнен либо этот тег, либо тег <see cref="SenderAddressCodes"/> (DN_SEND_ADR_CODE).
+        /// Обязательно должно быть заполнен либо этот тег, либо тег <see cref="SenderAddressCodes"/> (DN_SEND_ADR_CODE).<br/><br/>
+        /// В тарифной сетке присутствуют города. Вне зависимости от улицы города.
+        /// Поэтому, обычно достаточно указать город отправителя, город получателя, параметры тарифа, чтобы получить стоимость тарифа.
         /// </remarks>
         [JsonPropertyName("DN_SEND_CITY")]
         public string SenderCity { get; set; } = string.Empty;
@@ -61,16 +63,18 @@ namespace Spoleto.Delivery.Providers.MasterPost
         ///// Адрес Получателя.
         ///// </summary>
         //[JsonPropertyName("DN_REC_STR")]
-        //public string? ReceiverAddress { get; set; }
+        //public string? RecipientAddress { get; set; }
 
         /// <summary>
         /// Город Получателя.
         /// </summary>
         /// <remarks>
-        /// УИД ФИАС, либо код КЛАДР.
+        /// УИД ФИАС, либо код КЛАДР.<br/><br/>
+        /// В тарифной сетке присутствуют города. Вне зависимости от улицы города.
+        /// Поэтому, обычно достаточно указать город отправителя, город получателя, параметры тарифа, чтобы получить стоимость тарифа.
         /// </remarks>
         [JsonPropertyName("DN_REC_CITY")]
-        public string ReceiverCity { get; set; } = string.Empty;
+        public string RecipientCity { get; set; } = string.Empty;
 
         /// <summary>
         /// Согласованная дата доставки.
@@ -115,7 +119,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Номер телефона получателя, если выбрана услуга.
         /// </remarks>
         [JsonPropertyName("DN_REC_SMS")]
-        public string ReceiverSms { get; set; }
+        public string RecipientSms { get; set; }
 
         /// <summary>
         /// Плановая Дата Сбора.

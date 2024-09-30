@@ -63,6 +63,8 @@ namespace Spoleto.Delivery.Providers.Cdek
                 Name = tariff.Name,
                 PeriodMin = tariff.PeriodMin,
                 PeriodMax = tariff.PeriodMax,
+                PeriodDateMin = DateTimeHelper.GetDateAfterWorkingDays(DateTime.Now.Date, tariff.PeriodMin),
+                PeriodDateMax = DateTimeHelper.GetDateAfterWorkingDays(DateTime.Now.Date, tariff.PeriodMax)
             };
         }
 

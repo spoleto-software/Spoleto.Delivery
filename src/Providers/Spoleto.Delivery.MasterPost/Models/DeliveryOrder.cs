@@ -117,7 +117,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <summary>
         /// Дом Отправителя.
         /// </summary>
-        [JsonPropertyName("DN_SEND_HOME")]
+        [JsonPropertyName("DN_SEND_HOUSE")]
         public int SenderHouseNumber { get; set; }
 
         /// <summary>
@@ -142,71 +142,71 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Адрес получателя в свободной форме.
         /// </summary>
         [JsonPropertyName("DN_REC_ADR")]
-        public string ReceiverAddress { get; set; }
+        public string RecipientAddress { get; set; }
 
         /// <summary>
         /// Город получателя код ФИАС.
         /// </summary>
         [JsonPropertyName("DN_REC_CITY")]
         [JsonConverter(typeof(JsonGuidConverter))]
-        public Guid? ReceiverCityFiasId { get; set; }
+        public Guid? RecipientCityFiasId { get; set; }
 
         /// <summary>
         /// Город получателя код КЛАДР.
         /// </summary>
         /// <remarks>Пример: 7800000003900.</remarks>
         [JsonPropertyName("DN_REC_CITY_KLADR")]
-        public string ReceiverCityKladrCode { get; set; }
+        public string RecipientCityKladrCode { get; set; }
 
         /// <summary>
         /// Организация получателя.
         /// </summary>
         [JsonPropertyName("DN_REC_COMP")]
-        public string ReceiverCompany { get; set; }
+        public string RecipientCompany { get; set; }
 
         /// <summary>
         /// Улица получателя код ФИАС.
         /// </summary>
         [JsonPropertyName("DN_REC_STR")]
         [JsonConverter(typeof(JsonGuidConverter))]
-        public Guid? ReceiverStreetFiasId { get; set; }
+        public Guid? RecipientStreetFiasId { get; set; }
 
         /// <summary>
         /// Улица получателя код КЛАДР.
         /// </summary>
         /// <remarks>Пример: 7800000003900.</remarks>
         [JsonPropertyName("DN_REC_STR_KLADR")]
-        public string ReceiverStreetKladrCode { get; set; }
+        public string RecipientStreetKladrCode { get; set; }
 
         /// <summary>
         /// Дом получателя.
         /// </summary>
-        [JsonPropertyName("DN_REC_APT")]
-        public int ReceiverHouseNumber { get; set; }
+        [JsonPropertyName("DN_REC_HOUSE")]
+        public int RecipientHouseNumber { get; set; }
 
         /// <summary>
         /// Дополнительная информация получателя.
         /// </summary>
         [JsonPropertyName("DN_REC_INFO")]
-        public string? ReceiverAdditionalInfo { get; set; }
+        public string? RecipientAdditionalInfo { get; set; }
 
         /// <summary>
         /// Контактное лицо получателя.
         /// </summary>
         [JsonPropertyName("DN_REC_CONT")]
-        public string ReceiverContactPerson { get; set; }
+        public string RecipientContactPerson { get; set; }
 
         /// <summary>
         /// Контактный телефон получателя.
         /// </summary>
         [JsonPropertyName("DN_REC_PHONE")]
-        public string ReceiverContactPhone { get; set; }
+        public string RecipientContactPhone { get; set; }
 
         /// <summary>
         /// Email адрес получателя.
         /// </summary>
         [JsonPropertyName("DN_REC_EMAIL")]
-        public string ReceiverEmail { get; set; }
+        public string RecipientEmail { get; set; }
 
         /// <summary>
         /// Согласованная дата доставки.
@@ -280,7 +280,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// SMS информирование получателя.
         /// </summary>
         [JsonPropertyName("DN_REC_SMS")]
-        public string? ReceiverSmsNotification { get; set; }
+        public string? RecipientSmsNotification { get; set; }
 
         /// <summary>
         /// Описание вложимого.

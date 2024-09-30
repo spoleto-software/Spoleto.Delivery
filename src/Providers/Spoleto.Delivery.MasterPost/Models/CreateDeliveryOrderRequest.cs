@@ -81,7 +81,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <remarks>
         /// Обязательно должно быть заполнено одно из трех: ((<see cref="SenderAddress">DN_SEND_ADR</see> и <see cref="SenderCity">DN_SEND_CITY</see>) или <see cref="SenderAddressCodes">DN_SEND_ADR_CODE</see> или (<see cref="SenderCompany">DN_SEND_COMP</see> и <see cref="SenderCity">DN_SEND_CITY</see> и <see cref="SenderStreet">DN_SEND_STR</see> и <see cref="SenderHome">DN_SEND_HOME</see>))
         /// </remarks>
-        [JsonPropertyName("DN_SEND_HOME")]
+        [JsonPropertyName("DN_SEND_HOUSE")]
         public int SenderHome { get; set; }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <remarks>
         /// Обязательно, если не заполнен адрес в свободной форме
         /// </remarks>
-        [JsonPropertyName("DN_REC_APT")]
+        [JsonPropertyName("DN_REC_HOUSE")]
         public int RecipientHome { get; set; }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         public string OrderNumber { get; set; } = string.Empty;
 
         /// <summary>
-        /// Оценочная стоимость.
+        /// Оценочная стоимость. Используется для расчета страхования груза.
         /// </summary>
         /// <remarks>
         /// Передается, если выбрана соответствующая услуга.
@@ -275,7 +275,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Ссылочный номер ДН
         /// </remarks>
         [JsonPropertyName("DN_RECIEVE_PACK")]
-        public string CollectionAtDelivery { get; set; } = string.Empty;
+        public string FeeCollectionAtDelivery { get; set; } = string.Empty;
 
         /// <summary>
         /// Плановая Дата Сбора

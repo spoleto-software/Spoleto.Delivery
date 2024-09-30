@@ -8,10 +8,10 @@ namespace Spoleto.Delivery.Providers.MasterPost
         {
             var tariffRequest = new TariffRequest
             {
-                SenderAddress = request.FromLocation.Address ?? String.Empty,
+                //SenderAddress = request.FromLocation.Address ?? String.Empty,
                 SenderCity = request.FromLocation.CityFiasId?.ToString() ?? request.FromLocation.KladrCode ?? string.Empty,
-                //ReceiverAddress = request.ToLocation.Address,
-                ReceiverCity = request.ToLocation.CityFiasId?.ToString() ?? request.FromLocation.KladrCode ?? string.Empty,
+                //RecipientAddress = request.ToLocation.Address,
+                RecipientCity = request.ToLocation.CityFiasId?.ToString() ?? request.FromLocation.KladrCode ?? string.Empty,
                 CargoPlaces = request.Packages.Select(x => x.ToCargoPlaceBaseRequest()).ToList(),
                 EstimatedCost = request.SumInsured ?? 0M
             };
@@ -35,7 +35,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 Height = package.Height ?? 0,
                 Length = package.Length ?? 0,
                 Width = package.Width ?? 0,
-                Weight = package.Weight,
+                Weight = package.Weight / 1000M,
                 CargoPlaceType = Enum.TryParse<CargoPlaceType>(package.PackageType.ToString(), out var cargoPlaceType) ? cargoPlaceType : CargoPlaceType.Cargo
             };
         }
@@ -47,7 +47,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 Height = package.Height ?? 0,
                 Length = package.Length ?? 0,
                 Width = package.Width ?? 0,
-                Weight = package.Weight,
+                Weight = package.Weight / 1000M,
                 CargoPlaceType = Enum.TryParse<CargoPlaceType>(package.PackageType.ToString(), out var cargoPlaceType) ? cargoPlaceType : CargoPlaceType.Cargo
             };
         }
@@ -59,6 +59,10 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 Code = tariff.Name,
                 DeliverySum = tariff.Cost,
                 Name = tariff.Name,
+                PeriodMin = tariff.DeliveryMinDays,
+                PeriodMax = tariff.DeliveryMaxDays,
+                PeriodDateMin = tariff.DeliveryMinDateTime,
+                PeriodDateMax = tariff.DeliveryMaxDateTime,
                 DeliveryMode = DeliveryMode.DoorDoor,
                 Services = tariff.Rates.Select(x => x.ToDeliveryTariffService()).ToList()
             };
@@ -135,7 +139,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 Height = package.Height ?? 0,
                 Length = package.Length ?? 0,
                 Width = package.Width ?? 0,
-                Weight = package.Weight,
+                Weight = package.Weight / 1000M,
                 CargoPlaceType = package.PackageType == null ? CargoPlaceType.Cargo : (CargoPlaceType)Enum.Parse(typeof(CargoPlaceType), package.PackageType.Value.ToString())
             };
         }
@@ -151,7 +155,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 ArticleEstimatedPrice = item.Cost,
                 ArticlePriceWithVat = item.Payment.Value,
                 ArticlePriceWithoutVat = item.Payment.Value - (item.Payment.VatSum ?? 0M),
-                ArticleVatRate = item.Payment.VatRate == null ? VatRate.WO_VAT : (VatRate)item.Payment.VatRate.Value
+                ArticleVatRate = item.Payment.VatRate == null ? VatRate.VAT_20 : (VatRate)item.Payment.VatRate.Value
             };
         }
 

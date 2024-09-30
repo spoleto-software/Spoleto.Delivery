@@ -49,9 +49,14 @@
         public decimal DeliverySum { get; set; }
 
         /// <summary>
-        /// Срок время доставки.
+        /// Минимальное время доставки (исходя из рабочих дней).
         /// </summary>
-        public string? Period { get; set; }
+        public DateTime? PeriodDateMin { get; set; }
+
+        /// <summary>
+        /// Максимальное время доставки (исходя из рабочих дней).
+        /// </summary>
+        public DateTime? PeriodDateMax { get; set; }
 
         /// <summary>
         /// Минимальное время доставки (в рабочих днях).
