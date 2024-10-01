@@ -24,76 +24,12 @@ Begin by installing the package through the [NuGet](https://www.nuget.org/packag
 
 ### Main Interface
 
-The main interface, `IDeliveryService`, serves as an abstraction layer for the delivery of goods. Below is a sample implementation:
-
-```csharp
-namespace Spoleto.Delivery
-{
-    public interface IDeliveryService
-    {
-        IEnumerable<IDeliveryProvider> Providers { get; }
-        IDeliveryProvider DefaultProvider { get; }
-
-        List<City> GetCities(CityRequest cityRequest);
-        List<City> GetCities(string providerName, CityRequest cityRequest);
-        List<City> GetCities(DeliveryProviderName providerName, CityRequest cityRequest);
-        List<City> GetCities(IDeliveryProvider provider, CityRequest cityRequest);
-        Task<List<City>> GetCitiesAsync(CityRequest cityRequest);
-        Task<List<City>> GetCitiesAsync(string providerName, CityRequest cityRequest);
-        Task<List<City>> GetCitiesAsync(DeliveryProviderName providerName, CityRequest cityRequest);
-        Task<List<City>> GetCitiesAsync(IDeliveryProvider provider, CityRequest cityRequest);
-
-        List<Tariff> GetTariffs(TariffRequest tariffRequest);
-        List<Tariff> GetTariffs(string providerName, TariffRequest tariffRequest);
-        List<Tariff> GetTariffs(DeliveryProviderName providerName, TariffRequest tariffRequest);
-        List<Tariff> GetTariffs(IDeliveryProvider provider, TariffRequest tariffRequest);
-        Task<List<Tariff>> GetTariffsAsync(TariffRequest tariffRequest);
-        Task<List<Tariff>> GetTariffsAsync(string providerName, TariffRequest tariffRequest);
-        Task<List<Tariff>> GetTariffsAsync(DeliveryProviderName providerName, TariffRequest tariffRequest);
-        Task<List<Tariff>> GetTariffsAsync(IDeliveryProvider provider, TariffRequest tariffRequest);
-
-        List<AdditionalService> GetAdditionalServices(Tariff tariff);
-        List<AdditionalService> GetAdditionalServices(string providerName, Tariff tariff);
-        List<AdditionalService> GetAdditionalServices(DeliveryProviderName providerName, Tariff tariff);
-        List<AdditionalService> GetAdditionalServices(IDeliveryProvider provider, Tariff tariff);
-        Task<List<AdditionalService>> GetAdditionalServicesAsync(Tariff tariff);
-        Task<List<AdditionalService>> GetAdditionalServicesAsync(string providerName, Tariff tariff);
-        Task<List<AdditionalService>> GetAdditionalServicesAsync(DeliveryProviderName providerName, Tariff tariff);
-        Task<List<AdditionalService>> GetAdditionalServicesAsync(IDeliveryProvider provider, Tariff tariff);
-
-        DeliveryOrder CreateDeliveryOrder(DeliveryOrderRequest deliveryOrderRequest);
-        DeliveryOrder CreateDeliveryOrder(string providerName, DeliveryOrderRequest deliveryOrderRequest);
-        DeliveryOrder CreateDeliveryOrder(DeliveryProviderName providerName, DeliveryOrderRequest deliveryOrderRequest);
-        DeliveryOrder CreateDeliveryOrder(IDeliveryProvider provider, DeliveryOrderRequest deliveryOrderRequest);
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryOrderRequest deliveryOrderRequest);
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(string providerName, DeliveryOrderRequest deliveryOrderRequest);
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryProviderName providerName, DeliveryOrderRequest deliveryOrderRequest);
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(IDeliveryProvider provider, DeliveryOrderRequest deliveryOrderRequest);
-    }
-}
-```
+The main interface, `IDeliveryService`, serves as an abstraction layer for the delivery of goods.  
+It includes all the necessary methods for work with delivery providers, such as getting available tariffs, creating and deleting delivery orders, and others.
 
 ### DeliveryProvider
 
-Each delivery provider must implement the `IDeliveryProvider` interface:
-
-```csharp
-namespace Spoleto.Delivery.Providers
-{
-    public interface IDeliveryProvider
-    {
-        string Name { get; }
-        List<City> GetCities(CityRequest cityRequest);
-        Task<List<City>> GetCitiesAsync(CityRequest cityRequest);
-        List<Tariff> GetTariffs(TariffRequest tariffRequest);
-        Task<List<Tariff>> GetTariffsAsync(TariffRequest tariffRequest);
-        List<AdditionalService> GetAdditionalServices(Tariff tariff);
-        Task<List<AdditionalService>> GetAdditionalServicesAsync(Tariff tariff);
-        DeliveryOrder CreateDeliveryOrder(DeliveryOrderRequest deliveryOrderRequest);
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryOrderRequest deliveryOrderRequest);
-    }
-}
-```
+Each delivery provider must implement the `IDeliveryProvider` interface.
 
 DeliveryProvider is the underlying mechanisms that enable the actual delivery functionality. When you incorporate Spoleto.Delivery into your application, it's mandatory to install at least one of the available delivery providers.
 
@@ -260,3 +196,30 @@ public class YourDeliveryClass
     }
 }
 ```
+
+### Spoleto.AddressResolver
+
+[**Spoleto.AddressResolver**](https://github.com/spoleto-software/Spoleto.AddressResolver) is a library for parsing textual representations of addresses. It is designed to break down an address into its components, such as city, street, house number, fias, kladr and postal code.  
+
+This library is used in the following code:
+
+1. MasterPost provider to parse textual representations of an address to get a city Fias identifier if it is not provided.
+2. Cdek provider in the GetDeliveryPoints method for the same reason.
+
+### Callbacks
+
+Also the solution provides demo examples of implementation of services for updating order statuses.
+
+#### Spoleto.Delivery.Callback.Cdek
+
+Web Api callback service for **[Cdek webhooks]**(https://api-docs.cdek.ru/29924139.html):  
+
+https://github.com/spoleto-software/Spoleto.Delivery/tree/main/src/Callbacks/Spoleto.Delivery.Callback.Cdek
+
+
+#### Spoleto.Delivery.Callback.MasterPost
+
+Windows service to check delivery order statuses from MasterPost with a specified frequency:  
+
+https://github.com/spoleto-software/Spoleto.Delivery/tree/main/src/Callbacks/Spoleto.Delivery.Callback.MasterPost
+
