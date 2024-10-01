@@ -1,6 +1,8 @@
-﻿namespace Spoleto.Delivery.Providers.Cdek
+﻿using Spoleto.RestClient;
+
+namespace Spoleto.Delivery.Providers.Cdek
 {
-    public partial class CdekProvider
+    public partial class CdekProvider : ICdekProvider
     {
         private List<Delivery.AdditionalService> GetAdditionalServices()
         {
@@ -49,6 +51,67 @@
                 return ("Параметр услуги: код фотопроекта", ParameterType.String);
 
             return (null, null);
+        }
+
+        /// <inheritdoc/>
+        public WebhookBase CreateWebhook(WebhookRequest webhookRequest)
+            => CreateWebhookAsync(webhookRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<WebhookBase> CreateWebhookAsync(WebhookRequest webhookRequest)
+        {
+            var restRequest = new RestRequestFactory(RestHttpMethod.Post, $"webhooks")
+                .WithJsonContent(webhookRequest)
+                .Build();
+
+            var webhook = await _cdekClient.ExecuteAsync<WebhookBase>(restRequest).ConfigureAwait(false);
+
+            return webhook;
+        }
+
+        /// <inheritdoc/>
+        public Webhook GetWebhook(Guid webhookUuid)
+            => GetWebhookAsync(webhookUuid).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<Webhook> GetWebhookAsync(Guid webhookUuid)
+        {
+            var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"webhooks/{webhookUuid}")
+                .Build();
+
+            var webhook = await _cdekClient.ExecuteAsync<Webhook>(restRequest).ConfigureAwait(false);
+
+            return webhook;
+        }
+
+        /// <inheritdoc/>
+        public WebhookBase DeleteWebhook(Guid webhookUuid)
+            => DeleteWebhookAsync(webhookUuid).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<WebhookBase> DeleteWebhookAsync(Guid webhookUuid)
+        {
+            var restRequest = new RestRequestFactory(RestHttpMethod.Delete, $"webhooks/{webhookUuid}")
+                .Build();
+
+            var webhook = await _cdekClient.ExecuteAsync<WebhookBase>(restRequest).ConfigureAwait(false);
+
+            return webhook;
+        }
+
+        /// <inheritdoc/>
+        public List<WebhookEntity> GetAllWebhooks()
+            => GetAllWebhooksAsync().GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<List<WebhookEntity>> GetAllWebhooksAsync()
+        {
+            var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"webhooks")
+                .Build();
+
+            var webhooks = await _cdekClient.ExecuteAsync<List<WebhookEntity>>(restRequest).ConfigureAwait(false);
+
+            return webhooks;
         }
     }
 }

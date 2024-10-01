@@ -9,7 +9,7 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <remarks>
     /// <see href="https://api-docs.cdek.ru/29923741.html"/>
     /// </remarks>
-    public partial class CdekProvider : DeliveryProviderBase, ICdekProvider, IDisposable
+    public partial class CdekProvider : DeliveryProviderBase, IDisposable
     {
         /// <summary>
         /// The name of the delivery provider.

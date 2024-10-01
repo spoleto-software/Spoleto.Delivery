@@ -501,5 +501,63 @@ namespace Spoleto.Delivery.Tests.Providers
                 Assert.That(deletedOrder.Errors, Is.Empty);
             });
         }
+
+        [Test]
+        public async Task GetWebhook()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var webhookUuid = Guid.Parse("5b3b6ab5-0861-447f-9518-2c62182f475a");
+
+            // Act
+            var webhook = await provider.GetWebhookAsync(webhookUuid);
+
+            // Assert
+            Assert.Pass();
+        }
+
+        [Test]
+        public async Task CreateWebhook()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var webhookRequest = new WebhookRequest { Type = WebhookType.DOWNLOAD_PHOTO, Url = "http://mysite.com/api/cdek" };
+
+            // Act
+            var createdWebhook = await provider.CreateWebhookAsync(webhookRequest);
+            var webhook = await provider.GetWebhookAsync(createdWebhook.Entity.Uuid);
+
+            // Assert
+            Assert.Pass();
+        }
+
+        [Test]
+        public async Task DeleteWebhook()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var webhookRequest = new WebhookRequest { Type = WebhookType.DOWNLOAD_PHOTO, Url = "http://mysite.com/api/cdek" };
+
+            // Act
+            var createdWebhook = await provider.CreateWebhookAsync(webhookRequest);
+            var webhook = await provider.GetWebhookAsync(createdWebhook.Entity.Uuid);
+            var deletedWebhook = await provider.DeleteWebhookAsync(webhook.Entity.Uuid);
+
+            // Assert
+            Assert.Pass();
+        }
+
+        [Test]
+        public async Task GetAllWebhooks()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+
+            // Act
+            var webhooks = await provider.GetAllWebhooksAsync();
+
+            // Assert
+            Assert.That(webhooks, Is.Not.Null);
+        }
     }
 }
