@@ -203,23 +203,23 @@ public class YourDeliveryClass
 
 This library is used in the following code:
 
-1. MasterPost provider to parse textual representations of an address to get a city Fias identifier if it is not provided.
+1. MasterPost provider to parse textual representations of an address to get a city Fias identifier, if it is not provided.
 2. Cdek provider in the GetDeliveryPoints method for the same reason.
 
 ### Callbacks
 
-Also the solution provides demo examples of implementation of services for updating order statuses.
+Also the solution provides demo examples of implementation of services for updating delivery order statuses.
 
 #### Spoleto.Delivery.Callback.Cdek
 
-Web Api callback service for **[Cdek webhooks]**(https://api-docs.cdek.ru/29924139.html):  
+Web Api callback service for **[Cdek webhooks](https://api-docs.cdek.ru/29924139.html)**:  
 
 https://github.com/spoleto-software/Spoleto.Delivery/tree/main/src/Callbacks/Spoleto.Delivery.Callback.Cdek
 
 
 #### Spoleto.Delivery.Callback.MasterPost
 
-Windows service to check delivery order statuses from MasterPost with a specified frequency:  
+Windows service to check delivery order statuses from MasterPost Web service with a specified frequency:  
 
 https://github.com/spoleto-software/Spoleto.Delivery/tree/main/src/Callbacks/Spoleto.Delivery.Callback.MasterPost
 
