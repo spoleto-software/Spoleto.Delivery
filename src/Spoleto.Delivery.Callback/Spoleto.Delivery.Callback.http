@@ -1,6 +1,0 @@
-@Spoleto.Delivery.Callback_HostAddress = http://localhost:5277
-
-GET {{Spoleto.Delivery.Callback_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

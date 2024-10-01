@@ -38,7 +38,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Extensions
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Extensions.MasterPost", "src\Extensions\Spoleto.Delivery.Extensions.MasterPost\Spoleto.Delivery.Extensions.MasterPost.csproj", "{699D0A28-AD37-4633-9025-1AD586464D27}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Callback", "src\Spoleto.Delivery.Callback\Spoleto.Delivery.Callback.csproj", "{5DA95A34-D400-4218-A1BE-0935BEEE361A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Callback.Cdek", "src\Callbacks\Spoleto.Delivery.Callback.Cdek\Spoleto.Delivery.Callback.Cdek.csproj", "{5DA95A34-D400-4218-A1BE-0935BEEE361A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spoleto.Delivery.Callbacks", "Spoleto.Delivery.Callbacks", "{BA29ABD1-DFFD-4E5D-8AE6-0CA93D09FB63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spoleto.Delivery.Callback.MasterPost", "src\Callbacks\Spoleto.Delivery.Callback.MasterPost\Spoleto.Delivery.Callback.MasterPost.csproj", "{9CE6329A-584C-49B1-9890-488650866E78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoleto.Delivery.Callback.Common", "src\Callbacks\Spoleto.Delivery.Callback.Common\Spoleto.Delivery.Callback.Common.csproj", "{ABBBA3C6-54F6-4793-86ED-41C1E1AD6182}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +84,14 @@ Global
 		{5DA95A34-D400-4218-A1BE-0935BEEE361A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DA95A34-D400-4218-A1BE-0935BEEE361A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DA95A34-D400-4218-A1BE-0935BEEE361A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CE6329A-584C-49B1-9890-488650866E78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CE6329A-584C-49B1-9890-488650866E78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CE6329A-584C-49B1-9890-488650866E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CE6329A-584C-49B1-9890-488650866E78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABBBA3C6-54F6-4793-86ED-41C1E1AD6182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABBBA3C6-54F6-4793-86ED-41C1E1AD6182}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABBBA3C6-54F6-4793-86ED-41C1E1AD6182}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABBBA3C6-54F6-4793-86ED-41C1E1AD6182}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +103,9 @@ Global
 		{1D3D2B93-4D81-4981-A74A-8D2490583DD7} = {D7C74C11-CDF8-49F2-A68A-2665A3A25013}
 		{5AC2CF58-0C42-46EE-9B0E-24623DAD0ED9} = {D7C74C11-CDF8-49F2-A68A-2665A3A25013}
 		{699D0A28-AD37-4633-9025-1AD586464D27} = {D7C74C11-CDF8-49F2-A68A-2665A3A25013}
+		{5DA95A34-D400-4218-A1BE-0935BEEE361A} = {BA29ABD1-DFFD-4E5D-8AE6-0CA93D09FB63}
+		{9CE6329A-584C-49B1-9890-488650866E78} = {BA29ABD1-DFFD-4E5D-8AE6-0CA93D09FB63}
+		{ABBBA3C6-54F6-4793-86ED-41C1E1AD6182} = {BA29ABD1-DFFD-4E5D-8AE6-0CA93D09FB63}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {982EC08E-D0CA-45CD-9906-B9DA0C4F0024}
