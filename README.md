@@ -89,7 +89,6 @@ public class Example
             },
             ToLocation = new()
             {
-                FiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
                 Address = "Москва, ул. Блюхера, 32"
             },
             TariffCode = tariffs.First().Code,
