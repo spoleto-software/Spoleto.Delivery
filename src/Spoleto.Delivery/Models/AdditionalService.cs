@@ -21,13 +21,17 @@
         public string? Description { get; set; }
 
         /// <summary>
+        /// Параметр услуги.
+        /// </summary>
+        public string? Parameter { get; set; }
+
+        public bool ParameterRequired => ParameterType != null || Parameter != null;
+
+        public ParameterType? ParameterType { get;set; }
+
+        /// <summary>
         /// Общая сумма (итого с НДС и скидкой в валюте взаиморасчётов).
         /// </summary>
         public decimal? TotalSum { get; set; }
-
-        //todo: указать возможность указания параметра с привязкой к конкректной доп услуги (не у всех доп услуг будут параметры)
-        public bool ParameterRequired => ParameterType != null;
-
-        public ParameterType? ParameterType { get;set; }
     }
 }

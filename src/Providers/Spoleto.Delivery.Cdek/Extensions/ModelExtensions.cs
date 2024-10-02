@@ -426,15 +426,28 @@ namespace Spoleto.Delivery.Providers.Cdek
         {
             return new Delivery.DeliveryOrder
             {
-                Uuid = order.Entity.Uuid,
-                Number = order.Entity.CdekNumber,
-                CisNumber = order.Entity.CisNumber,
-                Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
-                Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
-                Status = order.Entity.Statuses.First().Code.ToString(),
+                Uuid = order.Entity?.Uuid,
+                Number = order.Entity?.CdekNumber,
+                CisNumber = order.Entity?.CisNumber,
+                Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors!)?.Select(x => x.ToDeliveryError()).ToList(),
+                Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings!).Select(x => x.ToDeliveryWarning()).ToList(),
+                Status = order.Entity?.Statuses.First().Code.ToString(),
                 PlannedDeliveryDate = order.Entity?.PlannedDeliveryDate,
+                DeliveryDate = order.Entity?.DeliveryDetail?.Date,
                 TrackUrl = order.GetTrackUrl(),
-                RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList()
+                TotalSum = order.Entity?.DeliveryDetail?.TotalSum,
+                RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList(),
+                Services = order.Entity?.Services.Select(x => x.ToDeliveryAdditionalServiceRequest()).ToList()
+            };
+        }
+
+        public static Delivery.AdditionalService ToDeliveryAdditionalServiceRequest(this AdditionalServiceInfo additionalService)
+        {
+            return new Delivery.AdditionalService
+            {
+                Code = additionalService.Code.ToString(),
+                Parameter = additionalService.Parameter,
+                TotalSum = additionalService.TotalSum
             };
         }
 

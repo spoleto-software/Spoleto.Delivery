@@ -33,6 +33,11 @@ namespace Spoleto.Delivery
         public DateTime? PlannedDeliveryDate { get; set; }
 
         /// <summary>
+        /// Дата доставки.
+        /// </summary>
+        public DateTime? DeliveryDate { get; set; }
+
+        /// <summary>
         /// Ссылка для отслеживания заказа.
         /// </summary>
         public string TrackUrl { get; set; }
@@ -61,6 +66,16 @@ namespace Spoleto.Delivery
         /// Сумма страхования.
         /// </summary>
         public decimal? SumInsured { get; set; }
+
+        /// <summary>
+        /// Итоговая стоимость заказа (итого с НДС и со всеми дополнительными услугами).
+        /// </summary>
+        public decimal? TotalSum { get; set; }
+
+        /// <summary>
+        /// Дополнительные услуги.
+        /// </summary>
+        public List<AdditionalService>? Services { get; set; }
 
         /// <summary>
         /// Исходный ответ в Json/Xml.

@@ -255,6 +255,8 @@ namespace Spoleto.Delivery.Tests.Providers
             // Arrange
             var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
             var deliveryOrderRequest = GetOrderRequest();
+            deliveryOrderRequest.Services = [];
+            deliveryOrderRequest.Services.Add(new AdditionalServiceRequest { Code = nameof(Spoleto.Delivery.Providers.Cdek.AdditionalServiceType.CARTON_BOX_5KG), Parameter = "2" });
 
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.DeveloperKey), "XX-DEV-123-456");
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.RegularDelivery);

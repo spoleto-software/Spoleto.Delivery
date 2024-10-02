@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
