@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Text.Json.Serialization;
-using Spoleto.Common.Attributes;
-using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -11,91 +8,80 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <remarks>
     /// <see href="https://api-docs.cdek.ru/29923975.html"/>
     /// </remarks>
-    [JsonConverter(typeof(JsonEnumValueConverter<AdditionalServiceInfoType>))]
     public enum AdditionalServiceInfoType
     {
         /// <summary>
         /// СТРАХОВАНИЕ
         /// </summary>
         /// <remarks>Обеспечение страховой защиты посылки. Размер дополнительного сбора страхования вычисляется от размера объявленной стоимости отправления.</remarks>
-        [JsonEnumValue("INSURANCE")]
         [Description("СТРАХОВАНИЕ")]
-        Insurance,
+        INSURANCE,
 
         /// <summary>
         /// ДОСТАВКА В ВЫХОДНОЙ ДЕНЬ
         /// </summary>
         /// <remarks>Компания СДЭК осуществляет доставку и отправление документов и грузов в выходные и нерабочие дни.
         /// При доставке или отправлении документов или грузов в выходной день к базовому тарифу добавляется 300 руб.</remarks>
-        [JsonEnumValue("DELIV_WEEKEND")]
         [Description("ДОСТАВКА В ВЫХОДНОЙ ДЕНЬ")]
-        DelivWeekend,
+        DELIV_WEEKEND,
 
         /// <summary>
         /// ЗАБОР В ГОРОДЕ ОТПРАВИТЕЛЕ
         /// </summary>
         /// <remarks>Дополнительная услуга забора груза в городе отправителя, при условии, что тариф доставки с режимом «от склада» (не доступна для тарифов Посылка).</remarks>
-        [JsonEnumValue("TAKE_SENDER")]
         [Description("ЗАБОР В ГОРОДЕ ОТПРАВИТЕЛЕ")]
-        TakeSender,
+        TAKE_SENDER,
 
         /// <summary>
         /// ДОСТАВКА В ГОРОДЕ ПОЛУЧАТЕЛЕ
         /// </summary>
         /// <remarks>Дополнительная услуга доставки груза в городе получателя, при условии, что тариф доставки с режимом «до склада» (только для тарифов «Экономический», «Магистральный», «Магистральный супер-экспресс»).</remarks>
-        [JsonEnumValue("DELIV_RECEIVER")]
         [Description("ДОСТАВКА В ГОРОДЕ ПОЛУЧАТЕЛЕ")]
-        DelivReceiver,
+        DELIV_RECEIVER,
 
         /// <summary>
         /// ПРИМЕРКА НА ДОМУ
         /// </summary>
         /// <remarks>Курьер доставляет покупателю несколько единиц товара (одежда, обувь и пр.) для примерки.</remarks>
-        [JsonEnumValue("TRYING_ON")]
         [Description("ПРИМЕРКА НА ДОМУ")]
-        TryingOn,
+        TRYING_ON,
 
         /// <summary>
         /// ЧАСТИЧНАЯ ДОСТАВКА
         /// </summary>
         /// <remarks>Во время доставки товара покупатель может отказаться от одной или нескольких позиций, и выкупить только часть заказа.
         /// Если в заказе указано одно вложение, услуга не подключается.</remarks>
-        [JsonEnumValue("PART_DELIV")]
         [Description("ЧАСТИЧНАЯ ДОСТАВКА")]
-        PartDeliv,
+        PART_DELIV,
 
         /// <summary>
         /// РЕВЕРС
         /// </summary>
         /// <remarks>Обратный заказ на доставку от получателя до отправителя. Например, подписанные документы.</remarks>
-        [JsonEnumValue("REVERSE")]
         [Description("РЕВЕРС")]
-        Reverse,
+        REVERSE,
 
         /// <summary>
         /// ОПАСНЫЙ ГРУЗ
         /// </summary>
         /// <remarks>Кроме обычных документов и грузов, компания СДЭК готова доставить отправления, содержащие опасные грузы (кроме запрещенных к перевозке).
         /// В связи с определенным риском стоимость доставки грузов, относящихся к категории опасных, увеличивается в 1,5 раза.</remarks>
-        [JsonEnumValue("DANGER_CARGO")]
         [Description("ОПАСНЫЙ ГРУЗ")]
-        DangerCargo,
+        DANGER_CARGO,
 
         /// <summary>
         /// УПАКОВКА 1
         /// </summary>
         /// <remarks>Стоимость коробки размером 310*215*280мм — 30 руб. (для грузов до 10 кг).</remarks>
-        [JsonEnumValue("PACKAGE_1")]
         [Description("УПАКОВКА 1")]
-        Package1,
+        PACKAGE_1,
 
         /// <summary>
         /// УПАКОВКА 2
         /// </summary>
         /// <remarks>Стоимость коробки размером 430*310*280мм — 45 руб. (для грузов до 15 кг).</remarks>
-        [JsonEnumValue("PACKAGE_2")]
         [Description("УПАКОВКА 2")]
-        Package2,
+        PACKAGE_2,
 
         /// <summary>
         /// ТЯЖЕЛЫЙ ГРУЗ
@@ -104,18 +90,16 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// если вес 1 места более 200 кг, то тариф увеличивается на 25 руб. за каждый килограмм.
         /// Также возможен индивидуальный расчет стоимости доставки тяжелых грузов.
         /// Тарифы на такие отправления будут рассчитаны индивидуально и в короткие сроки (не более 1 рабочего дня) и могут быть значительно дешевле наших базовых тарифов.</remarks>
-        [JsonEnumValue("HEAVY_CARGO")]
         [Description("ТЯЖЕЛЫЙ ГРУЗ")]
-        HeavyCargo,
+        HEAVY_CARGO,
 
         /// <summary>
         /// НЕГАБАРИТНЫЙ ГРУЗ
         /// </summary>
         /// <remarks>При доставке негабаритного отправления, размер одной из сторон которого превышает 1,5 м, тариф увеличивается на 60 % (если отправление рассчитывается не по объемному весу).
         /// При доставке негабаритного отправления, размер одной из сторон которого превышает 2,2 м, тариф увеличивается на 100 % (если отправление рассчитывается не по объемному весу).</remarks>
-        [JsonEnumValue("OVERSIZE_CARGO")]
         [Description("НЕГАБАРИТНЫЙ ГРУЗ")]
-        OversizeCargo,
+        OVERSIZE_CARGO,
 
         /// <summary>
         /// ОЖИДАНИЕ БОЛЕЕ 15 МИН. У ПОЛУЧАТЕЛЯ
@@ -123,16 +107,14 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>К приезду курьера Отправление должно быть подготовлено.
         /// По правилам компании СДЭК курьер может ожидать передачи или получения отправления не более 15 минут.
         /// В случаях, когда курьер дожидается приема или передачи Отправления более 15 минут, взимается дополнительный сбор в размере 170 рублей.</remarks>
-        [JsonEnumValue("WAIT_FOR_RECEIVER")]
         [Description("ОЖИДАНИЕ БОЛЕЕ 15 МИН. У ПОЛУЧАТЕЛЯ")]
-        WaitForReceiver,
+        WAIT_FOR_RECEIVER,
 
         /// <summary>
         /// ОЖИДАНИЕ БОЛЕЕ 15 МИН. У ОТПРАВИТЕЛЯ
         /// </summary>
-        [JsonEnumValue("WAIT_FOR_SENDER")]
         [Description("ОЖИДАНИЕ БОЛЕЕ 15 МИН. У ОТПРАВИТЕЛЯ")]
-        WaitForSender,
+        WAIT_FOR_SENDER,
 
         /// <summary>
         /// ХРАНЕНИЕ НА СКЛАДЕ
@@ -142,34 +124,30 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Начиная с пятнадцатых / восьмых суток, плата за хранение осуществляется по следующим тарифам:
         /// стандартного отправления (1 место размером до 25*40*60см) - основной тариф 15 руб./место за 1 календарный день, включая выходные и праздничные дни;
         /// не стандартного отправления (1 место размером более 25*40*60см ) - основной тариф 30 руб./место за 1 календарный день, включая выходные и праздничные дни.</remarks>
-        [JsonEnumValue("WAREHOUSING")]
         [Description("ХРАНЕНИЕ НА СКЛАДЕ")]
-        Warehousing,
+        WAREHOUSING,
 
         /// <summary>
         /// ПРОЧЕЕ
         /// </summary>
         /// <remarks>Дополнительный сбор от кредитного контроля СДЭК.</remarks>
-        [JsonEnumValue("ANOTHER")]
         [Description("ПРОЧЕЕ")]
-        Another,
+        ANOTHER,
 
         /// <summary>
         /// ПОВТОРНАЯ ПОЕЗДКА
         /// </summary>
         /// <remarks>Когда требуется повторный вызов курьера по ранее аннулированному заказу либо доставка/забор не были осуществлены по вине клиента, начисляется дополнительный сбор.
         /// Размер сбора зависит от веса отправления и стоимости доставки по городу.</remarks>
-        [JsonEnumValue("REPEATED_DELIVERY")]
         [Description("ПОВТОРНАЯ ПОЕЗДКА")]
-        RepeatedDelivery,
+        REPEATED_DELIVERY,
 
         /// <summary>
         /// ПЕНЯ
         /// </summary>
         /// <remarks>Дополнительный сбор от кредитного контроля СДЭК.</remarks>
-        [JsonEnumValue("FINE")]
         [Description("ПЕНЯ")]
-        Fine,
+        FINE,
 
         /// <summary>
         /// ОБРЕШЕТКА ГРУЗА
@@ -179,9 +157,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость обрешетки для каждого Отправления рассчитывается индивидуально. Т.е. это индивидуальная упаковка груза.
         /// Расчет стоимости производится по самой длинной стороне груза
         /// </remarks>
-        [JsonEnumValue("GRID_TREE")]
         [Description("ОБРЕШЕТКА ГРУЗА")]
-        GridTree,
+        GRID_TREE,
 
         /// <summary>
         /// АРЕНДА КУРЬЕРА
@@ -190,9 +167,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Когда необходимо доставить или принять документы в Федеральные службы, такие как: налоговые органы, министерства, посольства, суды, службы надзора и т.д., а также по заказам, требующим ожидания более часа, наша компания готова предоставить курьера.
         /// Стоимость услуги 170 руб./ час, минимальная оплата за 3 часа (510 руб).
         /// </remarks>
-        [JsonEnumValue("COURIER_SERVICE")]
         [Description("АРЕНДА КУРЬЕРА")]
-        CourierService,
+        COURIER_SERVICE,
 
         /// <summary>
         /// УВЕДОМЛЕНИЕ О ВРУЧЕНИИ ЗАКАЗА
@@ -202,9 +178,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Отправителю высылается сообщение с датой и временем доставки. Стоимость услуги 10 рублей.
         /// Отправитель получает СМС-сообщение с информацией о дате/времени доставки и ФИО получателя. При режиме доставки до склада и указании мобильного телефона получателя, Компания "СДЭК" предоставляет всем клиентам бесплатную услугу: "СМС-уведомление о приходе груза на склад" или уведомления в виде PUSH-сообщений в мобильное приложение СДЭК или в месседжеры. Получателю будет отправлено сообщение с информацией об адресе забора отправления и времени работы офиса.
         /// </remarks>
-        [JsonEnumValue("SMS")]
         [Description("УВЕДОМЛЕНИЕ О ВРУЧЕНИИ ЗАКАЗА")]
-        Sms,
+        SMS,
 
         /// <summary>
         /// ПОДЪЕМ НА ЭТАЖ РУЧНОЙ
@@ -225,9 +200,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// для веса 101-150 кг — 130 руб.
         /// для веса свыше 100 кг — 150 руб.
         /// </remarks>
-        [JsonEnumValue("GET_UP_FLOOR_BY_HAND")]
         [Description("ПОДЪЕМ НА ЭТАЖ РУЧНОЙ")]
-        GetUpFloorByHand,
+        GET_UP_FLOOR_BY_HAND,
 
         /// <summary>
         /// ПОДЪЕМ НА ЭТАЖ ЛИФТОМ
@@ -242,9 +216,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// для веса 101-150 кг — 130 руб.
         /// для веса свыше 100 кг — 150 руб.
         /// </remarks>
-        [JsonEnumValue("GET_UP_FLOOR_BY_ELEVATOR")]
         [Description("ПОДЪЕМ НА ЭТАЖ ЛИФТОМ")]
-        GetUpFloorByElevator,
+        GET_UP_FLOOR_BY_ELEVATOR,
 
         /// <summary>
         /// ПРОЗВОН
@@ -252,9 +225,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Услуга для ИМ "Прозвон" включает в себя предварительный прозвон получателей перед доставкой операторами call-центра. Стоимость услуги 15 руб. 1 заказ.
         /// </remarks>
-        [JsonEnumValue("CALL")]
         [Description("ПРОЗВОН")]
-        Call,
+        CALL,
 
         /// <summary>
         /// ТЕПЛОВОЙ РЕЖИМ
@@ -262,9 +234,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Направления, по которым возможна доставка с тепловым режимом: Кемерово-Новокузнецк, Новосибирск-Красноярск, Новосибирск-Кемерово, Новосибирск-Томск, Новосибирск-Омск, Новосибирск-Барнаул, Барнаул-Горно-Алтайск И В ОБРАТНЫХ НАПРАВЛЕНИЯХ!
         /// </remarks>
-        [JsonEnumValue("THERMAL_MODE")]
         [Description("ТЕПЛОВОЙ РЕЖИМ")]
-        ThermalMode,
+        THERMAL_MODE,
 
         /// <summary>
         /// АГЕНТСКОЕ ВОЗНАГРАЖДЕНИЕ
@@ -272,9 +243,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Наша компания оказывает услуги по приему денежных средств от клиента за товар и РКО.
         /// </remarks>
-        [JsonEnumValue("AGENT_COMMISSION")]
         [Description("АГЕНТСКОЕ ВОЗНАГРАЖДЕНИЕ")]
-        AgentCommission,
+        AGENT_COMMISSION,
 
         /// <summary>
         /// Пакет курьерский А2
@@ -285,9 +255,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость - 70 руб.
         /// 3-х слойный полиэтилен, 55 мкм, ширина клапана 50/40, клеевой клапан, с системой защиты от вскрытия, уникальный номер ШК, для идентификации. Внутреннее покрытие черное, защищает от сквозного просвечивания.
         /// </remarks>
-        [JsonEnumValue("COURIER_PACKAGE_A2")]
         [Description("Пакет курьерский А2")]
-        CourierPackageA2,
+        COURIER_PACKAGE_A2,
 
         /// <summary>
         /// Сейф пакет А2
@@ -298,9 +267,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость - 50 руб.
         /// 3-х слойный полиэтилен, 60 мкм, ширина клапана 50/50/40/40, индикаторная лента для защиты от несанкционированного вскрытия, уникальный номер ШК, для идентификации. Внутреннее покрытие черное, защищает от сквозного просвечивания.
         /// </remarks>
-        [JsonEnumValue("SECURE_PACKAGE_A2")]
         [Description("Сейф пакет А2")]
-        SecurePackageA2,
+        SECURE_PACKAGE_A2,
 
         /// <summary>
         /// Сейф пакет А3
@@ -310,9 +278,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Вес - до 3 кг,
         /// Стоимость - 40 руб.
         /// </remarks>
-        [JsonEnumValue("SECURE_PACKAGE_A3")]
         [Description("Сейф пакет А3")]
-        SecurePackageA3,
+        SECURE_PACKAGE_A3,
 
         /// <summary>
         /// Уведомление о создании заказа в СДЭК
@@ -322,9 +289,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Применяется при создании заказа.
         /// При добавлении доп. услуги, номер для уведомлений будет браться из переданных данных получателя. Актуальную стоимость уточняйте у закреплённого менеджера.
         /// </remarks>
-        [JsonEnumValue("NOTIFY_ORDER_CREATED")]
         [Description("Уведомление о создании заказа в СДЭК")]
-        NotifyOrderCreated,
+        NOTIFY_ORDER_CREATED,
 
         /// <summary>
         /// Уведомление о приеме заказа на доставку
@@ -334,9 +300,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// При добавлении доп. услуги, номер для уведомлений будет браться из переданных данных получателя. 
         /// Актуальную стоимость уточняйте у закреплённого менеджера.
         /// </remarks>
-        [JsonEnumValue("NOTIFY_ORDER_DELIVERY")]
         [Description("Уведомление о приеме заказа на доставку")]
-        NotifyOrderDelivery,
+        NOTIFY_ORDER_DELIVERY,
 
         /// <summary>
         /// Коробка XS (0,5 кг 17х12х9 см)
@@ -346,9 +311,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 20 рублей.
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_XS")]
         [Description("Коробка XS (0,5 кг 17х12х9 см)")]
-        CartonBoxXs,
+        CARTON_BOX_XS,
 
         /// <summary>
         /// Коробка S (2 кг 21х20х11 см)
@@ -358,9 +322,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 40 рублей.
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_S")]
         [Description("Коробка S (2 кг 21х20х11 см)")]
-        CartonBoxS,
+        CARTON_BOX_S,
 
         /// <summary>
         /// Коробка M (5 кг 33х25х15 см)
@@ -370,9 +333,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 60 рублей.
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_M")]
         [Description("Коробка M (5 кг 33х25х15 см)")]
-        CartonBoxM,
+        CARTON_BOX_M,
 
         /// <summary>
         /// Коробка L (12 кг 34х33х26 см)
@@ -382,9 +344,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 70 рублей.
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_L")]
         [Description("Коробка L (12 кг 34х33х26 см)")]
-        CartonBoxL,
+        CARTON_BOX_L,
 
         /// <summary>
         /// Коробка (0,5 кг 17х12х10 см)
@@ -394,9 +355,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 35 рублей.
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_500GR")]
         [Description("Коробка (0,5 кг 17х12х10 см)")]
-        CartonBox500Gr,
+        CARTON_BOX_500GR,
 
         /// <summary>
         /// Коробка (1 кг 24х17х10 см)
@@ -406,9 +366,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 50 рублей.
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_1KG")]
         [Description("Коробка (1 кг 24х17х10 см)")]
-        CartonBox1Kg,
+        CARTON_BOX_1KG,
 
         /// <summary>
         /// Коробка (2 кг 34х24х10 см)
@@ -418,9 +377,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 80 рублей.
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_2KG")]
         [Description("Коробка (2 кг 34х24х10 см)")]
-        CartonBox2Kg,
+        CARTON_BOX_2KG,
 
         /// <summary>
         /// Коробка (3 кг 24х24х21 см)
@@ -430,9 +388,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 90 рублей.
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_3KG")]
         [Description("Коробка (3 кг 24х24х21 см)")]
-        CartonBox3Kg,
+        CARTON_BOX_3KG,
 
         /// <summary>
         /// Коробка (5 кг 40х24х21 см)
@@ -442,9 +399,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 100 рублей.
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_5KG")]
         [Description("Коробка (5 кг 40х24х21 см)")]
-        CartonBox5Kg,
+        CARTON_BOX_5KG,
 
         /// <summary>
         /// Коробка (10 кг 40х35х28 см)
@@ -454,9 +410,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 150 рублей.
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_10KG")]
         [Description("Коробка (10 кг 40х35х28 см)")]
-        CartonBox10Kg,
+        CARTON_BOX_10KG,
 
         /// <summary>
         /// Коробка (15 кг 60х35х29 см)
@@ -466,9 +421,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 190 рублей.
         /// Доступна для всех тарифов от склада (кроме режима <see cref="ServiceCode.WarehouseToPostamat"/>).
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_15KG")]
         [Description("Коробка (15 кг 60х35х29 см)")]
-        CartonBox15Kg,
+        CARTON_BOX_15KG,
 
         /// <summary>
         /// Коробка (20 кг 47х40х43 см)
@@ -478,9 +432,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 200 рублей.
         /// Доступна для всех тарифов от склада (кроме режима <see cref="ServiceCode.WarehouseToPostamat"/>).
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_20KG")]
         [Description("Коробка (20 кг 47х40х43 см)")]
-        CartonBox20Kg,
+        CARTON_BOX_20KG,
 
         /// <summary>
         /// Коробка (30 кг 69х39х42 см)
@@ -490,9 +443,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость 1 штуки - 250 рублей.
         /// Доступна для всех тарифов от склада (кроме режима <see cref="ServiceCode.WarehouseToPostamat"/>).
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_30KG")]
         [Description("Коробка (30 кг 69х39х42 см)")]
-        CartonBox30Kg,
+        CARTON_BOX_30KG,
 
         /// <summary>
         /// Воздушно-пузырчатая пленка
@@ -505,9 +457,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// - заполнение пустот, внутри упаковки;
         /// - защита от пыли, грязи и влаги.
         /// </remarks>
-        [JsonEnumValue("BUBBLE_WRAP")]
         [Description("Воздушно-пузырчатая пленка")]
-        BubbleWrap,
+        BUBBLE_WRAP,
 
         /// <summary>
         /// Макулатурная бумага
@@ -517,9 +468,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Стоимость за 1 метр - 50 рублей.
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("WASTE_PAPER")]
         [Description("Макулатурная бумага")]
-        WastePaper,
+        WASTE_PAPER,
 
         /// <summary>
         /// Прессованный картон "филлер" (55х14х2,3 см)
@@ -538,9 +488,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Высокая надежность и сопротивляемость механическим нагрузкам, за счет прочности объемной конструкции "филлера"
         /// Защита предметов любой формы. Удобно создавать во круг предмета защитный "чехол", скрепляя между собой "ячейки" в замок.
         /// </remarks>
-        [JsonEnumValue("CARTON_FILLER")]
         [Description("Прессованный картон \"филлер\" (55х14х2,3 см)")]
-        CartonFiller,
+        CARTON_FILLER,
 
         /// <summary>
         /// Запрет осмотра вложения
@@ -551,9 +500,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Услуга не передается до постамата.
         /// Стоимость - 0 рублей.
         /// </remarks>
-        [JsonEnumValue("BAN_ATTACHMENT_INSPECTION")]
         [Description("Запрет осмотра вложения")]
-        BanAttachmentInspection,
+        BAN_ATTACHMENT_INSPECTION,
 
         /// <summary>
         /// Фото документов
@@ -562,9 +510,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Предназначена для выполнения доставок продуктов (грузы, документы), с идентификацией получателя, фотографированием товара клиента/подписанных документов.
         /// Услуга платная, условия уточняйте у своего менеджера.
         /// </remarks>
-        [JsonEnumValue("PHOTO_OF_DOCUMENTS")]
         [Description("Фото документов")]
-        PhotoOfDocuments,
+        PHOTO_OF_DOCUMENTS,
 
         /// <summary>
         /// Онлайн сбор
@@ -573,9 +520,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Дополнительный сбор по заказу.
         /// Выбрать нельзя, начисляется СДЭКом.
         /// </remarks>
-        [JsonEnumValue("CASH_ON_DELIVERY")]
         [Description("Онлайн сбор")]
-        CashOnDelivery,
+        CASH_ON_DELIVERY,
 
         /// <summary>
         /// Перемещение на ПВЗ
@@ -583,9 +529,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Услуга по перемещению заказа на ПВЗ. Недоступна для выбора при регистрации заказа, добавляется СДЭК при смене режима доставки с "до двери" на "до склада".
         /// </remarks>
-        [JsonEnumValue("MOVING_TO_WAREHOUSE")]
         [Description("Перемещение на ПВЗ")]
-        MovingToWarehouse,
+        MOVING_TO_WAREHOUSE,
 
         /// <summary>
         /// Конверт А4 из картона (бесплатный)
@@ -593,9 +538,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Бесплатный конверт A4 из картона.
         /// </remarks>
-        [JsonEnumValue("ENVELOPE_A4_CDEK_FREE")]
         [Description("Конверт А4 из картона (бесплатный)")]
-        EnvelopeA4CdekFree,
+        ENVELOPE_A4_CDEK_FREE,
 
         /// <summary>
         /// Коробка XL
@@ -603,8 +547,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Картонная коробка (18 кг).
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_XL_18_KILOS")]
         [Description("Коробка XL")]
-        CartonBoxXl18Kilos
+        CARTON_BOX_XL_18_KILOS
     }
 }

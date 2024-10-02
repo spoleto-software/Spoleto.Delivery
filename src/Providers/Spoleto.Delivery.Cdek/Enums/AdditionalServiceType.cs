@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Text.Json.Serialization;
-using Spoleto.Common.Attributes;
-using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -11,7 +8,6 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <remarks>
     /// <see href="https://api-docs.cdek.ru/63345519.html"/>
     /// </remarks>
-    [JsonConverter(typeof(JsonEnumValueConverter<AdditionalServiceType>))]
     public enum AdditionalServiceType
     {
         /// <summary>
@@ -21,9 +17,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Обеспечение страховой защиты посылки. Размер дополнительного сбора страхования вычисляется от размера объявленной стоимости отправления.<br/>
         /// Услуга начисляется автоматически для всех заказов типа "интернет-магазин", не разрешена для самостоятельной передачи в поле services.code.
         /// </remarks>
-        [JsonEnumValue("INSURANCE")]
         [Description("СТРАХОВАНИЕ")]
-        Insurance,
+        INSURANCE,
 
         /// <summary>
         /// ЗАБОР В ГОРОДЕ ОТПРАВИТЕЛЕ
@@ -32,9 +27,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Дополнительный сервис по забору грузов от клиента до офиса СДЭК внутри города в рамках перевозки по "Сборному грузу (LTL)".
         /// Дополнительная услуга забора груза в городе отправителя, при условии, что тариф доставки с режимом «от склада» (не доступна для тарифов Посылка)
         /// </remarks>
-        [JsonEnumValue("TAKE_SENDER")]
         [Description("ЗАБОР В ГОРОДЕ ОТПРАВИТЕЛЕ")]
-        TakeSender,
+        TAKE_SENDER,
 
         /// <summary>
         /// ДОСТАВКА В ГОРОДЕ ПОЛУЧАТЕЛЕ
@@ -43,9 +37,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Дополнительная услуга доставки груза в городе получателя, при условии, что тариф доставки с режимом «до склада» (только для тарифа «Сборный груз»).
         /// Не применимо к заказам до постаматов.
         /// </remarks>
-        [JsonEnumValue("DELIV_RECEIVER")]
         [Description("ДОСТАВКА В ГОРОДЕ ПОЛУЧАТЕЛЕ")]
-        DelivReceiver,
+        DELIV_RECEIVER,
 
         /// <summary>
         /// ПРИМЕРКА
@@ -55,9 +48,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Не применима в одном заказе с дополнительной услугой «Запрет осмотра вложения».
         /// Не применимо к заказам до постаматов.
         /// </remarks>
-        [JsonEnumValue("TRYING_ON")]
         [Description("ПРИМЕРКА")]
-        TryingOn,
+        TRYING_ON,
 
         /// <summary>
         /// ЧАСТИЧНАЯ ДОСТАВКА
@@ -66,9 +58,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Во время доставки товара покупатель может отказаться от одной или нескольких позиций, и выкупить только часть заказа. Если в заказе указано одно вложение, услуга не подключается (проверку невозможно добавить без Фото).<br/>
         /// Не применимо к заказам до постаматов и доступно только для ИМ.
         /// </remarks>
-        [JsonEnumValue("PART_DELIV")]
         [Description("ЧАСТИЧНАЯ ДОСТАВКА")]
-        PartDeliv,
+        PART_DELIV,
 
         /// <summary>
         /// РЕВЕРС
@@ -78,9 +69,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Обязательно в договоре наличие заполненного блока с условиями работы по Реверсу (если он не заполнен, то услуга не будет доступна).<br/>
         /// Не применимо к заказам до постаматов.
         /// </remarks>
-        [JsonEnumValue("REVERSE")]
         [Description("РЕВЕРС")]
-        Reverse,
+        REVERSE,
 
         /// <summary>
         /// ОПАСНЫЙ ГРУЗ
@@ -89,9 +79,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Кроме обычных документов и грузов, компания СДЭК готова доставить отправления, содержащие опасные грузы (кроме запрещенных к перевозке).<br/>
         /// В связи с определенным риском стоимость доставки грузов, относящихся к категории опасных, увеличивается в 1,5 раза.
         /// </remarks>
-        [JsonEnumValue("DANGER_CARGO")]
         [Description("ОПАСНЫЙ ГРУЗ")]
-        DangerCargo,
+        DANGER_CARGO,
 
         /// <summary>
         /// Уведомление о вручении заказа
@@ -103,9 +92,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// При режиме доставки до склада и указании мобильного телефона получателя, Компания "СДЭК" предоставляет всем клиентам  бесплатную услугу: "СМС-уведомление о приходе груза на склад" или уведомления в виде PUSH-сообщений в мобильное приложение СДЭК или в месседжеры.<br/>
         /// Получателю будет отправлено сообщение с информацией об адресе забора отправления и времени работы офиса.
         /// </remarks>
-        [JsonEnumValue("SMS")]
         [Description("Уведомление о вручении заказа")]
-        Sms,
+        SMS,
 
         /// <summary>
         /// Тепловой режим
@@ -114,16 +102,14 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Услуга доступна только с режимом доставки склад-склад.<br/>
         /// Направления, по которым возможна доставка с тепловым режимом: Кемерово-Новокузнецк, Новосибирск-Красноярск, Новосибирск-Кемерово, Новосибирск-Томск, Новосибирск-Омск, Новосибирск-Барнаул, Барнаул-Горно-Алтайск И В ОБРАТНЫХ НАПРАВЛЕНИЯХ!
         /// </remarks>
-        [JsonEnumValue("THERMAL_MODE")]
         [Description("Тепловой режим")]
-        ThermalMode,
+        THERMAL_MODE,
 
         /// <summary>
         /// Пакет курьерский А2
         /// </summary>
-        [JsonEnumValue("COURIER_PACKAGE_A2")]
         [Description("Пакет курьерский А2")]
-        CourierPackageA2,
+        COURIER_PACKAGE_A2,
 
         /// <summary>
         /// Уведомление о создании заказа в СДЭК
@@ -135,9 +121,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// При добавлении доп. услуги, номер для уведомлений будет браться из переданных данных получателя.<br/>
         /// Актуальную стоимость уточняйте у закреплённого менеджера.<br/>
         /// </remarks>
-        [JsonEnumValue("NOTIFY_ORDER_CREATED")]
         [Description("Уведомление о создании заказа в СДЭК")]
-        NotifyOrderCreated,
+        NOTIFY_ORDER_CREATED,
 
         /// <summary>
         /// Уведомление о приеме заказа на доставку
@@ -148,9 +133,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// При добавлении доп. услуги, номер для уведомлений будет браться из переданных данных получателя.<br/>
         /// Актуальную стоимость уточняйте у закреплённого менеджера.
         /// </remarks>
-        [JsonEnumValue("NOTIFY_ORDER_DELIVERY")]
         [Description("Уведомление о приеме заказа на доставку")]
-        NotifyOrderDelivery,
+        NOTIFY_ORDER_DELIVERY,
 
         /// <summary>
         /// Коробка XS (0,5 кг 17х12х9 см)
@@ -159,9 +143,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 170*125*95 мм. Максимальная вместимость - 0,5 кг.<br/>
         /// Доступные режимы: дверь-дверь, дверь склад, склад-дверь, склад-склад, дверь-постамат, склад-постамат
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_XS")]
         [Description("Коробка XS (0,5 кг 17х12х9 см)")]
-        CartonBoxXs,
+        CARTON_BOX_XS,
 
         /// <summary>
         /// Коробка S (2 кг 23х19х10 см)
@@ -170,9 +153,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 216*200*110 мм. Максимальная вместимость - 2 кг.<br/>
         /// Доступные режимы: дверь-дверь, дверь склад, склад-дверь, склад-склад, дверь-постамат, склад-постамат
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_S_2_KILOS")]
         [Description("Коробка S (2 кг 23х19х10 см)")]
-        CartonBoxS2Kilos,
+        CARTON_BOX_S_2_KILOS,
 
         /// <summary>
         /// Коробка M (5 кг 33х25х15 см)
@@ -181,9 +163,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 330*250*155 мм. Максимальная вместимость - 5 кг.<br/>
         /// Доступные режимы: дверь-дверь, дверь склад, склад-дверь, склад-склад, дверь-постамат, склад-постамат
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_M")]
         [Description("Коробка M (5 кг 33х25х15 см)")]
-        CartonBoxM,
+        CARTON_BOX_M,
 
         /// <summary>
         /// Коробка L (12 кг 31х25х38 см)
@@ -192,9 +173,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 340*330*264 мм. Максимальная вместимость - 12 кг.<br/>
         /// Доступные режимы: дверь-дверь, дверь склад, склад-дверь, склад-склад, дверь-постамат, склад-постамат
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_L_12_KILOS")]
         [Description("Коробка L (12 кг 31х25х38 см)")]
-        CartonBoxL12Kilos,
+        CARTON_BOX_L_12_KILOS,
 
         /// <summary>
         /// Коробка (0,5 кг 17х12х10 см)
@@ -203,9 +183,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 170*120*100 мм. Максимальная вместимость - 0,5 кг.<br/>
         /// Доступные режимы: дверь-дверь, дверь склад, склад-дверь, склад-склад, дверь-постамат, склад-постамат
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_500GR")]
         [Description("Коробка (0,5 кг 17х12х10 см)")]
-        CartonBox500Gr,
+        CARTON_BOX_500GR,
 
         /// <summary>
         /// Коробка (1 кг 24х17х10 см)
@@ -214,9 +193,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 240*170*100 мм. Максимальная вместимость - 1 кг.<br/>
         /// Доступные режимы: дверь-дверь, дверь склад, склад-дверь, склад-склад, дверь-постамат, склад-постамат
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_1KG")]
         [Description("Коробка (1 кг 24х17х10 см)")]
-        CartonBox1Kg,
+        CARTON_BOX_1KG,
 
         /// <summary>
         /// Коробка (2 кг 34х24х10 см)
@@ -225,9 +203,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 340*240*100 мм. Максимальная вместимость - 2 кг.<br/>
         /// Доступные режимы: дверь-дверь, дверь склад, склад-дверь, склад-склад, дверь-постамат, склад-постамат
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_2KG")]
         [Description("Коробка (2 кг 34х24х10 см)")]
-        CartonBox2Kg,
+        CARTON_BOX_2KG,
 
         /// <summary>
         /// Коробка (3 кг 24х24х21 см)
@@ -236,9 +213,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 240*240*210 мм. Максимальная вместимость - 3 кг.<br/>
         /// Доступные режимы: дверь-дверь, дверь склад, склад-дверь, склад-склад, дверь-постамат, склад-постамат
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_3KG")]
         [Description("Коробка (3 кг 24х24х21 см)")]
-        CartonBox3Kg,
+        CARTON_BOX_3KG,
 
         /// <summary>
         /// Коробка (5 кг 40х24х21 см)
@@ -247,9 +223,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 400*240*210 мм. Максимальная вместимость - 5 кг.<br/>
         /// Доступные режимы: дверь-дверь, дверь склад, склад-дверь, склад-склад, дверь-постамат, склад-постамат
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_5KG")]
         [Description("Коробка (5 кг 40х24х21 см)")]
-        CartonBox5Kg,
+        CARTON_BOX_5KG,
 
         /// <summary>
         /// Коробка (10 кг 40х35х28 см)
@@ -258,9 +233,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 400*350*280 мм. Максимальная вместимость - 10 кг.<br/>
         /// Доступные режимы: дверь-дверь, дверь склад, склад-дверь, склад-склад, дверь-постамат, склад-постамат
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_10KG")]
         [Description("Коробка (10 кг 40х35х28 см)")]
-        CartonBox10Kg,
+        CARTON_BOX_10KG,
 
         /// <summary>
         /// Коробка (15 кг 60х35х29 см)
@@ -269,9 +243,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 600*350*290 мм. Максимальная вместимость - 15 кг.<br/>
         /// Доступна для всех тарифов от склада (кроме режима "склад-постамат").
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_15KG")]
         [Description("Коробка (15 кг 60х35х29 см)")]
-        CartonBox15Kg,
+        CARTON_BOX_15KG,
 
         /// <summary>
         /// Коробка (20 кг 47х40х43 см)
@@ -280,9 +253,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 470*400*430 мм. Максимальная вместимость - 20 кг.<br/>
         /// Доступна для всех тарифов от склада (кроме режима "склад-постамат").
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_20KG")]
         [Description("Коробка (20 кг 47х40х43 см)")]
-        CartonBox20Kg,
+        CARTON_BOX_20KG,
 
         /// <summary>
         /// Коробка (30 кг 69х39х42 см)
@@ -291,9 +263,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Коробка из трехслойного гофрокартона размером 690*390*420 мм. Максимальная вместимость - 30 кг.<br/>
         /// Доступна для всех тарифов от склада (кроме режима "склад-постамат").
         /// </remarks>
-        [JsonEnumValue("CARTON_BOX_30KG")]
         [Description("Коробка (30 кг 69х39х42 см)")]
-        CartonBox30Kg,
+        CARTON_BOX_30KG,
 
         /// <summary>
         /// Воздушно-пузырчатая пленка
@@ -302,9 +273,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Полиэтилен высокого давления, двухслойный. Является дополнительным упаковочным материалом для упаковки отправлений в транспортную упаковку.<br/>
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("BUBBLE_WRAP")]
         [Description("Воздушно-пузырчатая пленка")]
-        BubbleWrap,
+        BUBBLE_WRAP,
 
         /// <summary>
         /// Макулатурная бумага
@@ -313,9 +283,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Упаковочная бумага (макулатурная, класса Е). Ширина 0,42 м. Предназначена для упаковки различных видов отправлений (грузов) и заполнения пустот внутри упаковки.<br/>
         /// Доступные режимы: дверь-дверь, дверь склад, склад-дверь, склад-склад, дверь-постамат, склад-постамат
         /// </remarks>
-        [JsonEnumValue("WASTE_PAPER")]
         [Description("Макулатурная бумага")]
-        WastePaper,
+        WASTE_PAPER,
 
         /// <summary>
         /// Прессованный картон "филлер" (55х14х2,3 см)
@@ -327,9 +296,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// - заполнения пустот.<br/>
         /// Доступна для всех тарифов от склада.
         /// </remarks>
-        [JsonEnumValue("CARTON_FILLER")]
         [Description("Прессованный картон 'филлер' (55х14х2,3 см)")]
-        CartonFiller,
+        CARTON_FILLER,
 
         /// <summary>
         /// Запрет осмотра вложения
@@ -340,9 +308,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Услуга не передается до постамата.<br/>
         /// Только для клиентов с договором типа ИМ.
         /// </remarks>
-        [JsonEnumValue("BAN_ATTACHMENT_INSPECTION")]
         [Description("Запрет осмотра вложения")]
-        BanAttachmentInspection,
+        BAN_ATTACHMENT_INSPECTION,
 
         /// <summary>
         /// Фото документов
@@ -352,9 +319,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Услуга доступна при наличии услуги в Договоре и настроенном Фотопроекте/шаблоне заданий.<br/>
         /// Услуга платная, условия уточняйте у своего менеджера.
         /// </remarks>
-        [JsonEnumValue("PHOTO_OF_DOCUMENTS")]
         [Description("Фото документов")]
-        PhotoOfDocuments,
+        PHOTO_OF_DOCUMENTS,
 
         /// <summary>
         /// Подъём на этаж (по лестнице)
@@ -364,9 +330,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Услуга предоставляется при необходимости подъёма на этаж крупногабаритных и тяжёлых отправлений (весом от 10 кг).<br/>
         /// (ограничение 150 кг)
         /// </remarks>
-        [JsonEnumValue("GET_UP_FLOOR_BY_HAND")]
         [Description("Подъём на этаж (по лестнице)")]
-        GetUpFloorByHand,
+        GET_UP_FLOOR_BY_HAND,
 
         /// <summary>
         /// Подъём на этаж (на лифте)
@@ -376,9 +341,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Услуга предоставляется при необходимости подъёма на этаж крупногабаритных и тяжёлых отправлений (весом от 10 кг).<br/>
         /// (ограничение 150 кг)
         /// </remarks>
-        [JsonEnumValue("GET_UP_FLOOR_BY_ELEVATOR")]
         [Description("Подъём на этаж (на лифте)")]
-        GetUpFloorByElevator,
+        GET_UP_FLOOR_BY_ELEVATOR,
 
         /// <summary>
         /// Прозвон
@@ -390,9 +354,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Попытки дозвона получателю осуществляются в течение 14 дней, в случае не дозвона, по истечении срока хранения груз уходит на возврат.<br/>
         /// Только для договоров с типом "ИМ"
         /// </remarks>
-        [JsonEnumValue("CALL")]
         [Description("Прозвон")]
-        Call,
+        CALL,
 
         /// <summary>
         /// 18+
@@ -401,9 +364,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Сервис проверки возраста получателя (товары 18+).<br/>
         /// Услуга предлагается в доступных только при наличии в договоре признака 18+
         /// </remarks>
-        [JsonEnumValue("ADULT_GOODS")]
         [Description("18+")]
-        AdultGoods,
+        ADULT_GOODS,
 
         /// <summary>
         /// Погрузо-разгрузочные работы у отправителя
@@ -417,9 +379,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Экономичная посылка<br/>
         /// Экспресс<br/>
         /// </remarks>
-        [JsonEnumValue("LOADING_OPERATIONS_AT_THE_SENDER")]
         [Description("Погрузо-разгрузочные работы у отправителя")]
-        LoadingOperationsAtTheSender,
+        LOADING_OPERATIONS_AT_THE_SENDER,
 
         /// <summary>
         /// Погрузо-разгрузочные работы у получателя
@@ -433,23 +394,20 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Экономичная посылка<br/>
         /// Экспресс<br/>
         /// </remarks>
-        [JsonEnumValue("LOAD_THE_OPERATION_AT_THE_RECIPIENT")]
         [Description("Погрузо-разгрузочные работы у получателя")]
-        LoadTheOperationAtTheRecipient,
+        LOAD_THE_OPERATION_AT_THE_RECIPIENT,
 
         /// <summary>
         /// Конверт А4 из картона (бесплатный)
         /// </summary>
-        [JsonEnumValue("ENVELOPE_A4_CDEK_FREE")]
         [Description("Конверт А4 из картона (бесплатный)")]
-        EnvelopeA4CdekFree,
+        ENVELOPE_A4_CDEK_FREE,
 
         /// <summary>
         /// Коробка XL (18 кг)
         /// </summary>
-        [JsonEnumValue("CARTON_BOX_XL_18_KILOS")]
         [Description("Коробка XL (18 кг)")]
-        CartonBoxXl18Kilos,
+        CARTON_BOX_XL_18_KILOS
     }
 
 }

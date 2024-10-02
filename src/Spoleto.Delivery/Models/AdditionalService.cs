@@ -21,9 +21,9 @@
         public string? Description { get; set; }
 
         /// <summary>
-        /// Стоимость.
+        /// Общая сумма (итого с НДС и скидкой в валюте взаиморасчётов).
         /// </summary>
-        public decimal? Cost { get; set; }
+        public decimal? TotalSum { get; set; }
 
         //todo: указать возможность указания параметра с привязкой к конкректной доп услуги (не у всех доп услуг будут параметры)
         public bool ParameterRequired => ParameterType != null;

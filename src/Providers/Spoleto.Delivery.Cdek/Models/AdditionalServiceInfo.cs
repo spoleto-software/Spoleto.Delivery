@@ -12,7 +12,6 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Код услуги.
         /// </summary>
         [JsonPropertyName("code")]
-        [JsonConverter(typeof(JsonEnumValueConverter<AdditionalServiceInfoType>))]
         public AdditionalServiceInfoType Code { get; set; }
 
         /// <summary>

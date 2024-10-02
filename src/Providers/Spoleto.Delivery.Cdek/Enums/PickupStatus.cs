@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Text.Json.Serialization;
-using Spoleto.Common.Attributes;
-using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -11,7 +8,6 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// <remarks>
     /// <see href="https://api-docs.cdek.ru/29948360.html"/>
     /// </remarks>
-    [JsonConverter(typeof(JsonEnumValueConverter<PickupStatus>))]
     public enum PickupStatus
     {
         /// <summary>
@@ -20,9 +16,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Заявка создана в информационной системе СДЭК, но требуются дополнительные валидации.
         /// </remarks>
-        [JsonEnumValue("ACCEPTED")]
         [Description("Принят")]
-        Accepted,
+        ACCEPTED,
 
         /// <summary>
         /// Создан.
@@ -30,9 +25,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Заявка создана в информационной системе СДЭК и прошла необходимые валидации.
         /// </remarks>
-        [JsonEnumValue("CREATED")]
         [Description("Создан")]
-        Created,
+        CREATED,
 
         /// <summary>
         /// Отменена.
@@ -40,9 +34,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Заявка отменена ИМ после регистрации в системе.
         /// </remarks>
-        [JsonEnumValue("REMOVED")]
         [Description("Отменена")]
-        Removed,
+        REMOVED,
 
         /// <summary>
         /// Готова к назначению.
@@ -50,9 +43,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Заявка готова к назначению.
         /// </remarks>
-        [JsonEnumValue("READY_FOR_APPOINTMENT")]
         [Description("Готова к назначению")]
-        ReadyForAppointment,
+        READY_FOR_APPOINTMENT,
 
         /// <summary>
         /// Назначен курьер.
@@ -60,9 +52,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// По заявке назначен курьер.
         /// </remarks>
-        [JsonEnumValue("APPOINTED_COURIER")]
         [Description("Назначен курьер")]
-        AppointedCourier,
+        APPOINTED_COURIER,
 
         /// <summary>
         /// Выполнена.
@@ -70,9 +61,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Заявка выполнена.
         /// </remarks>
-        [JsonEnumValue("DONE")]
         [Description("Выполнена")]
-        Done,
+        DONE,
 
         /// <summary>
         /// Выявлена проблема.
@@ -80,9 +70,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// По заявке выявлена проблема.
         /// </remarks>
-        [JsonEnumValue("PROBLEM_DETECTED")]
         [Description("Выявлена проблема")]
-        ProblemDetected,
+        PROBLEM_DETECTED,
 
         /// <summary>
         /// Требует обработки.
@@ -90,9 +79,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Заявка создана в информационной системе СДЭК, но требуется дополнительная обработка.
         /// </remarks>
-        [JsonEnumValue("PROCESSING_REQUIRED")]
         [Description("Требует обработки")]
-        ProcessingRequired,
+        PROCESSING_REQUIRED,
 
         /// <summary>
         /// Некорректная заявка.
@@ -100,8 +88,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Заявка содержит некорректные данные.
         /// </remarks>
-        [JsonEnumValue("INVALID")]
         [Description("Некорректная заявка")]
-        Invalid
+        INVALID
     }
 }

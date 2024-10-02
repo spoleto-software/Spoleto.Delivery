@@ -13,7 +13,6 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Код статуса (подробнее см. приложение 1).
         /// </summary>
         [JsonPropertyName("code")]
-        [JsonConverter(typeof(JsonEnumValueConverter<PickupStatus>))]
         public PickupStatus Code { get; set; }
 
         /// <summary>

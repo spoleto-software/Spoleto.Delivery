@@ -431,7 +431,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 CisNumber = order.Entity.CisNumber,
                 Errors = order.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
                 Warnings = order.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
-                Status = order.Entity.Statuses.First().Code.GetJsonEnumValue()!.ToString(),
+                Status = order.Entity.Statuses.First().Code.ToString(),
                 PlannedDeliveryDate = order.Entity?.PlannedDeliveryDate,
                 TrackUrl = order.GetTrackUrl(),
                 RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList()
@@ -550,7 +550,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 Uuid = courierPickup.Entity.Uuid,
                 Errors = courierPickup.Requests?.Where(x => x.Errors != null).SelectMany(x => x.Errors)?.Select(x => x.ToDeliveryError()).ToList(),
                 Warnings = courierPickup.Requests?.Where(x => x.Warnings != null).SelectMany(x => x.Warnings).Select(x => x.ToDeliveryWarning()).ToList(),
-                Status = courierPickup.Entity.Statuses.First().Code.GetJsonEnumValue()!.ToString(),
+                Status = courierPickup.Entity.Statuses.First().Code.ToString(),
                 Comment = courierPickup.Entity.Comment,
                 CourierIdentityCard = courierPickup.Entity.CourierIdentityCard,
                 CourierPowerOfAttorney = courierPickup.Entity.CourierPowerOfAttorney,

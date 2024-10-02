@@ -181,7 +181,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 if (order.Status == null)
                 {
                     var dateTime = DateTime.Now.AddMinutes(maxWaitingTimeMinutes);
-                    var firstStatus = OrderStatus.Accepted.GetJsonEnumValue();
+                    var firstStatus = OrderStatus.ACCEPTED.ToString();
 
                     while (true)
                     {
@@ -197,7 +197,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                     }
                 }
 
-                if (order.Status == OrderStatus.Invalid.GetJsonEnumValue())
+                if (order.Status == OrderStatus.INVALID.ToString())
                 {
                     var message = "The created order is invalid.";
                     if (order.Errors?.Count > 0)
@@ -289,7 +289,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 if (courierPickup.Status == null)
                 {
                     var dateTime = DateTime.Now.AddMinutes(maxWaitingTimeMinutes);
-                    var firstStatus = PickupStatus.Accepted.GetJsonEnumValue();
+                    var firstStatus = PickupStatus.ACCEPTED.ToString();
 
                     while (true)
                     {
@@ -304,7 +304,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                         await Task.Delay(3000).ConfigureAwait(false);
                     }
 
-                    if (courierPickup.Status == PickupStatus.Invalid.GetJsonEnumValue())
+                    if (courierPickup.Status == PickupStatus.INVALID.ToString())
                     {
                         var message = "The created courier pickup order is invalid.";
                         if (courierPickup.Errors?.Count > 0)

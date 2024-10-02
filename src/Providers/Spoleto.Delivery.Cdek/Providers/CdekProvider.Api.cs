@@ -10,44 +10,40 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             foreach (AdditionalServiceType enumValue in Enum.GetValues(typeof(AdditionalServiceType)))
             {
-                var code = enumValue.GetJsonEnumValue();
-                var name = enumValue.ToString();
+                var code = enumValue.ToString();
                 var description = enumValue.GetDescription()!;
+                var additionalService = new Delivery.AdditionalService { Code = code, Name = description };
+
                 var (parameterDescription, parameterType) = GetAdditionalServiceParameterType(enumValue);
-
-                if (code != null && name != null)
+                if (parameterType != null)
                 {
-                    var additionalService = new Delivery.AdditionalService { Code = name, Name = description };
-                    if (parameterType != null)
-                    {
-                        additionalService.ParameterType = parameterType;
-                        additionalService.Description = parameterDescription;
-                    }
-
-                    list.Add(additionalService);
+                    additionalService.ParameterType = parameterType;
+                    additionalService.Description = parameterDescription;
                 }
+
+                list.Add(additionalService);
             }
 
             return list;
         }
 
-        private (string ParameterDescription, ParameterType? ParameterType) GetAdditionalServiceParameterType(AdditionalServiceType enumValue)
+        private (string? ParameterDescription, ParameterType? ParameterType) GetAdditionalServiceParameterType(AdditionalServiceType enumValue)
         {
-            if (enumValue == AdditionalServiceType.BubbleWrap
-                || enumValue == AdditionalServiceType.WastePaper)
+            if (enumValue == AdditionalServiceType.BUBBLE_WRAP
+                || enumValue == AdditionalServiceType.WASTE_PAPER)
                 return ("Параметр услуги: длина", ParameterType.Number);
 
-            if (enumValue == AdditionalServiceType.Insurance)
+            if (enumValue == AdditionalServiceType.INSURANCE)
                 return ("Параметр услуги: объявленная стоимость заказа (только для заказов с типом \"Доставка\")", ParameterType.Number);
 
             if (enumValue.ToString().StartsWith("CartonBox", StringComparison.Ordinal)
-                || enumValue == AdditionalServiceType.CartonFiller)
+                || enumValue == AdditionalServiceType.CARTON_FILLER)
                 return ("Параметр услуги: количество", ParameterType.Int);
 
-            if (enumValue == AdditionalServiceType.Sms)
+            if (enumValue == AdditionalServiceType.SMS)
                 return ("Параметр услуги: номер телефона", ParameterType.String);
 
-            if (enumValue == AdditionalServiceType.PhotoOfDocuments)
+            if (enumValue == AdditionalServiceType.PHOTO_OF_DOCUMENTS)
                 return ("Параметр услуги: код фотопроекта", ParameterType.String);
 
             return (null, null);

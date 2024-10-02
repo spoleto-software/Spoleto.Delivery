@@ -1,215 +1,186 @@
 ﻿using System.ComponentModel;
-using System.Text.Json.Serialization;
-using Spoleto.Common.Attributes;
-using Spoleto.Common.JsonConverters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
     /// <summary>
     /// Статус заказа.
     /// </summary>
-    [JsonConverter(typeof(JsonEnumValueConverter<OrderStatus>))]
     public enum OrderStatus
     {
         /// <summary>
         /// Принят
         /// </summary>
         /// <remarks>Заказ создан в информационной системе СДЭК, но требуются дополнительные валидации</remarks>
-        [JsonEnumValue("ACCEPTED")]
         [Description("Принят")]
-        Accepted,
+        ACCEPTED,
 
         /// <summary>
         /// Создан
         /// </summary>
         /// <remarks>Заказ создан в информационной системе СДЭК и прошел необходимые валидации</remarks>
-        [JsonEnumValue("CREATED")]
         [Description("Создан")]
-        Created,
+        CREATED,
 
         /// <summary>
         /// Принят на склад отправителя
         /// </summary>
         /// <remarks>Оформлен приход на склад СДЭК в городе-отправителе.</remarks>
-        [JsonEnumValue("RECEIVED_AT_SHIPMENT_WAREHOUSE")]
         [Description("Принят на склад отправителя")]
-        ReceivedAtShipmentWarehouse,
+        RECEIVED_AT_SHIPMENT_WAREHOUSE,
 
         /// <summary>
         /// Выдан на отправку в г. отправителе
         /// </summary>
         /// <remarks>Оформлен расход со склада СДЭК в городе-отправителе. Груз подготовлен к отправке (консолидирован с другими посылками)</remarks>
-        [JsonEnumValue("READY_TO_SHIP_AT_SENDING_OFFICE")]
         [Description("Выдан на отправку в г. отправителе")]
-        ReadyToShipAtSendingOffice,
+        READY_TO_SHIP_AT_SENDING_OFFICE,
 
         /// <summary>
         /// Выдан на отправку в г. отправителе
         /// </summary>
         /// <remarks>Оформлен расход со склада СДЭК в городе-отправителе. Груз подготовлен к отправке (консолидирован с другими посылками)</remarks>
-        [JsonEnumValue("READY_FOR_SHIPMENT_IN_TRANSIT_CITY")]
         [Description("Выдан на отправку в г. отправителе")]
-        ReadyForShipmentAtTransitCity,
+        READY_FOR_SHIPMENT_IN_TRANSIT_CITY,
 
         /// <summary>
         /// Готов к отправке в г. отправителе
         /// </summary>
         /// <remarks>Оформлен расход со склада СДЭК в городе отправителя. Груз подготовлен к отправке (консолидирован с другими заказами)</remarks>
-        [JsonEnumValue("READY_FOR_SHIPMENT_IN_SENDER_CITY")]
         [Description("Готов к отправке в г. отправителе")]
-        ReadyForShipmentInSenderCity,
+        READY_FOR_SHIPMENT_IN_SENDER_CITY,
 
         /// <summary>
         /// Возвращен на склад отправителя
         /// </summary>
         /// <remarks>Повторно оформлен приход в городе-отправителе (не удалось передать перевозчику по какой-либо причине). Примечание: этот статус не означает возврат груза отправителю.</remarks>
-        [JsonEnumValue("RETURNED_TO_SENDER_CITY_WAREHOUSE")]
         [Description("Возвращен на склад отправителя")]
-        ReturnedToSenderCityWarehouse,
+        RETURNED_TO_SENDER_CITY_WAREHOUSE,
 
         /// <summary>
         /// Сдан перевозчику в г. отправителе
         /// </summary>
         /// <remarks>Зарегистрирована отправка в городе-отправителе. Консолидированный груз передан на доставку (в аэропорт/загружен машину)</remarks>
-        [JsonEnumValue("TAKEN_BY_TRANSPORTER_FROM_SENDER_CITY")]
         [Description("Сдан перевозчику в г. отправителе")]
-        TakenByTransporterFromSenderCity,
+        TAKEN_BY_TRANSPORTER_FROM_SENDER_CITY,
 
         /// <summary>
         /// Отправлен в г. транзит
         /// </summary>
         /// <remarks>Зарегистрирована отправка в город-транзит. Проставлены дата и время отправления у перевозчика</remarks>
-        [JsonEnumValue("SENT_TO_TRANSIT_CITY")]
         [Description("Отправлен в г. транзит")]
-        SentToTransitCity,
+        SENT_TO_TRANSIT_CITY,
 
         /// <summary>
         /// Встречен в г. транзите
         /// </summary>
         /// <remarks>Зарегистрирована встреча в городе-транзите</remarks>
-        [JsonEnumValue("ACCEPTED_IN_TRANSIT_CITY")]
         [Description("Встречен в г. транзите")]
-        AcceptedInTransitCity,
+        ACCEPTED_IN_TRANSIT_CITY,
 
         /// <summary>
         /// Принят на склад транзита
         /// </summary>
         /// <remarks>Оформлен приход в городе-транзите</remarks>
-        [JsonEnumValue("ACCEPTED_AT_TRANSIT_WAREHOUSE")]
         [Description("Принят на склад транзита")]
-        AcceptedAtTransitWarehouse,
+        ACCEPTED_AT_TRANSIT_WAREHOUSE,
 
         /// <summary>
         /// Возвращен на склад транзита
         /// </summary>
         /// <remarks>Повторно оформлен приход в городе-транзите (груз возвращен на склад). Примечание: этот статус не означает возврат груза отправителю.</remarks>
-        [JsonEnumValue("RETURNED_TO_TRANSIT_WAREHOUSE")]
         [Description("Возвращен на склад транзита")]
-        ReturnedToTransitWarehouse,
+        RETURNED_TO_TRANSIT_WAREHOUSE,
 
         /// <summary>
         /// Выдан на отправку в г. транзите
         /// </summary>
         /// <remarks>Оформлен расход в городе-транзите</remarks>
-        [JsonEnumValue("READY_TO_SHIP_IN_TRANSIT_OFFICE")]
         [Description("Выдан на отправку в г. транзите")]
-        ReadyToShipInTransitOffice,
+        READY_TO_SHIP_IN_TRANSIT_OFFICE,
 
         /// <summary>
         /// Сдан перевозчику в г. транзите
         /// </summary>
         /// <remarks>Зарегистрирована отправка у перевозчика в городе-транзите</remarks>
-        [JsonEnumValue("TAKEN_BY_TRANSPORTER_FROM_TRANSIT_CITY")]
         [Description("Сдан перевозчику в г. транзите")]
-        TakenByTransporterFromTransitCity,
+        TAKEN_BY_TRANSPORTER_FROM_TRANSIT_CITY,
 
         /// <summary>
         /// Отправлен в г. отправитель
         /// </summary>
         /// <remarks>Зарегистрирована отправка в город-отправитель, груз в пути</remarks>
-        [JsonEnumValue("SENT_TO_SENDER_CITY")]
         [Description("Отправлен в г. отправитель")]
-        SentToSenderCity,
+        SENT_TO_SENDER_CITY,
 
         /// <summary>
         /// Отправлен в г. получатель
         /// </summary>
         /// <remarks>Зарегистрирована отправка в город-получатель, груз в пути</remarks>
-        [JsonEnumValue("SENT_TO_RECIPIENT_CITY")]
         [Description("Отправлен в г. получатель")]
-        SentToRecipientCity,
+        SENT_TO_RECIPIENT_CITY,
 
         /// <summary>
         /// Встречен в г. отправителе
         /// </summary>
         /// <remarks>Зарегистрирована встреча груза в городе-отправителе</remarks>
-        [JsonEnumValue("ACCEPTED_IN_SENDER_CITY")]
         [Description("Встречен в г. отправителе")]
-        AcceptedInSenderCity,
+        ACCEPTED_IN_SENDER_CITY,
 
         /// <summary>
         /// Встречен в г. получателе
         /// </summary>
         /// <remarks>Зарегистрирована встреча груза в городе-получателе</remarks>
-        [JsonEnumValue("ACCEPTED_IN_RECIPIENT_CITY")]
         [Description("Встречен в г. получателе")]
-        AcceptedInRecipientCity,
+        ACCEPTED_IN_RECIPIENT_CITY,
 
         /// <summary>
         /// Принят на склад доставки
         /// </summary>
         /// <remarks>Оформлен приход на склад города-получателя, ожидает доставки до двери</remarks>
-        [JsonEnumValue("ACCEPTED_AT_RECIPIENT_CITY_WAREHOUSE")]
         [Description("Принят на склад доставки")]
-        AcceptedAtRecipientCityWarehouse,
+        ACCEPTED_AT_RECIPIENT_CITY_WAREHOUSE,
 
         /// <summary>
         /// Принят на склад до востребования
         /// </summary>
         /// <remarks>Оформлен приход на склад города-получателя. Доставка до склада, посылка ожидает забора клиентом - покупателем ИМ</remarks>
-        [JsonEnumValue("ACCEPTED_AT_PICK_UP_POINT")]
         [Description("Принят на склад до востребования")]
-        AcceptedAtPickUpPoint,
+        ACCEPTED_AT_PICK_UP_POINT,
 
         /// <summary>
         /// Выдан на доставку
         /// </summary>
         /// <remarks>Добавлен в курьерскую карту, выдан курьеру на доставку</remarks>
-        [JsonEnumValue("TAKEN_BY_COURIER")]
         [Description("Выдан на доставку")]
-        TakenByCourier,
+        TAKEN_BY_COURIER,
 
         /// <summary>
         /// Возвращен на склад доставки
         /// </summary>
         /// <remarks>Оформлен повторный приход на склад в городе-получателе. Доставка не удалась по какой-либо причине, ожидается очередная попытка доставки. Примечание: этот статус не означает возврат груза отправителю.</remarks>
-        [JsonEnumValue("RETURNED_TO_RECIPIENT_CITY_WAREHOUSE")]
         [Description("Возвращен на склад доставки")]
-        ReturnedToRecipientCityWarehouse,
+        RETURNED_TO_RECIPIENT_CITY_WAREHOUSE,
 
         /// <summary>
         /// Вручен
         /// </summary>
         /// <remarks>Успешно доставлен и вручен адресату (конечный статус).</remarks>
-        [JsonEnumValue("DELIVERED")]
         [Description("Вручен")]
-        Delivered,
+        DELIVERED,
 
         /// <summary>
         /// Не вручен
         /// </summary>
         /// <remarks>Покупатель отказался от покупки, возврат в ИМ (конечный статус).</remarks>
-        [JsonEnumValue("NOT_DELIVERED")]
         [Description("Не вручен")]
-        NotDelivered,
+        NOT_DELIVERED,
 
         /// <summary>
         /// Некорректный заказ
         /// </summary>
         /// <remarks>Заказ содержит некорректные данные</remarks>
-        [JsonEnumValue("INVALID")]
         [Description("Некорректный заказ")]
-        Invalid,
+        INVALID,
 
         /// <summary>
         /// Таможенное оформление в стране отправления
@@ -217,9 +188,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// В процессе таможенного оформления в стране отправителя (для международных заказов).
         /// </remarks>
-        [JsonEnumValue("IN_CUSTOMS_INTERNATIONAL")]
         [Description("Таможенное оформление в стране отправления")]
-        InCustomsInternational,
+        IN_CUSTOMS_INTERNATIONAL,
 
         /// <summary>
         /// Отправлено в страну назначения
@@ -227,9 +197,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Отправлен в страну назначения, заказ в пути (для международных заказов).
         /// </remarks>
-        [JsonEnumValue("SHIPPED_TO_DESTINATION")]
         [Description("Отправлено в страну назначения")]
-        ShippedToDestination,
+        SHIPPED_TO_DESTINATION,
 
         /// <summary>
         /// Передано транзитному перевозчику
@@ -237,9 +206,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Передан транзитному перевозчику для доставки в страну назначения (для международных заказов).
         /// </remarks>
-        [JsonEnumValue("PASSED_TO_TRANSIT_CARRIER")]
         [Description("Передано транзитному перевозчику")]
-        PassedToTransitCarrier,
+        PASSED_TO_TRANSIT_CARRIER,
 
         /// <summary>
         /// Таможенное оформление в стране назначения
@@ -247,9 +215,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// В процессе таможенного оформления в стране назначения (для международных заказов).
         /// </remarks>
-        [JsonEnumValue("IN_CUSTOMS_LOCAL")]
         [Description("Таможенное оформление в стране назначения")]
-        InCustomsLocal,
+        IN_CUSTOMS_LOCAL,
 
         /// <summary>
         /// Таможенное оформление завершено
@@ -257,9 +224,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Завершено таможенное оформление заказа (для международных заказов).
         /// </remarks>
-        [JsonEnumValue("CUSTOMS_COMPLETE")]
         [Description("Таможенное оформление завершено")]
-        CustomsComplete,
+        CUSTOMS_COMPLETE,
 
         /// <summary>
         /// Заложен в постамат
@@ -267,9 +233,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Заложен в постамат, заказ ожидает забора клиентом - покупателем ИМ.
         /// </remarks>
-        [JsonEnumValue("POSTOMAT_POSTED")]
         [Description("Заложен в постамат")]
-        PostomatPosted,
+        POSTOMAT_POSTED,
 
         /// <summary>
         /// Изъят из постамата курьером
@@ -277,9 +242,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Истек срок хранения заказа в постамате, возврат в ИМ.
         /// </remarks>
-        [JsonEnumValue("POSTOMAT_SEIZED")]
         [Description("Изъят из постамата курьером")]
-        PostomatSeized,
+        POSTOMAT_SEIZED,
 
         /// <summary>
         /// Изъят из постамата клиентом
@@ -287,9 +251,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Успешно изъят из постамата клиентом - покупателем ИМ.
         /// </remarks>
-        [JsonEnumValue("POSTOMAT_RECEIVED")]
         [Description("Изъят из постамата клиентом")]
-        PostomatReceived,
+        POSTOMAT_RECEIVED,
 
         /// <summary>
         /// Сдан перевозчику в г. отправителе
@@ -297,9 +260,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Зарегистрирована отправка в городе-отправителе. Консолидированный груз передан на доставку (в аэропорт/загружен машину).
         /// </remarks>
-        [JsonEnumValue("PASSED_TO_CARRIER_AT_SENDING_OFFICE")]
         [Description("Сдан перевозчику в г. отправителе")]
-        PassedToCarrierAtSendingOffice,
+        PASSED_TO_CARRIER_AT_SENDING_OFFICE,
 
         /// <summary>
         /// Отправлен в г. транзит
@@ -307,9 +269,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Зарегистрирована отправка в город-транзит. Проставлены дата и время отправления у перевозчика.
         /// </remarks>
-        [JsonEnumValue("SEND_TO_TRANSIT_OFFICE")]
         [Description("Отправлен в г. транзит")]
-        SendToTransitOffice,
+        SEND_TO_TRANSIT_OFFICE,
 
         /// <summary>
         /// Встречен в г. транзите
@@ -317,9 +278,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Зарегистрирована встреча в городе-транзите.
         /// </remarks>
-        [JsonEnumValue("MET_AT_TRANSIT_OFFICE")]
         [Description("Встречен в г. транзите")]
-        MetAtTransitOffice,
+        MET_AT_TRANSIT_OFFICE,
 
         /// <summary>
         /// Сдан перевозчику в г. транзите
@@ -327,9 +287,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Зарегистрирована отправка у перевозчика в городе-транзите.
         /// </remarks>
-        [JsonEnumValue("PASSED_TO_CARRIER_AT_TRANSIT_OFFICE")]
         [Description("Сдан перевозчику в г. транзите")]
-        PassedToCarrierAtTransitOffice,
+        PASSED_TO_CARRIER_AT_TRANSIT_OFFICE,
 
         /// <summary>
         /// Встречен в г. отправителе
@@ -337,9 +296,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Зарегистрирована встреча груза в городе-отправителе.
         /// </remarks>
-        [JsonEnumValue("MET_AT_SENDING_OFFICE")]
         [Description("Встречен в г. отправителе")]
-        MetAtSendingOffice,
+        MET_AT_SENDING_OFFICE,
 
         /// <summary>
         /// Встречен в г. получателе
@@ -347,9 +305,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Зарегистрирована встреча груза в городе-получателе.
         /// </remarks>
-        [JsonEnumValue("MET_AT_RECIPIENT_OFFICE")]
         [Description("Встречен в г. получателе")]
-        MetAtRecipientOffice,
+        MET_AT_RECIPIENT_OFFICE,
 
         /// <summary>
         /// Поступил в г. транзита
@@ -357,9 +314,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Оформлена приемка в городе-транзите.
         /// </remarks>
-        [JsonEnumValue("ENTERED_TO_OFFICE_TRANSIT_WAREHOUSE")]
         [Description("Поступил в г. транзита")]
-        EnteredToOfficeTransitWarehouse,
+        ENTERED_TO_OFFICE_TRANSIT_WAREHOUSE,
 
         /// <summary>
         /// Поступил на склад доставки
@@ -367,9 +323,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Оформлена приемка на складе города получателя по заказу до двери.
         /// </remarks>
-        [JsonEnumValue("ENTERED_TO_DELIVERY_WAREHOUSE")]
         [Description("Поступил на склад доставки")]
-        EnteredToDeliveryWarehouse,
+        ENTERED_TO_DELIVERY_WAREHOUSE,
 
         /// <summary>
         /// Поступил на склад до востребования
@@ -377,8 +332,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Оформлена приемка на складе города получателя по заказу до склада.
         /// </remarks>
-        [JsonEnumValue("ENTERED_TO_WAREHOUSE_ON_DEMAND")]
         [Description("Поступил на склад до востребования")]
-        EnteredToWarehouseOnDemand
+        ENTERED_TO_WAREHOUSE_ON_DEMAND
     }
 }
