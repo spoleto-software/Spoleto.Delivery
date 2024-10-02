@@ -85,14 +85,12 @@ public class Example
             Comment = "Just another test order",
             FromLocation = new()
             {
-                ProviderLocationCode = "44",
-                Address = "пр. Ленинградский, д.4",
+                Address = "Москва, пр. Ленинградский, д.4",
             },
             ToLocation = new()
             {
-                ProviderLocationCode = "44",
                 FiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
-                Address = "ул. Блюхера, 32"
+                Address = "Москва, ул. Блюхера, 32"
             },
             TariffCode = tariffs.First().Code,
             Packages =
@@ -135,6 +133,9 @@ public class Example
     }
 }
 ```
+
+More actual examples you can find in tests here:  
+https://github.com/spoleto-software/Spoleto.Delivery/tree/main/src/Tests
 
 ## Dependency Injection
 

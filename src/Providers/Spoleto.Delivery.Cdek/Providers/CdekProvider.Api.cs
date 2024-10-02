@@ -27,7 +27,7 @@ namespace Spoleto.Delivery.Providers.Cdek
             return list;
         }
 
-        private (string? ParameterDescription, ParameterType? ParameterType) GetAdditionalServiceParameterType(AdditionalServiceType enumValue)
+        private static (string? ParameterDescription, ParameterType? ParameterType) GetAdditionalServiceParameterType(AdditionalServiceType enumValue)
         {
             if (enumValue == AdditionalServiceType.BUBBLE_WRAP
                 || enumValue == AdditionalServiceType.WASTE_PAPER)
@@ -36,7 +36,7 @@ namespace Spoleto.Delivery.Providers.Cdek
             if (enumValue == AdditionalServiceType.INSURANCE)
                 return ("Параметр услуги: объявленная стоимость заказа (только для заказов с типом \"Доставка\")", ParameterType.Number);
 
-            if (enumValue.ToString().StartsWith("CartonBox", StringComparison.Ordinal)
+            if (enumValue.ToString().StartsWith("CARTON_BOX", StringComparison.Ordinal)
                 || enumValue == AdditionalServiceType.CARTON_FILLER)
                 return ("Параметр услуги: количество", ParameterType.Int);
 
