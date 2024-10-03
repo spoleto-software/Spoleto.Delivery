@@ -172,7 +172,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Дополнительные услуги (подробнее см. приложение 3).
         /// </summary>
         [JsonPropertyName("services")]
-        public List<AdditionalServiceInfo> Services { get; set; }
+        public List<AdditionalServiceInfo>? Services { get; set; }
 
         /// <summary>
         /// Список информации по местам (упаковкам).

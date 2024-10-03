@@ -437,7 +437,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 TrackUrl = order.GetTrackUrl(),
                 TotalSum = order.Entity?.DeliveryDetail?.TotalSum,
                 RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList(),
-                Services = order.Entity?.Services.Select(x => x.ToDeliveryAdditionalServiceRequest()).ToList()
+                Services = order.Entity?.Services?.Select(x => x.ToDeliveryAdditionalServiceRequest()).ToList()
             };
         }
 
