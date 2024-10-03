@@ -240,7 +240,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 Number = order.Number,
                 Status = order.CurrentStatus,
                 CisNumber = order.CisNumber,
-                PlannedDeliveryDate = order.DeliveryDateTime,
+                PlannedDeliveryDate = order.DeliveryMaxDateTime,
+                DeliveryDate = order.DeliveryDateTime,
                 TrackUrl = order.GetTrackUrl(serviceUrl),
                 SumInsured = order.EstimatedCost
             };
