@@ -2,6 +2,9 @@
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
+    /// <summary>
+    ///  Дополнительный заказ на доставку.
+    /// </summary>
     public record AdditionalDeliveryOrder
     {
         /// <summary>

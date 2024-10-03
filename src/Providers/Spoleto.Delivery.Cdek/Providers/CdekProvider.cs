@@ -201,7 +201,9 @@ namespace Spoleto.Delivery.Providers.Cdek
                 {
                     var message = "The created order is invalid.";
                     if (order.Errors?.Count > 0)
+                    {
                         message += Environment.NewLine + String.Join(Environment.NewLine, order.Errors);
+                    }
 
                     throw new InvalidOperationException(message);
                 }
@@ -308,7 +310,9 @@ namespace Spoleto.Delivery.Providers.Cdek
                     {
                         var message = "The created courier pickup order is invalid.";
                         if (courierPickup.Errors?.Count > 0)
+                        {
                             message += Environment.NewLine + String.Join(Environment.NewLine, courierPickup.Errors);
+                        }
 
                         throw new InvalidOperationException(message);
                     }
