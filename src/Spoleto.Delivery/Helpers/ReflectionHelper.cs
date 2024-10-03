@@ -1,5 +1,8 @@
 ﻿namespace Spoleto.Delivery.Helpers
 {
+    /// <summary>
+    /// The reflection helper.
+    /// </summary>
     public class ReflectionHelper
     {
         public static void SetPropertyValue<T>(T obj, string propertyName, object value) where T : class
@@ -15,7 +18,7 @@
             {
                 for (int i = 0; i < properties.Length - 1; i++)
                 {
-                    var objType = objValue.GetType();
+                    var objType = objValue!.GetType();
                     var property = objType.GetProperty(properties[i]);
                     if (property == null)
                         throw new ArgumentException($"Property <{properties[i]}> not found in the type <{objType.Name}>.");
@@ -27,13 +30,16 @@
                         property.SetValue(objValue, propertyValue);
                     }
 
-                    objValue = propertyValue;
+                    objValue = propertyValue!;
                 }
             }
 
-            var finalProperty = objValue.GetType().GetProperty(properties.Last());
+            var lastProprety = properties.Last();
+            var finalProperty = objValue.GetType().GetProperty(lastProprety);
             if (finalProperty == null)
-                throw new ArgumentException($"Property {properties.Last()} not found.");
+            {
+                throw new ArgumentException($"Property {lastProprety} not found.");
+            }
 
             finalProperty.SetValue(objValue, value);
         }
