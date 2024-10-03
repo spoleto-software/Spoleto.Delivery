@@ -62,5 +62,19 @@ namespace Spoleto.Delivery.Providers.MasterPost
             
             return deliveryOrder;
         }
+
+        /// <inheritdoc/>
+        public List<DeliveryTimeInterval> GetDeliveryTimeIntervals()
+            => GetDeliveryTimeIntervalsAsync().GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public async Task<List<DeliveryTimeInterval>> GetDeliveryTimeIntervalsAsync()
+        {
+            var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"delivery_time_intervals").Build();
+
+            var deliveryTimeIntervals = await _masterPostClient.ExecuteAsync<List<DeliveryTimeInterval>>(restRequest).ConfigureAwait(false);
+
+            return deliveryTimeIntervals;
+        }
     }
 }

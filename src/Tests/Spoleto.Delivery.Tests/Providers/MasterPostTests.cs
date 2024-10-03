@@ -31,12 +31,12 @@ namespace Spoleto.Delivery.Tests.Providers
             {
                 FromLocation = new()
                 {
-                    //CityFiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
+                    CityFiasId = Guid.Parse("0c5b2444-70a0-4932-980c-b4dc0d3f02b5"),
                     Address = "г Москва, Бережковская наб, д 20 стр 64"
                 },
                 ToLocation = new()
                 {
-                    //CityFiasId = Guid.Parse("c2deb16a-0330-4f05-821f-1d09c93331e6"),
+                    CityFiasId = Guid.Parse("c2deb16a-0330-4f05-821f-1d09c93331e6"),
                     Address = "г Новосибирск, ул Кривощековская, зд 15 к 1"
                 },
                 Packages =
@@ -52,7 +52,7 @@ namespace Spoleto.Delivery.Tests.Providers
             };
 
             tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.EstimatedCost), 2000M);
-            tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.SenderSms), "79001234567");
+            //tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.SenderSms), "79001234567");
             //tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.IsStraightDelivery), true);
             //tariffRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.TariffRequest.SenderAddressCodes), new List<string> { "code1", "code2", "code3" });
 
@@ -244,6 +244,32 @@ namespace Spoleto.Delivery.Tests.Providers
                 Assert.That(deletedOrder, Is.Not.Null);
                 Assert.That(deletedOrder.Errors, Is.Null);
             });
+        }
+
+        [Test]
+        public async Task GetAdditionalServices()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
+
+            // Act
+            var services = await provider.GetAdditionalServicesAsync();
+
+            // Assert
+            Assert.That(services, Is.Not.Null);
+        }
+
+        [Test]
+        public async Task GetDeliveryTimeIntervals()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
+
+            // Act
+            var services = await provider.GetDeliveryTimeIntervalsAsync();
+
+            // Assert
+            Assert.That(services, Is.Not.Null);
         }
     }
 }

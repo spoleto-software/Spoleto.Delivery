@@ -59,5 +59,17 @@
         /// <param name="orderNumber">The number of the delivery order.</param>
         /// <returns>The delivery order.</returns>
         Task<DeliveryOrder> GetDeliveryOrderAsync(string orderNumber);
+
+        /// <summary>
+        /// Gets all available delivery time intervals.
+        /// </summary>
+        /// <returns>List of <see cref="DeliveryTimeInterval"/>.</returns>
+        List<DeliveryTimeInterval> GetDeliveryTimeIntervals();
+
+        /// <summary>
+        /// Async gets all available delivery time intervals.
+        /// </summary>
+        /// <returns>List of <see cref="DeliveryTimeInterval"/>.</returns>
+        Task<List<DeliveryTimeInterval>> GetDeliveryTimeIntervalsAsync();
     }
 }
