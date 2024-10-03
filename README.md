@@ -2,8 +2,8 @@
 
 [![](https://img.shields.io/github/license/spoleto-software/Spoleto.Delivery)](https://github.com/spoleto-software/Spoleto.Delivery/blob/main/LICENSE)
 [![](https://img.shields.io/nuget/v/Spoleto.Delivery)](https://www.nuget.org/packages/Spoleto.Delivery/)
-[![](https://tokei.rs/b1/github/spoleto-software/Spoleto.Delivery)](https://github.com/spoleto-software/Spoleto.Delivery)
-[![](https://tokei.rs/b1/github/spoleto-software/Spoleto.Delivery?category=files)](https://github.com/spoleto-software/Spoleto.Delivery)
+[![total lines](https://tokei.rs/b1/github/spoleto-software/Spoleto.Delivery)](https://github.com/spoleto-software/Spoleto.Delivery)
+[![files](https://tokei.rs/b1/github/spoleto-software/Spoleto.Delivery?category=files)](https://github.com/spoleto-software/Spoleto.Delivery)
 ![Build](https://github.com/spoleto-software/Spoleto.Delivery/actions/workflows/ci.yml/badge.svg)
 
 **Spoleto.Delivery** is a comprehensive solution designed to integrate delivery functionality into your .NET applications. This project provides a maintainable architecture that simplifies interaction with various delivery providers (e.g., Cdek, MasterPost).  
