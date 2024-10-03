@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Delivery.Providers.MasterPost.Converters;
 
 namespace Spoleto.Delivery.Providers.MasterPost
 {
@@ -34,12 +35,14 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// Срок доставки минимум (число).
         /// </summary>
         [JsonPropertyName("DN_DELTIMEMIN")]
+        [JsonConverter(typeof(JsonIntConverter))]
         public int? DeliveryMinDays { get; set; }
 
         /// <summary>
         /// Срок доставки максимум (Число).
         /// </summary>
         [JsonPropertyName("DN_DELTIMEMAX")]
+        [JsonConverter(typeof(JsonIntConverter))]
         public int? DeliveryMaxDays { get; set; }
 
         /// <summary>
