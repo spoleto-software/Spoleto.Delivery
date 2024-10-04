@@ -11,6 +11,11 @@ namespace Spoleto.Delivery.Providers.Cdek
         public static readonly CdekOptions Production = new() { ServiceUrl = "https://api.cdek.ru/v2/" };
 
         /// <summary>
+        /// The default value for <see cref="MaxWaitingTimeSecondsToEnsureStatus"/>.
+        /// </summary>
+        public const int DefaultMaxWaitingTimeSecondsToEnsureStatus = 12;
+
+        /// <summary>
         /// Gets or sets the service url.
         /// </summary>
         public string ServiceUrl { get; set; }
@@ -19,6 +24,14 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Gets or sets the authentication credentials.
         /// </summary>
         public AuthCredentials AuthCredentials { get; set; }
+
+        /// <summary>
+        /// Gets or sets the max time in seconds to ensure status in the methods <see cref="IDeliveryProvider.CreateDeliveryOrder(Delivery.CreateDeliveryOrderRequest, bool)"/>, <see cref="IDeliveryProvider.CreateCourierPickup(Delivery.CreateCourierPickupRequest, bool)"/>.
+        /// </summary>
+        /// <remarks>
+        /// Default: <see cref="DefaultMaxWaitingTimeSecondsToEnsureStatus"/>.
+        /// </remarks>
+        public int MaxWaitingTimeSecondsToEnsureStatus { get; set; } = DefaultMaxWaitingTimeSecondsToEnsureStatus;
 
         /// <summary>
         /// Checks that all the settings within the options are configured properly.
@@ -31,6 +44,9 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             if (AuthCredentials == null)
                 throw new ArgumentNullException(nameof(AuthCredentials));
+
+            if (MaxWaitingTimeSecondsToEnsureStatus <= 0)
+                throw new ArgumentException("Has to be greater than zero.", nameof(MaxWaitingTimeSecondsToEnsureStatus));
 
             AuthCredentials.Validate();
         }

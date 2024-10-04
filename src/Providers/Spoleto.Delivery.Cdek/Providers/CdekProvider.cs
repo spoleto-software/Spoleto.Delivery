@@ -177,10 +177,9 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             if (ensureStatus)
             {
-                const int maxWaitingTimeMinutes = 1;
                 if (order.Status == null)
                 {
-                    var dateTime = DateTime.Now.AddMinutes(maxWaitingTimeMinutes);
+                    var dateTime = DateTime.Now.AddSeconds(_options.MaxWaitingTimeSecondsToEnsureStatus);
                     var firstStatus = OrderStatus.ACCEPTED.ToString();
 
                     while (true)
@@ -211,13 +210,22 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             if (deliveryOrderRequest.CourierPickupRequest is CourierPickupRequest courierPickupRequest)
             {
-                var createCourierPickupRequest = courierPickupRequest.ToDeliveryCreatePickupRequest(order.Uuid!.Value);
+                try
+                {
+                    var createCourierPickupRequest = courierPickupRequest.ToDeliveryCreatePickupRequest(order.Uuid!.Value);
 
-                var pickup = await CreateCourierPickupAsync(createCourierPickupRequest, true).ConfigureAwait(false);
+                    var pickup = await CreateCourierPickupAsync(createCourierPickupRequest, true).ConfigureAwait(false);
 
-                order.CourierPickup = pickup;
-                order.RelatedOrderRawBodies ??= [];
-                order.RelatedOrderRawBodies.Add(new() { Type = nameof(CourierPickup), RawBody = pickup.RawBody });
+                    order.CourierPickup = pickup;
+                    order.RelatedOrderRawBodies ??= [];
+                    order.RelatedOrderRawBodies.Add(new() { Type = nameof(CourierPickup), RawBody = pickup.RawBody });
+                }
+                catch // if the courier pickup is failed, then delete the delivery order (probably the problem is the delivery order).
+                {
+                    await DeleteDeliveryOrderAsync(order.Uuid!.Value.ToString()).ConfigureAwait(false);
+                    
+                    throw;
+                }
             }
 
             return order;
@@ -287,10 +295,9 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             if (ensureStatus)
             {
-                const int maxWaitingTimeMinutes = 1;
                 if (courierPickup.Status == null)
                 {
-                    var dateTime = DateTime.Now.AddMinutes(maxWaitingTimeMinutes);
+                    var dateTime = DateTime.Now.AddSeconds(_options.MaxWaitingTimeSecondsToEnsureStatus);
                     var firstStatus = PickupStatus.ACCEPTED.ToString();
 
                     while (true)

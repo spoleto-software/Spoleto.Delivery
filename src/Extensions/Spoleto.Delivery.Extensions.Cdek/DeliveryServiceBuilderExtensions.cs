@@ -19,11 +19,13 @@ namespace Spoleto.Delivery.Extensions.Cdek
         /// <param name="cliendId">The cliend identifier.</param>
         /// <param name="clientSecret">The client secret.</param>
         /// <param name="serviceUrl">The Cdek service url.</param>
+        /// <param name="maxWaitingTimeSecondsToEnsureStatus">The max time in seconds to ensure status.</param>
         /// <returns>The <see cref="DeliveryServiceBuilder"/> instance is provided to support method chaining capabilities.</returns>
-        public static DeliveryServiceBuilder AddCdek(this DeliveryServiceBuilder builder, string cliendId, string clientSecret, string serviceUrl)
+        public static DeliveryServiceBuilder AddCdek(this DeliveryServiceBuilder builder, string cliendId, string clientSecret, string serviceUrl, int maxWaitingTimeSecondsToEnsureStatus = CdekOptions.DefaultMaxWaitingTimeSecondsToEnsureStatus)
            => builder.AddCdek(x =>
            {
                x.ServiceUrl = serviceUrl;
+               x.MaxWaitingTimeSecondsToEnsureStatus = maxWaitingTimeSecondsToEnsureStatus;
                x.AuthCredentials = new AuthCredentials(cliendId, clientSecret);
            });
 
