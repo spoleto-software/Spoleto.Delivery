@@ -445,13 +445,15 @@ namespace Spoleto.Delivery.Providers.Cdek
         public static Delivery.AdditionalService ToDeliveryAdditionalServiceRequest(this AdditionalServiceInfo additionalService)
         {
             var parameterTypeInfo = additionalService.Code.ToAdditionalServiceParameterInfo();
-            
+            var name = additionalService.Code.GetDescription()!;
+
             return new Delivery.AdditionalService
             {
                 Code = additionalService.Code.ToString(),
                 Parameter = additionalService.Parameter,
                 TotalSum = additionalService.TotalSum,
                 ParameterType = parameterTypeInfo.ParameterType,
+                Name = name,
                 Description = parameterTypeInfo.ParameterDescription
             };
         }

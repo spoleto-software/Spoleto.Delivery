@@ -11,8 +11,8 @@ namespace Spoleto.Delivery.Providers.Cdek
             foreach (AdditionalServiceType enumValue in Enum.GetValues(typeof(AdditionalServiceType)))
             {
                 var code = enumValue.ToString();
-                var description = enumValue.GetDescription()!;
-                var additionalService = new Delivery.AdditionalService { Code = code, Name = description };
+                var name = enumValue.GetDescription()!;
+                var additionalService = new Delivery.AdditionalService { Code = code, Name = name };
 
                 var parameterInfo = enumValue.ToAdditionalServiceParameterInfo();
                 if (parameterInfo.ParameterType != null)

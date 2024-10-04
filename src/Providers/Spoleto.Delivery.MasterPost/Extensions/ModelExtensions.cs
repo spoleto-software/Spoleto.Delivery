@@ -255,6 +255,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             return new Delivery.AdditionalService
             {
                 Code = rate.ServiceType,
+                Name = rate.ServiceType,
                 ParameterType = isNumber ? ParameterType.Number : null,
                 TotalSum = isNumber ? rate.ServicePrice!.Value + (rate.ServiceVat ?? 0M) : null
             };
