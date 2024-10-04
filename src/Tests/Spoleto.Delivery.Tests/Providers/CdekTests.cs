@@ -131,6 +131,7 @@ namespace Spoleto.Delivery.Tests.Providers
                                 Article = "article 1",
                                 Amount = 1,
                                 Weight = 1000,
+                                Cost = 1000,
                                 Payment = new() { Value = 1000 }
                             }
                         ]

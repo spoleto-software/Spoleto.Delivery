@@ -243,7 +243,20 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 PlannedDeliveryDate = order.DeliveryMaxDateTime,
                 DeliveryDate = order.DeliveryDateTime,
                 TrackUrl = order.GetTrackUrl(serviceUrl),
-                SumInsured = order.EstimatedCost
+                SumInsured = order.EstimatedCost,
+                TotalSum = order.DeliveryCost,
+                Services = order.Rates?.Where(x => x.ServicePrice > 0M).Select(x => x.ToDeliveryAdditionalService()).ToList()
+            };
+        }
+
+        public static Delivery.AdditionalService ToDeliveryAdditionalService(this DeliveryOrderRate rate)
+        {
+            var isNumber = rate.ServicePrice > 0M;
+            return new Delivery.AdditionalService
+            {
+                Code = rate.ServiceType,
+                ParameterType = isNumber ? ParameterType.Number : null,
+                TotalSum = isNumber ? rate.ServicePrice!.Value + (rate.ServiceVat ?? 0M) : null
             };
         }
     }

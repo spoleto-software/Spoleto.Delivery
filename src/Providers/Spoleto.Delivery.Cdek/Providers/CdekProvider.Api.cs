@@ -14,39 +14,17 @@ namespace Spoleto.Delivery.Providers.Cdek
                 var description = enumValue.GetDescription()!;
                 var additionalService = new Delivery.AdditionalService { Code = code, Name = description };
 
-                var (parameterDescription, parameterType) = GetAdditionalServiceParameterType(enumValue);
-                if (parameterType != null)
+                var parameterInfo = enumValue.ToAdditionalServiceParameterInfo();
+                if (parameterInfo.ParameterType != null)
                 {
-                    additionalService.ParameterType = parameterType;
-                    additionalService.Description = parameterDescription;
+                    additionalService.ParameterType = parameterInfo.ParameterType;
+                    additionalService.Description = parameterInfo.ParameterDescription;
                 }
 
                 list.Add(additionalService);
             }
 
             return list;
-        }
-
-        private static (string? ParameterDescription, ParameterType? ParameterType) GetAdditionalServiceParameterType(AdditionalServiceType enumValue)
-        {
-            if (enumValue == AdditionalServiceType.BUBBLE_WRAP
-                || enumValue == AdditionalServiceType.WASTE_PAPER)
-                return ("Параметр услуги: длина", ParameterType.Number);
-
-            if (enumValue == AdditionalServiceType.INSURANCE)
-                return ("Параметр услуги: объявленная стоимость заказа (только для заказов с типом \"Доставка\")", ParameterType.Number);
-
-            if (enumValue.ToString().StartsWith("CARTON_BOX", StringComparison.Ordinal)
-                || enumValue == AdditionalServiceType.CARTON_FILLER)
-                return ("Параметр услуги: количество", ParameterType.Int);
-
-            if (enumValue == AdditionalServiceType.SMS)
-                return ("Параметр услуги: номер телефона", ParameterType.String);
-
-            if (enumValue == AdditionalServiceType.PHOTO_OF_DOCUMENTS)
-                return ("Параметр услуги: код фотопроекта", ParameterType.String);
-
-            return (null, null);
         }
 
         /// <inheritdoc/>

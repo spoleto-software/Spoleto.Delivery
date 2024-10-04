@@ -437,17 +437,22 @@ namespace Spoleto.Delivery.Providers.Cdek
                 TrackUrl = order.GetTrackUrl(),
                 TotalSum = order.Entity?.DeliveryDetail?.TotalSum,
                 RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList(),
-                Services = order.Entity?.Services?.Select(x => x.ToDeliveryAdditionalServiceRequest()).ToList()
+                Services = order.Entity?.Services?.Select(x => x.ToDeliveryAdditionalServiceRequest()).ToList(),
+                SumInsured = order.Entity?.Services?.Where(x => x.Code == AdditionalServiceInfoType.INSURANCE && x.TotalSum > 0).Sum(x => x.TotalSum)
             };
         }
 
         public static Delivery.AdditionalService ToDeliveryAdditionalServiceRequest(this AdditionalServiceInfo additionalService)
         {
+            var parameterTypeInfo = additionalService.Code.ToAdditionalServiceParameterInfo();
+            
             return new Delivery.AdditionalService
             {
                 Code = additionalService.Code.ToString(),
                 Parameter = additionalService.Parameter,
-                TotalSum = additionalService.TotalSum
+                TotalSum = additionalService.TotalSum,
+                ParameterType = parameterTypeInfo.ParameterType,
+                Description = parameterTypeInfo.ParameterDescription
             };
         }
 
@@ -638,6 +643,50 @@ namespace Spoleto.Delivery.Providers.Cdek
                 LunchTimeTo = request.LunchTimeTo,
                 NeedCall = request.NeedCall
             };
+        }
+
+        public static AdditionalServiceParameterInfo ToAdditionalServiceParameterInfo(this AdditionalServiceType enumValue)
+        {
+            if (enumValue == AdditionalServiceType.BUBBLE_WRAP
+                || enumValue == AdditionalServiceType.WASTE_PAPER)
+                return new("Параметр услуги: длина", ParameterType.Number);
+
+            if (enumValue == AdditionalServiceType.INSURANCE)
+                return new("Параметр услуги: объявленная стоимость заказа (только для заказов с типом \"Доставка\")", ParameterType.Number);
+
+            if (enumValue.ToString().StartsWith("CARTON_BOX", StringComparison.Ordinal)
+                || enumValue == AdditionalServiceType.CARTON_FILLER)
+                return new("Параметр услуги: количество", ParameterType.Int);
+
+            if (enumValue == AdditionalServiceType.SMS)
+                return new("Параметр услуги: номер телефона", ParameterType.String);
+
+            if (enumValue == AdditionalServiceType.PHOTO_OF_DOCUMENTS)
+                return new("Параметр услуги: код фотопроекта", ParameterType.String);
+
+            return new(null, null);
+        }
+
+        public static AdditionalServiceParameterInfo ToAdditionalServiceParameterInfo(this AdditionalServiceInfoType enumValue)
+        {
+            if (enumValue == AdditionalServiceInfoType.BUBBLE_WRAP
+                || enumValue == AdditionalServiceInfoType.WASTE_PAPER)
+                return new("Параметр услуги: длина", ParameterType.Number);
+
+            if (enumValue == AdditionalServiceInfoType.INSURANCE)
+                return new("Параметр услуги: объявленная стоимость заказа (только для заказов с типом \"Доставка\")", ParameterType.Number);
+
+            if (enumValue.ToString().StartsWith("CARTON_BOX", StringComparison.Ordinal)
+                || enumValue == AdditionalServiceInfoType.CARTON_FILLER)
+                return new("Параметр услуги: количество", ParameterType.Int);
+
+            if (enumValue == AdditionalServiceInfoType.SMS)
+                return new("Параметр услуги: номер телефона", ParameterType.String);
+
+            if (enumValue == AdditionalServiceInfoType.PHOTO_OF_DOCUMENTS)
+                return new("Параметр услуги: код фотопроекта", ParameterType.String);
+
+            return new(null, null);
         }
     }
 }

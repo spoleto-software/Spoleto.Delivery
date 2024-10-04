@@ -177,7 +177,7 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             if (ensureStatus)
             {
-                const int maxWaitingTimeMinutes = 3;
+                const int maxWaitingTimeMinutes = 1;
                 if (order.Status == null)
                 {
                     var dateTime = DateTime.Now.AddMinutes(maxWaitingTimeMinutes);
@@ -287,7 +287,7 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             if (ensureStatus)
             {
-                const int maxWaitingTimeMinutes = 3;
+                const int maxWaitingTimeMinutes = 1;
                 if (courierPickup.Status == null)
                 {
                     var dateTime = DateTime.Now.AddMinutes(maxWaitingTimeMinutes);
