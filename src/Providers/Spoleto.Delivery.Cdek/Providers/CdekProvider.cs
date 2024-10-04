@@ -305,17 +305,17 @@ namespace Spoleto.Delivery.Providers.Cdek
 
                         await Task.Delay(3000).ConfigureAwait(false);
                     }
+                }
 
-                    if (courierPickup.Status == PickupStatus.INVALID.ToString())
+                if (courierPickup.Status == PickupStatus.INVALID.ToString())
+                {
+                    var message = "The created courier pickup order is invalid.";
+                    if (courierPickup.Errors?.Count > 0)
                     {
-                        var message = "The created courier pickup order is invalid.";
-                        if (courierPickup.Errors?.Count > 0)
-                        {
-                            message += Environment.NewLine + String.Join(Environment.NewLine, courierPickup.Errors);
-                        }
-
-                        throw new InvalidOperationException(message);
+                        message += Environment.NewLine + String.Join(Environment.NewLine, courierPickup.Errors);
                     }
+
+                    throw new InvalidOperationException(message);
                 }
             }
 

@@ -156,7 +156,11 @@ namespace Spoleto.Delivery.Tests.Providers
                     [
                         new() { Number = "79230001122" },
                     ],
-                }
+                },
+                Services =
+                [
+                    new AdditionalServiceRequest{Code = nameof(Spoleto.Delivery.Providers.Cdek.AdditionalServiceType.CARTON_BOX_5KG), Parameter = "5" }
+                ]
             };
 
             return deliveryOrderRequest;
@@ -174,7 +178,7 @@ namespace Spoleto.Delivery.Tests.Providers
                 {
                     Address = "Санкт-Петербург, пр. Ленинградский, д.4"
                 },
-                
+
                 Sender = new()
                 {
                     Company = "Компания-Отправитель",
@@ -371,7 +375,7 @@ namespace Spoleto.Delivery.Tests.Providers
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
             var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
-            
+
             pickupRequest.OrderUuid = deliveryOrder.Uuid;
             var pickup = await provider.CreateCourierPickupAsync(pickupRequest, true);
             var getPickup = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid!.Value });

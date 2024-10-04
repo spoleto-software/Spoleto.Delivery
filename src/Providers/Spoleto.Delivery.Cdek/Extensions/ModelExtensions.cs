@@ -438,7 +438,7 @@ namespace Spoleto.Delivery.Providers.Cdek
                 TotalSum = order.Entity?.DeliveryDetail?.TotalSum,
                 RelatedEntities = order.RelatedEntities?.Select(x => x.ToDeliveryOrderRelatedEntity()).ToList(),
                 Services = order.Entity?.Services?.Select(x => x.ToDeliveryAdditionalServiceRequest()).ToList(),
-                SumInsured = order.Entity?.Services?.Where(x => x.Code == AdditionalServiceInfoType.INSURANCE && x.TotalSum > 0).Sum(x => x.TotalSum)
+                SumInsured = order.Entity?.Services?.Where(x => x.Code == AdditionalServiceType.INSURANCE && x.TotalSum > 0).Sum(x => x.TotalSum)
             };
         }
 
@@ -664,28 +664,6 @@ namespace Spoleto.Delivery.Providers.Cdek
                 return new("Параметр услуги: номер телефона", ParameterType.String);
 
             if (enumValue == AdditionalServiceType.PHOTO_OF_DOCUMENTS)
-                return new("Параметр услуги: код фотопроекта", ParameterType.String);
-
-            return new(null, null);
-        }
-
-        public static AdditionalServiceParameterInfo ToAdditionalServiceParameterInfo(this AdditionalServiceInfoType enumValue)
-        {
-            if (enumValue == AdditionalServiceInfoType.BUBBLE_WRAP
-                || enumValue == AdditionalServiceInfoType.WASTE_PAPER)
-                return new("Параметр услуги: длина", ParameterType.Number);
-
-            if (enumValue == AdditionalServiceInfoType.INSURANCE)
-                return new("Параметр услуги: объявленная стоимость заказа (только для заказов с типом \"Доставка\")", ParameterType.Number);
-
-            if (enumValue.ToString().StartsWith("CARTON_BOX", StringComparison.Ordinal)
-                || enumValue == AdditionalServiceInfoType.CARTON_FILLER)
-                return new("Параметр услуги: количество", ParameterType.Int);
-
-            if (enumValue == AdditionalServiceInfoType.SMS)
-                return new("Параметр услуги: номер телефона", ParameterType.String);
-
-            if (enumValue == AdditionalServiceInfoType.PHOTO_OF_DOCUMENTS)
                 return new("Параметр услуги: код фотопроекта", ParameterType.String);
 
             return new(null, null);

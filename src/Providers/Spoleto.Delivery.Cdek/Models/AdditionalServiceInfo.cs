@@ -12,7 +12,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Код услуги.
         /// </summary>
         [JsonPropertyName("code")]
-        public AdditionalServiceInfoType Code { get; set; }
+        public AdditionalServiceType Code { get; set; }
 
         /// <summary>
         /// Параметр дополнительной услуги.
