@@ -64,7 +64,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 PeriodDateMin = tariff.DeliveryMinDateTime,
                 PeriodDateMax = tariff.DeliveryMaxDateTime,
                 DeliveryMode = DeliveryMode.DoorDoor,
-                Services = tariff.Rates.Select(x => x.ToDeliveryTariffService()).ToList()
+                Services = tariff.Rates.Where(x => x.Price > 0M).Select(x => x.ToDeliveryTariffService()).ToList()
             };
         }
 
