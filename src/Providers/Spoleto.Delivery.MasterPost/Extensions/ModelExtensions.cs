@@ -191,7 +191,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 Places = request.Packages?.Select(x => x.ToOrderCargoPlaceRequest()).ToList() ?? [],
                 Items = request.Packages?.Where(x => x.Items != null).Where(x => x.Items != null).SelectMany(x => x.Items).Select(x => x.ToOrderCargoItem()).ToList() ?? [],
 
-                PaymentType = request.PaymentType == null ? PaymentType.CashRecipient : (PaymentType)Enum.Parse(typeof(PaymentType), request.PaymentType.Value.ToString()),
+                PaymentType = request.PaymentType == null ? PaymentType.ByContract : (PaymentType)Enum.Parse(typeof(PaymentType), request.PaymentType.Value.ToString()),
 
                 EstimatedCost = request.SumInsured ?? 0M
             };
