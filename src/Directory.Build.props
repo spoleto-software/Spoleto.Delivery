@@ -35,9 +35,9 @@
         <PackageTags>Delivery; Cdek; СДЭК; MasterPost; МастерПост</PackageTags>
         <Copyright>Copyright © $([System.DateTime]::Now.Year.ToString())</Copyright>
         <PackageReleaseNotes></PackageReleaseNotes>
-        <Version>1.0.31</Version>
-        <AssemblyVersion>1.0.31.0</AssemblyVersion>
-        <FileVersion>1.0.31.0</FileVersion>
+        <Version>1.0.32</Version>
+        <AssemblyVersion>1.0.32.0</AssemblyVersion>
+        <FileVersion>1.0.32.0</FileVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
