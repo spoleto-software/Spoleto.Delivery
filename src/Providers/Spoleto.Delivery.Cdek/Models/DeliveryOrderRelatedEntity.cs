@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using Spoleto.Common.JsonConverters;
+using Spoleto.Delivery.Providers.Cdek.Converters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -51,6 +52,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Только для типа: delivery.
         /// </summary>
         [JsonPropertyName("time_from")]
+        [JsonConverter(typeof(JsonTimeSpanConverter))]
         public TimeSpan? TimeFrom { get; set; }
 
         /// <summary>
@@ -58,6 +60,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Только для типа: delivery.
         /// </summary>
         [JsonPropertyName("time_to")]
+        [JsonConverter(typeof(JsonTimeSpanConverter))]
         public TimeSpan? TimeTo { get; set; }
 
         /// <summary>

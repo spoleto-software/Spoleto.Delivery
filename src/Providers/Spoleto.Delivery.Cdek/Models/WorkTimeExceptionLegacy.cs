@@ -6,7 +6,7 @@ namespace Spoleto.Delivery.Providers.Cdek
     /// Исключения в графике работы офиса 
     /// </summary>
     [Obsolete]
-    public class WorkTimeExceptionLegacy
+    public record WorkTimeExceptionLegacy
     {
         /// <summary>
         /// Дата (в формате ISO 8601: YYYY-MM-DD).

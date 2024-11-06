@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Delivery.Providers.Cdek.Converters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -23,12 +24,14 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Время начала работы в указанную дату
         /// </summary>
         [JsonPropertyName("time_start")]
+        [JsonConverter(typeof(JsonTimeSpanConverter))]
         public TimeSpan? TimeStart { get; set; }
 
         /// <summary>
         /// Время окончания работы в указанную дату.
         /// </summary>
         [JsonPropertyName("time_end")]
+        [JsonConverter(typeof(JsonTimeSpanConverter))]
         public TimeSpan? TimeEnd { get; set; }
 
         /// <summary>
