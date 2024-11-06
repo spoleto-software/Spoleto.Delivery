@@ -184,6 +184,8 @@ namespace Spoleto.Delivery.Providers.Cdek
 
                     while (true)
                     {
+                        await Task.Delay(4000).ConfigureAwait(false);
+
                         order = await GetDeliveryOrderAsync(new() { Uuid = order.Uuid }).ConfigureAwait(false);
 
                         if (order.Status != null && order.Status != firstStatus)
@@ -191,8 +193,6 @@ namespace Spoleto.Delivery.Providers.Cdek
 
                         if (DateTime.Now > dateTime)
                             break;
-
-                        await Task.Delay(3000).ConfigureAwait(false);
                     }
                 }
 
@@ -302,6 +302,8 @@ namespace Spoleto.Delivery.Providers.Cdek
 
                     while (true)
                     {
+                        await Task.Delay(4000).ConfigureAwait(false);
+
                         courierPickup = await GetCourierPickupAsync(new() { Uuid = courierPickup.Uuid!.Value }).ConfigureAwait(false);
 
                         if (courierPickup.Status != null && courierPickup.Status != firstStatus)
@@ -309,8 +311,6 @@ namespace Spoleto.Delivery.Providers.Cdek
 
                         if (DateTime.Now > dateTime)
                             break;
-
-                        await Task.Delay(3000).ConfigureAwait(false);
                     }
                 }
 

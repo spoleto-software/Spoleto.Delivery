@@ -140,21 +140,21 @@ namespace Spoleto.Delivery.Tests.Providers
                 Sender = new()
                 {
                     Company = "Компания-Отправитель",
-                    Name = "Петров И.",
+                    Name = "Петров И.В.",
                     Email = "send@mail.com",
                     Phones =
                     [
-                        new() { Number = "79260001122" },
+                        new() { Number = "79260001123" },
                     ],
                 },
                 Recipient = new()
                 {
                     Company = "Компания-Получатель",
-                    Name = "Сидоров А.",
+                    Name = "Сидоров А.Ф.",
                     Email = "rec@mail.com",
                     Phones =
                     [
-                        new() { Number = "79230001122" },
+                        new() { Number = "79230001121" },
                     ],
                 },
                 Services =
@@ -171,7 +171,7 @@ namespace Spoleto.Delivery.Tests.Providers
             var pickupRequest = new CreateCourierPickupRequest
             {
                 Comment = "Комментарий для курьера",
-                IntakeDate = DateTime.Now.AddDays(1),
+                IntakeDate = DateTime.Now.AddDays(3),
                 IntakeTimeFrom = TimeSpan.FromHours(12),
                 IntakeTimeTo = TimeSpan.FromHours(15),
                 FromLocation = new()
@@ -185,11 +185,45 @@ namespace Spoleto.Delivery.Tests.Providers
                     Name = "Петров И.",
                     Phones =
                     [
-                        new() { Number = "79234567890" },
+                        new() { Number = "79234567891" },
                     ],
                 },
 
                 Name = "Заказ от компании"
+            };
+
+            return pickupRequest;
+        }
+
+        private static CreateCourierPickupRequest GetCourierPickupRequestWithSizes()
+        {
+            var pickupRequest = new CreateCourierPickupRequest
+            {
+                Comment = "Комментарий для курьера",
+                IntakeDate = DateTime.Now.AddDays(3),
+                IntakeTimeFrom = TimeSpan.FromHours(12),
+                IntakeTimeTo = TimeSpan.FromHours(15),
+                FromLocation = new()
+                {
+                    Address = "Москва, Ленинский проспект, 40"
+                },
+
+                Sender = new()
+                {
+                    Company = "Компания-Отправителя",
+                    Name = "Легин И.Ф.",
+                    Phones =
+                    [
+                        new() { Number = "79134567898" },
+                    ],
+                },
+
+                Name = "Заказ от компании 123",
+
+                Height = 50,
+                Length = 30,
+                Width = 40,
+                Weight = 5
             };
 
             return pickupRequest;
@@ -269,7 +303,7 @@ namespace Spoleto.Delivery.Tests.Providers
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
             var fullRawBody = deliveryOrder.GetFullRawBody();
-            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = Guid.Parse("95646173-335a-485a-8449-5aabe57adb57") });
 
             // Assert
             Assert.Multiple(() =>
@@ -409,7 +443,7 @@ namespace Spoleto.Delivery.Tests.Providers
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
-            //var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
 
             pickupRequest.OrderUuid = deliveryOrder.Uuid;
             var pickup = await provider.CreateCourierPickupAsync(pickupRequest, true);
@@ -477,7 +511,7 @@ namespace Spoleto.Delivery.Tests.Providers
         {
             // Arrange
             var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
-            var deliveryOrderRequest = GetOnlineOrderRequest();
+            var deliveryOrderRequest = GetOrderRequest();
             var pickupRequest = GetCourierPickupRequest();
             deliveryOrderRequest.CourierPickupRequest = new CourierPickupRequest
             {
@@ -488,11 +522,17 @@ namespace Spoleto.Delivery.Tests.Providers
             };
 
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.DeveloperKey), "XX-DEV-123-456");
-            deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);
+            //deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var getOrder2 = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
             var deletedOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Uuid.ToString()!);
+
+            await Task.Delay(3000);
+
+            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var getPickup = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = deliveryOrder.CourierPickup.Uuid.Value });
 
             // Assert
             Assert.Multiple(() =>
@@ -507,6 +547,37 @@ namespace Spoleto.Delivery.Tests.Providers
                 Assert.That(deletedOrder, Is.Not.Null);
                 Assert.That(deletedOrder.Errors, Is.Empty);
             });
+        }
+
+        [Test]
+        public async Task CreateCourierPickup()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var pickupRequest = GetCourierPickupRequestWithSizes();
+
+            // Act
+            for (var i = 0; i < 100; i++)
+            {
+                var pickup = await provider.CreateCourierPickupAsync(pickupRequest, true);
+                var getPickup = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid.Value });
+                var deletedPickup = await provider.DeleteCourierPickupAsync(pickup.Uuid.ToString());
+
+                var getPickup2 = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid.Value });
+
+                // Assert
+                Assert.Multiple(() =>
+                {
+                    Assert.That(pickup, Is.Not.Null);
+                    Assert.That(pickup.Errors, Is.Empty);
+
+                    Assert.That(getPickup, Is.Not.Null);
+                    Assert.That(getPickup.Errors, Is.Empty);
+
+                    Assert.That(deletedPickup, Is.Not.Null);
+                    Assert.That(deletedPickup.Errors, Is.Empty);
+                });
+            }
         }
 
         [Test]
