@@ -13,7 +13,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <summary>
         /// The default value for <see cref="MaxWaitingTimeSecondsToEnsureStatus"/>.
         /// </summary>
-        public const int DefaultMaxWaitingTimeSecondsToEnsureStatus = 12;
+        public const int DefaultMaxWaitingTimeSecondsToEnsureStatus = 10;
 
         /// <summary>
         /// Gets or sets the service url.
