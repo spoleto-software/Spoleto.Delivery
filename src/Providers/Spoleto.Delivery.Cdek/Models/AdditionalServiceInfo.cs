@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using Spoleto.Common.JsonConverters;
+using Spoleto.Delivery.Providers.Cdek.Converters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -54,6 +54,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Ставка НДС.
         /// </summary>
         [JsonPropertyName("vat_rate")]
+        [JsonConverter(typeof(JsonIntConverter))]
         public int? VatRate { get; set; }
     }
 }

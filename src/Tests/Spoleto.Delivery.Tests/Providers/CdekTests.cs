@@ -303,7 +303,7 @@ namespace Spoleto.Delivery.Tests.Providers
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
             var fullRawBody = deliveryOrder.GetFullRawBody();
-            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = Guid.Parse("95646173-335a-485a-8449-5aabe57adb57") });
+            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
 
             // Assert
             Assert.Multiple(() =>

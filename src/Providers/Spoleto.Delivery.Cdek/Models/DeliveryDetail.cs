@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Spoleto.Delivery.Providers.Cdek.Converters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -47,6 +48,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Процент НДС для расчёта доставки.
         /// </summary>
         [JsonPropertyName("delivery_vat_rate")]
+        [JsonConverter(typeof(JsonIntConverter))]
         public int? DeliveryVatRate { get; set; }
 
         /// <summary>
