@@ -333,6 +333,12 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Оформлена приемка на складе города получателя по заказу до склада.
         /// </remarks>
         [Description("Поступил на склад до востребования")]
-        ENTERED_TO_WAREHOUSE_ON_DEMAND
+        ENTERED_TO_WAREHOUSE_ON_DEMAND,
+
+        /// <summary>
+        /// Заказ отменён ИМ после регистрации в системе
+        /// </summary>
+        [Description("Отменён")]
+        REMOVED
     }
 }
