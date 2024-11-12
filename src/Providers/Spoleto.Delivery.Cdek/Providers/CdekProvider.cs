@@ -160,7 +160,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public override async Task<Delivery.DeliveryOrderContainer> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
         {
             var model = deliveryOrderRequest.ToCreateOrderRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Post, "orders")
@@ -169,15 +169,15 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<CreatedDeliveryOrder>(restRequest).ConfigureAwait(false);
 
-            var order = deliveryOrder.ToDeliveryOrder();
-            order.RawBody = rawBody;
+            var order = deliveryOrder!.ToDeliveryOrder();
+            var orderContainer = new DeliveryOrderContainer(order, rawBody);
 
             if (deliveryOrderRequest.CourierPickupRequest != null)
                 ensureStatus = true;
 
             if (ensureStatus)
             {
-                if (order.Status == null)
+                if (orderContainer.DeliveryOrder!.Status == null)
                 {
                     var dateTime = DateTime.Now.AddSeconds(_options.MaxWaitingTimeSecondsToEnsureStatus);
                     var firstStatus = OrderStatus.ACCEPTED.ToString();
@@ -186,9 +186,9 @@ namespace Spoleto.Delivery.Providers.Cdek
                     {
                         await Task.Delay(4000).ConfigureAwait(false);
 
-                        order = await GetDeliveryOrderAsync(new() { Uuid = order.Uuid }).ConfigureAwait(false);
+                        orderContainer = await GetDeliveryOrderAsync(new() { Uuid = orderContainer.DeliveryOrder!.Uuid }).ConfigureAwait(false);
 
-                        if (order.Status != null && order.Status != firstStatus)
+                        if (orderContainer.DeliveryOrder!.Status != null && orderContainer.DeliveryOrder!.Status != firstStatus)
                             break;
 
                         if (DateTime.Now > dateTime)
@@ -196,12 +196,12 @@ namespace Spoleto.Delivery.Providers.Cdek
                     }
                 }
 
-                if (order.Status == OrderStatus.INVALID.ToString())
+                if (orderContainer.DeliveryOrder!.Status == OrderStatus.INVALID.ToString())
                 {
                     var message = "The created order is invalid.";
-                    if (order.Errors?.Count > 0)
+                    if (orderContainer.DeliveryOrder!.Errors?.Count > 0)
                     {
-                        message += Environment.NewLine + String.Join(Environment.NewLine, order.Errors);
+                        message += Environment.NewLine + String.Join(Environment.NewLine, orderContainer.DeliveryOrder!.Errors);
                     }
 
                     throw new InvalidOperationException(message);
@@ -212,27 +212,26 @@ namespace Spoleto.Delivery.Providers.Cdek
             {
                 try
                 {
-                    var createCourierPickupRequest = courierPickupRequest.ToDeliveryCreatePickupRequest(order.Uuid!.Value);
+                    var createCourierPickupRequest = courierPickupRequest.ToDeliveryCreatePickupRequest(orderContainer.DeliveryOrder!.Uuid!.Value);
 
                     var pickup = await CreateCourierPickupAsync(createCourierPickupRequest, true).ConfigureAwait(false);
 
-                    order.CourierPickup = pickup;
-                    order.RelatedOrderRawBodies ??= [];
-                    order.RelatedOrderRawBodies.Add(new() { Type = nameof(CourierPickup), RawBody = pickup.RawBody });
+                    orderContainer.DeliveryOrder!.CourierPickup = pickup.CourierPickup;
+                    orderContainer.AddRelatedOrder(nameof(CourierPickup), pickup.RawBody);
                 }
                 catch // if the courier pickup is failed, then delete the delivery order (probably the problem is the delivery order).
                 {
-                    await DeleteDeliveryOrderAsync(order.Uuid!.Value.ToString()).ConfigureAwait(false);
+                    await DeleteDeliveryOrderAsync(orderContainer.DeliveryOrder!.Uuid!.Value.ToString()).ConfigureAwait(false);
                     
                     throw;
                 }
             }
 
-            return order;
+            return orderContainer;
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
+        public override async Task<Delivery.DeliveryOrderContainer> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
         {
             var uri = deliveryOrderRequest.Uuid != null ? $"orders/{deliveryOrderRequest.Uuid}"
                 : !string.IsNullOrEmpty(deliveryOrderRequest.Number) ? $"orders?cdek_number={deliveryOrderRequest.Number}"
@@ -244,28 +243,28 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<DeliveryOrder>(restRequest).ConfigureAwait(false);
 
-            var order = deliveryOrder.ToDeliveryOrder();
-            order.RawBody = rawBody;
+            var order = deliveryOrder?.ToDeliveryOrder();
+            var orderContainer = new DeliveryOrderContainer(order, rawBody);
 
-            return order;
+            return orderContainer;
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.DeliveryOrder> DeleteDeliveryOrderAsync(string orderId)
+        public override async Task<Delivery.DeliveryOrderContainer> DeleteDeliveryOrderAsync(string orderId)
         {
             var restRequest = new RestRequestFactory(RestHttpMethod.Delete, $"orders/{orderId}")
                 .Build();
 
             (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<CreatedDeliveryOrder>(restRequest).ConfigureAwait(false);
 
-            var order = deliveryOrder.ToDeliveryOrder();
-            order.RawBody = rawBody;
+            var order = deliveryOrder!.ToDeliveryOrder();
+            var orderContainer = new DeliveryOrderContainer(order, rawBody);
 
-            return order;
+            return orderContainer;
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.DeliveryOrder> UpdateDeliveryOrderAsync(Delivery.UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public override async Task<Delivery.DeliveryOrderContainer> UpdateDeliveryOrderAsync(Delivery.UpdateDeliveryOrderRequest deliveryOrderRequest)
         {
             var model = deliveryOrderRequest.ToUpdateOrderRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Patch, "orders")
@@ -274,14 +273,14 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<UpdatedDeliveryOrder>(restRequest).ConfigureAwait(false);
 
-            var order = deliveryOrder.ToDeliveryOrder();
-            order.RawBody = rawBody;
+            var order = deliveryOrder!.ToDeliveryOrder();
+            var orderContainer = new DeliveryOrderContainer(order, rawBody);
 
-            return order;
+            return orderContainer;
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.CourierPickup> CreateCourierPickupAsync(Delivery.CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+        public override async Task<Delivery.CourierPickupContainer> CreateCourierPickupAsync(Delivery.CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
         {
             var model = createCourierPickupRequest.ToCreatePickupRequest();
             var restRequest = new RestRequestFactory(RestHttpMethod.Post, "intakes")
@@ -290,12 +289,12 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             (var deliveryCourierPickup, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<CreatedCourierPickup>(restRequest).ConfigureAwait(false);
 
-            var courierPickup = deliveryCourierPickup.ToDeliveryCourierPickup();
-            courierPickup.RawBody = rawBody;
+            var courierPickup = deliveryCourierPickup!.ToDeliveryCourierPickup();
+            var courierPickupContainer = new CourierPickupContainer(courierPickup, rawBody);
 
             if (ensureStatus)
             {
-                if (courierPickup.Status == null)
+                if (courierPickupContainer.CourierPickup!.Status == null)
                 {
                     var dateTime = DateTime.Now.AddSeconds(_options.MaxWaitingTimeSecondsToEnsureStatus);
                     var firstStatus = PickupStatus.ACCEPTED.ToString();
@@ -304,9 +303,9 @@ namespace Spoleto.Delivery.Providers.Cdek
                     {
                         await Task.Delay(4000).ConfigureAwait(false);
 
-                        courierPickup = await GetCourierPickupAsync(new() { Uuid = courierPickup.Uuid!.Value }).ConfigureAwait(false);
+                        courierPickupContainer = await GetCourierPickupAsync(new() { Uuid = courierPickupContainer.CourierPickup!.Uuid!.Value }).ConfigureAwait(false);
 
-                        if (courierPickup.Status != null && courierPickup.Status != firstStatus)
+                        if (courierPickupContainer.CourierPickup!.Status != null && courierPickupContainer.CourierPickup!.Status != firstStatus)
                             break;
 
                         if (DateTime.Now > dateTime)
@@ -314,23 +313,23 @@ namespace Spoleto.Delivery.Providers.Cdek
                     }
                 }
 
-                if (courierPickup.Status == PickupStatus.INVALID.ToString())
+                if (courierPickupContainer.CourierPickup!.Status == PickupStatus.INVALID.ToString())
                 {
                     var message = "The created courier pickup order is invalid.";
-                    if (courierPickup.Errors?.Count > 0)
+                    if (courierPickupContainer.CourierPickup!.Errors?.Count > 0)
                     {
-                        message += Environment.NewLine + String.Join(Environment.NewLine, courierPickup.Errors);
+                        message += Environment.NewLine + String.Join(Environment.NewLine, courierPickupContainer.CourierPickup!.Errors);
                     }
 
                     throw new InvalidOperationException(message);
                 }
             }
 
-            return courierPickup;
+            return courierPickupContainer;
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.CourierPickup> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest)
+        public override async Task<Delivery.CourierPickupContainer> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest)
         {
             if (getCourierPickupRequest.Uuid == default)
                 throw new ArgumentNullException(nameof(getCourierPickupRequest.Uuid));
@@ -342,24 +341,24 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             (var deliveryCourierPickup, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<CourierPickup>(restRequest).ConfigureAwait(false);
 
-            var courierPickup = deliveryCourierPickup.ToDeliveryCourierPickup();
-            courierPickup.RawBody = rawBody;
+            var courierPickup = deliveryCourierPickup?.ToDeliveryCourierPickup();
+            var courierPickupContainer = new CourierPickupContainer(courierPickup, rawBody);
 
-            return courierPickup;
+            return courierPickupContainer;
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.CourierPickup> DeleteCourierPickupAsync(string pickupOrderId)
+        public override async Task<Delivery.CourierPickupContainer> DeleteCourierPickupAsync(string pickupOrderId)
         {
             var restRequest = new RestRequestFactory(RestHttpMethod.Delete, $"intakes/{pickupOrderId}")
                 .Build();
 
             (var deliveryCourierPickup, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<CreatedCourierPickup>(restRequest).ConfigureAwait(false);
 
-            var courierPickup = deliveryCourierPickup.ToDeliveryCourierPickup();
-            courierPickup.RawBody = rawBody;
+            var courierPickup = deliveryCourierPickup!.ToDeliveryCourierPickup();
+            var courierPickupContainer = new CourierPickupContainer(courierPickup, rawBody);
 
-            return courierPickup;
+            return courierPickupContainer;
         }
     }
 }

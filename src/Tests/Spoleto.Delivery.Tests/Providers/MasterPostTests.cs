@@ -140,8 +140,10 @@ namespace Spoleto.Delivery.Tests.Providers
             //deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.MasterPost.CreateDeliveryOrderRequest.SenderAddressCodes), new List<string> { "code1", "code2", "code3" });
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
-            var getOrder = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
+            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrder = deliveryOrderContainer.DeliveryOrder;
+            var getOrderContainer = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
+            var getOrder = getOrderContainer.DeliveryOrder;
 
             // Assert
             Assert.Multiple(() =>
@@ -161,10 +163,17 @@ namespace Spoleto.Delivery.Tests.Providers
             var deliveryOrderRequest = GetOrderRequest();
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
-            var getOrder = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
-            var deleteOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Number);
-            var getOrder2 = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
+            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrder = deliveryOrderContainer.DeliveryOrder;
+            
+            var getOrderContainer = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
+            var getOrder = getOrderContainer.DeliveryOrder;
+
+            var deleteOrderContainer = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Number);
+            var deleteOrder = deleteOrderContainer.DeliveryOrder;
+
+            var getOrder2Container = await provider.GetDeliveryOrderAsync(new GetDeliveryOrderRequest() { Number = deliveryOrder.Number });
+            var getOrder2 = getOrder2Container.DeliveryOrder;
 
             // Assert
             Assert.Multiple(() =>
@@ -198,7 +207,8 @@ namespace Spoleto.Delivery.Tests.Providers
             };
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrder = deliveryOrderContainer.DeliveryOrder;
 
             // Assert
             Assert.Multiple(() =>
@@ -228,8 +238,11 @@ namespace Spoleto.Delivery.Tests.Providers
             };
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
-            var deletedOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Number);
+            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrder = deliveryOrderContainer.DeliveryOrder;
+
+            var deletedOrderContainer = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Number);
+            var deletedOrder = deletedOrderContainer.DeliveryOrder;
 
             // Assert
             Assert.Multiple(() =>

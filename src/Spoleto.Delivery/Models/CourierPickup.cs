@@ -101,6 +101,11 @@
         public string Status { get; set; }
 
         /// <summary>
+        /// Флаг, что заявка на вызов курьера была удалена.
+        /// </summary>
+        public bool IsRemoved { get; set; }
+
+        /// <summary>
         /// Курьеру необходима доверенность (по умолчанию - false).
         /// </summary>
         public bool? CourierPowerOfAttorney { get; set; }
@@ -119,10 +124,5 @@
         /// Получает или задает предупреждения, возникшие в ходе выполнения запроса.
         /// </summary>
         public List<Warning>? Warnings { get; set; }
-
-        /// <summary>
-        /// Исходный ответ в Json/Xml.
-        /// </summary>
-        public string RawBody { get; set; }
     }
 }

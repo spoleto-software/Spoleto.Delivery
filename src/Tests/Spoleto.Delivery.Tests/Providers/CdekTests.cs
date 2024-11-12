@@ -301,17 +301,17 @@ namespace Spoleto.Delivery.Tests.Providers
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.RegularDelivery);
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
-            var fullRawBody = deliveryOrder.GetFullRawBody();
-            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, false);
+            var fullRawBody = deliveryOrderContainer.GetFullRawBody();
+            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrderContainer.DeliveryOrder.Uuid });
 
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(deliveryOrder, Is.Not.Null);
+                Assert.That(deliveryOrderContainer, Is.Not.Null);
 
                 Assert.That(getOrder, Is.Not.Null);
-                Assert.That(getOrder.Errors, Is.Empty);
+                Assert.That(getOrder.DeliveryOrder.Errors, Is.Empty);
             });
         }
 
@@ -327,7 +327,8 @@ namespace Spoleto.Delivery.Tests.Providers
 
             // Act
             var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
-            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var getOrderContainer = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.DeliveryOrder.Uuid });
+            var getOrder = getOrderContainer.DeliveryOrder;
 
             // Assert
             Assert.Multiple(() =>
@@ -351,15 +352,20 @@ namespace Spoleto.Delivery.Tests.Providers
             updateRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.UpdateDeliveryOrderRequest.Sender), new ContactBase { Company = "Sender company", Name = "Sender name here" });
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrder = deliveryOrderContainer.DeliveryOrder;
             await Task.Delay(5000);
 
-            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var getOrderContainer = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var getOrder = getOrderContainer.DeliveryOrder;
             updateRequest.Uuid = deliveryOrder.Uuid;
-            var updateOrder = await provider.UpdateDeliveryOrderAsync(updateRequest);
+            
+            var updateOrderContainer = await provider.UpdateDeliveryOrderAsync(updateRequest);
+            var updateOrder = updateOrderContainer.DeliveryOrder;
             await Task.Delay(5000);
 
-            var getOrder2 = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var getOrder2Container = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var getOrder2 = getOrder2Container.DeliveryOrder;
 
             // Assert
             Assert.Multiple(() =>
@@ -385,7 +391,8 @@ namespace Spoleto.Delivery.Tests.Providers
             var deliveryOrderRequest = GetOrderRequest();
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrder = deliveryOrderContainer.DeliveryOrder!;
 
             var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
             var deletedOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Uuid.ToString());
@@ -407,12 +414,17 @@ namespace Spoleto.Delivery.Tests.Providers
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
-            var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrder = deliveryOrderContainer.DeliveryOrder;
+            var getOrderContainer = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
+            var getOrder = getOrderContainer.DeliveryOrder;
 
             pickupRequest.OrderUuid = deliveryOrder.Uuid;
-            var pickup = await provider.CreateCourierPickupAsync(pickupRequest, true);
-            var getPickup = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid!.Value });
+            var pickupContainer = await provider.CreateCourierPickupAsync(pickupRequest, true);
+            var pickup = pickupContainer.CourierPickup;
+
+            var getPickupContainer = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid!.Value });
+            var getPickup = getPickupContainer.CourierPickup;
 
             // Assert
             Assert.Multiple(() =>
@@ -442,13 +454,16 @@ namespace Spoleto.Delivery.Tests.Providers
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrdeContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrder = deliveryOrdeContainer.DeliveryOrder;
             var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
 
             pickupRequest.OrderUuid = deliveryOrder.Uuid;
-            var pickup = await provider.CreateCourierPickupAsync(pickupRequest, true);
+            var pickupContainer = await provider.CreateCourierPickupAsync(pickupRequest, true);
+            var pickup = pickupContainer.CourierPickup;
             //var getPickup = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid });
-            var deletedPickup = await provider.DeleteCourierPickupAsync(pickup.Uuid.ToString());
+            var deletedPickupContainer = await provider.DeleteCourierPickupAsync(pickup.Uuid.ToString());
+            var deletedPickup = deletedPickupContainer.CourierPickup;
 
             // Assert
             Assert.Multiple(() =>
@@ -488,10 +503,11 @@ namespace Spoleto.Delivery.Tests.Providers
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
-            var fullRawBody = deliveryOrder.GetFullRawBody();
+            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrder = deliveryOrderContainer.DeliveryOrder;
+            var fullRawBody = deliveryOrderContainer.GetFullRawBody();
 
-            var after = JsonHelper.FromJson<DeliveryOrderFullRawBody>(fullRawBody);
+            var after = JsonHelper.FromJson<DeliveryOrderRawData>(fullRawBody);
             var orderAfterJson = JsonHelper.FromJson<Delivery.Providers.Cdek.DeliveryOrder>(after.DeliveryOrder);
 
             // Assert
@@ -525,9 +541,13 @@ namespace Spoleto.Delivery.Tests.Providers
             //deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.OnlineStore);
 
             // Act
-            var deliveryOrder = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
+            var rawBody = deliveryOrderContainer.GetFullRawBody();
+
+            var deliveryOrder = deliveryOrderContainer.DeliveryOrder;
             var getOrder2 = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
-            var deletedOrder = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Uuid.ToString()!);
+            var deletedOrderContainer = await provider.DeleteDeliveryOrderAsync(deliveryOrder.Uuid.ToString()!);
+            var deletedOrder = deletedOrderContainer.DeliveryOrder;
 
             await Task.Delay(3000);
 
@@ -559,9 +579,14 @@ namespace Spoleto.Delivery.Tests.Providers
             // Act
             for (var i = 0; i < 100; i++)
             {
-                var pickup = await provider.CreateCourierPickupAsync(pickupRequest, true);
-                var getPickup = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid.Value });
-                var deletedPickup = await provider.DeleteCourierPickupAsync(pickup.Uuid.ToString());
+                var pickupContainer = await provider.CreateCourierPickupAsync(pickupRequest, true);
+                var pickup = pickupContainer.CourierPickup;
+
+                var getPickupContainer = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid.Value });
+                var getPickup = getPickupContainer.CourierPickup;
+                
+                var deletedPickupContainer = await provider.DeleteCourierPickupAsync(pickup.Uuid.ToString());
+                var deletedPickup = deletedPickupContainer.CourierPickup;
 
                 var getPickup2 = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid.Value });
 

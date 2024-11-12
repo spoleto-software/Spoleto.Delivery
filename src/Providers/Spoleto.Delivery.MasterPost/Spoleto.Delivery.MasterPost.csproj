@@ -16,7 +16,7 @@
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="Spoleto.AddressResolver" Version="1.0.2" />
-      <PackageReference Include="Spoleto.RestClient" Version="1.0.11" />
+      <PackageReference Include="Spoleto.RestClient" Version="1.0.12" />
     </ItemGroup>
 
     <ItemGroup>

@@ -338,11 +338,11 @@ namespace Spoleto.Delivery
 
         #region DeliveryOrder
         /// <inheritdoc/>
-        public DeliveryOrder CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public DeliveryOrderContainer CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
             => CreateDeliveryOrder(_defaultProvider, deliveryOrderRequest, ensureStatus);
 
         /// <inheritdoc/>
-        public DeliveryOrder CreateDeliveryOrder(string providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public DeliveryOrderContainer CreateDeliveryOrder(string providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -354,11 +354,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public DeliveryOrder CreateDeliveryOrder(DeliveryProviderName providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public DeliveryOrderContainer CreateDeliveryOrder(DeliveryProviderName providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
             => CreateDeliveryOrder(providerName.ToString(), deliveryOrderRequest, ensureStatus);
 
         /// <inheritdoc/>
-        public DeliveryOrder CreateDeliveryOrder(IDeliveryProvider provider, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public DeliveryOrderContainer CreateDeliveryOrder(IDeliveryProvider provider, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -370,11 +370,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public Task<DeliveryOrderContainer> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
             => CreateDeliveryOrderAsync(_defaultProvider, deliveryOrderRequest, ensureStatus);
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> CreateDeliveryOrderAsync(string providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public Task<DeliveryOrderContainer> CreateDeliveryOrderAsync(string providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -386,11 +386,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> CreateDeliveryOrderAsync(DeliveryProviderName providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public Task<DeliveryOrderContainer> CreateDeliveryOrderAsync(DeliveryProviderName providerName, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
             => CreateDeliveryOrderAsync(providerName.ToString(), deliveryOrderRequest, ensureStatus);
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> CreateDeliveryOrderAsync(IDeliveryProvider provider, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public Task<DeliveryOrderContainer> CreateDeliveryOrderAsync(IDeliveryProvider provider, CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -402,11 +402,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public DeliveryOrder GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest)
+        public DeliveryOrderContainer GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest)
             => GetDeliveryOrder(_defaultProvider, deliveryOrderRequest);
 
         /// <inheritdoc/>
-        public DeliveryOrder GetDeliveryOrder(string providerName, GetDeliveryOrderRequest deliveryOrderRequest)
+        public DeliveryOrderContainer GetDeliveryOrder(string providerName, GetDeliveryOrderRequest deliveryOrderRequest)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -418,11 +418,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public DeliveryOrder GetDeliveryOrder(DeliveryProviderName providerName, GetDeliveryOrderRequest deliveryOrderRequest)
+        public DeliveryOrderContainer GetDeliveryOrder(DeliveryProviderName providerName, GetDeliveryOrderRequest deliveryOrderRequest)
             => GetDeliveryOrder(providerName.ToString(), deliveryOrderRequest);
 
         /// <inheritdoc/>
-        public DeliveryOrder GetDeliveryOrder(IDeliveryProvider provider, GetDeliveryOrderRequest deliveryOrderRequest)
+        public DeliveryOrderContainer GetDeliveryOrder(IDeliveryProvider provider, GetDeliveryOrderRequest deliveryOrderRequest)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -434,11 +434,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
+        public Task<DeliveryOrderContainer> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
             => GetDeliveryOrderAsync(_defaultProvider, deliveryOrderRequest);
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> GetDeliveryOrderAsync(string providerName, GetDeliveryOrderRequest deliveryOrderRequest)
+        public Task<DeliveryOrderContainer> GetDeliveryOrderAsync(string providerName, GetDeliveryOrderRequest deliveryOrderRequest)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -450,11 +450,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> GetDeliveryOrderAsync(DeliveryProviderName providerName, GetDeliveryOrderRequest deliveryOrderRequest)
+        public Task<DeliveryOrderContainer> GetDeliveryOrderAsync(DeliveryProviderName providerName, GetDeliveryOrderRequest deliveryOrderRequest)
             => GetDeliveryOrderAsync(providerName.ToString(), deliveryOrderRequest);
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> GetDeliveryOrderAsync(IDeliveryProvider provider, GetDeliveryOrderRequest deliveryOrderRequest)
+        public Task<DeliveryOrderContainer> GetDeliveryOrderAsync(IDeliveryProvider provider, GetDeliveryOrderRequest deliveryOrderRequest)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -466,11 +466,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public DeliveryOrder UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public DeliveryOrderContainer UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest)
             => UpdateDeliveryOrder(_defaultProvider, deliveryOrderRequest);
 
         /// <inheritdoc/>
-        public DeliveryOrder UpdateDeliveryOrder(string providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public DeliveryOrderContainer UpdateDeliveryOrder(string providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -482,11 +482,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public DeliveryOrder UpdateDeliveryOrder(DeliveryProviderName providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public DeliveryOrderContainer UpdateDeliveryOrder(DeliveryProviderName providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
             => UpdateDeliveryOrder(providerName.ToString(), deliveryOrderRequest);
 
         /// <inheritdoc/>
-        public DeliveryOrder UpdateDeliveryOrder(IDeliveryProvider provider, UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public DeliveryOrderContainer UpdateDeliveryOrder(IDeliveryProvider provider, UpdateDeliveryOrderRequest deliveryOrderRequest)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -498,11 +498,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public Task<DeliveryOrderContainer> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest)
             => UpdateDeliveryOrderAsync(_defaultProvider, deliveryOrderRequest);
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> UpdateDeliveryOrderAsync(string providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public Task<DeliveryOrderContainer> UpdateDeliveryOrderAsync(string providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -514,11 +514,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> UpdateDeliveryOrderAsync(DeliveryProviderName providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public Task<DeliveryOrderContainer> UpdateDeliveryOrderAsync(DeliveryProviderName providerName, UpdateDeliveryOrderRequest deliveryOrderRequest)
             => UpdateDeliveryOrderAsync(providerName.ToString(), deliveryOrderRequest);
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> UpdateDeliveryOrderAsync(IDeliveryProvider provider, UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public Task<DeliveryOrderContainer> UpdateDeliveryOrderAsync(IDeliveryProvider provider, UpdateDeliveryOrderRequest deliveryOrderRequest)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -530,11 +530,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public DeliveryOrder DeleteDeliveryOrder(string orderId)
+        public DeliveryOrderContainer DeleteDeliveryOrder(string orderId)
             => DeleteDeliveryOrder(_defaultProvider, orderId);
 
         /// <inheritdoc/>
-        public DeliveryOrder DeleteDeliveryOrder(string providerName, string orderId)
+        public DeliveryOrderContainer DeleteDeliveryOrder(string providerName, string orderId)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -546,11 +546,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public DeliveryOrder DeleteDeliveryOrder(DeliveryProviderName providerName, string orderId)
+        public DeliveryOrderContainer DeleteDeliveryOrder(DeliveryProviderName providerName, string orderId)
             => DeleteDeliveryOrder(providerName.ToString(), orderId);
 
         /// <inheritdoc/>
-        public DeliveryOrder DeleteDeliveryOrder(IDeliveryProvider provider, string orderId)
+        public DeliveryOrderContainer DeleteDeliveryOrder(IDeliveryProvider provider, string orderId)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -562,11 +562,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> DeleteDeliveryOrderAsync(string orderId)
+        public Task<DeliveryOrderContainer> DeleteDeliveryOrderAsync(string orderId)
             => DeleteDeliveryOrderAsync(_defaultProvider, orderId);
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> DeleteDeliveryOrderAsync(string providerName, string orderId)
+        public Task<DeliveryOrderContainer> DeleteDeliveryOrderAsync(string providerName, string orderId)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -578,11 +578,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> DeleteDeliveryOrderAsync(DeliveryProviderName providerName, string orderId)
+        public Task<DeliveryOrderContainer> DeleteDeliveryOrderAsync(DeliveryProviderName providerName, string orderId)
             => DeleteDeliveryOrderAsync(providerName.ToString(), orderId);
 
         /// <inheritdoc/>
-        public Task<DeliveryOrder> DeleteDeliveryOrderAsync(IDeliveryProvider provider, string orderId)
+        public Task<DeliveryOrderContainer> DeleteDeliveryOrderAsync(IDeliveryProvider provider, string orderId)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -596,11 +596,11 @@ namespace Spoleto.Delivery
 
         #region CourierPickup
         /// <inheritdoc/>
-        public CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+        public CourierPickupContainer CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
             => CreateCourierPickup(_defaultProvider, createCourierPickupRequest, ensureStatus);
 
         /// <inheritdoc/>
-        public CourierPickup CreateCourierPickup(string providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+        public CourierPickupContainer CreateCourierPickup(string providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -612,11 +612,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public CourierPickup CreateCourierPickup(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+        public CourierPickupContainer CreateCourierPickup(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
             => CreateCourierPickup(providerName.ToString(), createCourierPickupRequest, ensureStatus);
 
         /// <inheritdoc/>
-        public CourierPickup CreateCourierPickup(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+        public CourierPickupContainer CreateCourierPickup(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -628,11 +628,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+        public Task<CourierPickupContainer> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
             => CreateCourierPickupAsync(_defaultProvider, createCourierPickupRequest, ensureStatus);
 
         /// <inheritdoc/>
-        public Task<CourierPickup> CreateCourierPickupAsync(string providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+        public Task<CourierPickupContainer> CreateCourierPickupAsync(string providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -644,11 +644,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<CourierPickup> CreateCourierPickupAsync(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+        public Task<CourierPickupContainer> CreateCourierPickupAsync(DeliveryProviderName providerName, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
             => CreateCourierPickupAsync(providerName.ToString(), createCourierPickupRequest, ensureStatus);
 
         /// <inheritdoc/>
-        public Task<CourierPickup> CreateCourierPickupAsync(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+        public Task<CourierPickupContainer> CreateCourierPickupAsync(IDeliveryProvider provider, CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -660,11 +660,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public CourierPickup GetCourierPickup(GetCourierPickupRequest getCourierPickupRequest)
+        public CourierPickupContainer GetCourierPickup(GetCourierPickupRequest getCourierPickupRequest)
             => GetCourierPickup(_defaultProvider, getCourierPickupRequest);
 
         /// <inheritdoc/>
-        public CourierPickup GetCourierPickup(string providerName, GetCourierPickupRequest getCourierPickupRequest)
+        public CourierPickupContainer GetCourierPickup(string providerName, GetCourierPickupRequest getCourierPickupRequest)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -676,11 +676,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public CourierPickup GetCourierPickup(DeliveryProviderName providerName, GetCourierPickupRequest getCourierPickupRequest)
+        public CourierPickupContainer GetCourierPickup(DeliveryProviderName providerName, GetCourierPickupRequest getCourierPickupRequest)
             => GetCourierPickup(providerName.ToString(), getCourierPickupRequest);
 
         /// <inheritdoc/>
-        public CourierPickup GetCourierPickup(IDeliveryProvider provider, GetCourierPickupRequest getCourierPickupRequest)
+        public CourierPickupContainer GetCourierPickup(IDeliveryProvider provider, GetCourierPickupRequest getCourierPickupRequest)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -692,11 +692,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<CourierPickup> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest)
+        public Task<CourierPickupContainer> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest)
             => GetCourierPickupAsync(_defaultProvider, getCourierPickupRequest);
 
         /// <inheritdoc/>
-        public Task<CourierPickup> GetCourierPickupAsync(string providerName, GetCourierPickupRequest getCourierPickupRequest)
+        public Task<CourierPickupContainer> GetCourierPickupAsync(string providerName, GetCourierPickupRequest getCourierPickupRequest)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -708,11 +708,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<CourierPickup> GetCourierPickupAsync(DeliveryProviderName providerName, GetCourierPickupRequest getCourierPickupRequest)
+        public Task<CourierPickupContainer> GetCourierPickupAsync(DeliveryProviderName providerName, GetCourierPickupRequest getCourierPickupRequest)
             => GetCourierPickupAsync(providerName.ToString(), getCourierPickupRequest);
 
         /// <inheritdoc/>
-        public Task<CourierPickup> GetCourierPickupAsync(IDeliveryProvider provider, GetCourierPickupRequest getCourierPickupRequest)
+        public Task<CourierPickupContainer> GetCourierPickupAsync(IDeliveryProvider provider, GetCourierPickupRequest getCourierPickupRequest)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -723,11 +723,11 @@ namespace Spoleto.Delivery
             return provider.GetCourierPickupAsync(getCourierPickupRequest);
         }
 
-        public CourierPickup DeleteCourierPickup(string pickupOrderId)
+        public CourierPickupContainer DeleteCourierPickup(string pickupOrderId)
             => DeleteCourierPickup(_defaultProvider, pickupOrderId);
 
         /// <inheritdoc/>
-        public CourierPickup DeleteCourierPickup(string providerName, string pickupOrderId)
+        public CourierPickupContainer DeleteCourierPickup(string providerName, string pickupOrderId)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -739,11 +739,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public CourierPickup DeleteCourierPickup(DeliveryProviderName providerName, string pickupOrderId)
+        public CourierPickupContainer DeleteCourierPickup(DeliveryProviderName providerName, string pickupOrderId)
             => DeleteCourierPickup(providerName.ToString(), pickupOrderId);
 
         /// <inheritdoc/>
-        public CourierPickup DeleteCourierPickup(IDeliveryProvider provider, string pickupOrderId)
+        public CourierPickupContainer DeleteCourierPickup(IDeliveryProvider provider, string pickupOrderId)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));
@@ -755,11 +755,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<CourierPickup> DeleteCourierPickupAsync(string pickupOrderId)
+        public Task<CourierPickupContainer> DeleteCourierPickupAsync(string pickupOrderId)
             => DeleteCourierPickupAsync(_defaultProvider, pickupOrderId);
 
         /// <inheritdoc/>
-        public Task<CourierPickup> DeleteCourierPickupAsync(string providerName, string pickupOrderId)
+        public Task<CourierPickupContainer> DeleteCourierPickupAsync(string providerName, string pickupOrderId)
         {
             if (providerName is null)
                 throw new ArgumentNullException(nameof(providerName));
@@ -771,11 +771,11 @@ namespace Spoleto.Delivery
         }
 
         /// <inheritdoc/>
-        public Task<CourierPickup> DeleteCourierPickupAsync(DeliveryProviderName providerName, string pickupOrderId)
+        public Task<CourierPickupContainer> DeleteCourierPickupAsync(DeliveryProviderName providerName, string pickupOrderId)
             => DeleteCourierPickupAsync(providerName.ToString(), pickupOrderId);
 
         /// <inheritdoc/>
-        public Task<CourierPickup> DeleteCourierPickupAsync(IDeliveryProvider provider, string pickupOrderId)
+        public Task<CourierPickupContainer> DeleteCourierPickupAsync(IDeliveryProvider provider, string pickupOrderId)
         {
             if (provider is null)
                 throw new ArgumentNullException(nameof(provider));

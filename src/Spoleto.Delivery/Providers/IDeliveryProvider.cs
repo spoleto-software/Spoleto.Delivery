@@ -77,7 +77,7 @@
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
         /// <returns>The created delivery order.</returns>
-        DeliveryOrder CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
+        DeliveryOrderContainer CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates a delivery order.
@@ -85,49 +85,49 @@
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created deliver order.</param>
         /// <returns>The created delivery order.</returns>
-        Task<DeliveryOrder> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
+        Task<DeliveryOrderContainer> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <summary>
         /// Gets the delivery order.
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
-        DeliveryOrder GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest);
+        DeliveryOrderContainer GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Async gets the delivery order.
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
-        Task<DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest);
+        Task<DeliveryOrderContainer> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Deletes the delivery order.
         /// </summary>
         /// <param name="orderId">The delivery order identifier.</param>
         /// <returns>The deleted delivery order.</returns>
-        DeliveryOrder DeleteDeliveryOrder(string orderId);
+        DeliveryOrderContainer DeleteDeliveryOrder(string orderId);
 
         /// <summary>
         /// Async deletes the delivery order.
         /// </summary>
         /// <param name="pickupOrderId">The delivery order identifier.</param>
         /// <returns>The deleted delivery order.</returns>
-        Task<DeliveryOrder> DeleteDeliveryOrderAsync(string pickupOrderId);
+        Task<DeliveryOrderContainer> DeleteDeliveryOrderAsync(string pickupOrderId);
 
         /// <summary>
         /// Updates the delivery order.
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The updated delivery order.</returns>
-        DeliveryOrder UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest);
+        DeliveryOrderContainer UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Async updates the delivery order.
         /// </summary>
         /// <param name="deliveryOrderRequest">The delivery order request.</param>
         /// <returns>The delivery order.</returns>
-        Task<DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
+        Task<DeliveryOrderContainer> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
         /// Creates the courier pickup order.
@@ -135,7 +135,7 @@
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
         /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
-        CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
+        CourierPickupContainer CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Async creates the courier pickup order.
@@ -143,34 +143,34 @@
         /// <param name="createCourierPickupRequest">The courier pickup order request.</param>
         /// <param name="ensureStatus">The flag indicating whether this method has to ensure the valid status of the created courier pickup order.</param>
         /// <returns>The created courier pickup order.</returns>
-        Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
+        Task<CourierPickupContainer> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <summary>
         /// Gets the courier pickup order.
         /// </summary>
         /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
         /// <returns>The courier pickup order.</returns>
-        CourierPickup GetCourierPickup(GetCourierPickupRequest getCourierPickupRequest);
+        CourierPickupContainer GetCourierPickup(GetCourierPickupRequest getCourierPickupRequest);
 
         /// <summary>
         /// Async gets the courier pickup order.
         /// </summary>
         /// <param name="getCourierPickupRequest">The courier pickup order request.</param>
         /// <returns>The courier pickup order.</returns>
-        Task<CourierPickup> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest);
+        Task<CourierPickupContainer> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest);
 
         /// <summary>
         /// Deletes the courier pickup order.
         /// </summary>
         /// <param name="pickupOrderId">The courier pickup order identifier.</param>
         /// <returns>The courier pickup order.</returns>
-        CourierPickup DeleteCourierPickup(string pickupOrderId);
+        CourierPickupContainer DeleteCourierPickup(string pickupOrderId);
 
         /// <summary>
         /// Async deletes the courier pickup order.
         /// </summary>
         /// <param name="pickupOrderId">The courier pickup order identifier.</param>
         /// <returns>The courier pickup order.</returns>
-        Task<CourierPickup> DeleteCourierPickupAsync(string pickupOrderId);
+        Task<CourierPickupContainer> DeleteCourierPickupAsync(string pickupOrderId);
     }
 }

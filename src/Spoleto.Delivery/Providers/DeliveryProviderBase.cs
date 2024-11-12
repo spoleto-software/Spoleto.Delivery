@@ -40,52 +40,52 @@
         public abstract Task<List<AdditionalService>> GetAdditionalServicesAsync(Tariff tariff);
 
         /// <inheritdoc/>
-        public virtual DeliveryOrder CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public virtual DeliveryOrderContainer CreateDeliveryOrder(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
             => CreateDeliveryOrderAsync(deliveryOrderRequest, ensureStatus).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public abstract Task<DeliveryOrder> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
+        public abstract Task<DeliveryOrderContainer> CreateDeliveryOrderAsync(CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus);
 
         /// <inheritdoc/>
-        public virtual DeliveryOrder GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest)
+        public virtual DeliveryOrderContainer GetDeliveryOrder(GetDeliveryOrderRequest deliveryOrderRequest)
             => GetDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public abstract Task<DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest);
+        public abstract Task<DeliveryOrderContainer> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest);
 
         /// <inheritdoc/>
-        public virtual DeliveryOrder DeleteDeliveryOrder(string orderId)
+        public virtual DeliveryOrderContainer DeleteDeliveryOrder(string orderId)
             => DeleteDeliveryOrderAsync(orderId).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public abstract Task<DeliveryOrder> DeleteDeliveryOrderAsync(string orderId);
+        public abstract Task<DeliveryOrderContainer> DeleteDeliveryOrderAsync(string orderId);
 
         /// <inheritdoc/>
-        public virtual DeliveryOrder UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public virtual DeliveryOrderContainer UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest)
             => UpdateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public abstract Task<DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
+        public abstract Task<DeliveryOrderContainer> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
 
         /// <inheritdoc/>
-        public virtual CourierPickup CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+        public virtual CourierPickupContainer CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
             => CreateCourierPickupAsync(createCourierPickupRequest, ensureStatus).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public abstract Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
+        public abstract Task<CourierPickupContainer> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus);
 
         /// <inheritdoc/>
-        public virtual CourierPickup GetCourierPickup(GetCourierPickupRequest getCourierPickupRequest)
+        public virtual CourierPickupContainer GetCourierPickup(GetCourierPickupRequest getCourierPickupRequest)
             => GetCourierPickupAsync(getCourierPickupRequest).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public abstract Task<CourierPickup> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest);
+        public abstract Task<CourierPickupContainer> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest);
 
         /// <inheritdoc/>
-        public virtual CourierPickup DeleteCourierPickup(string pickupOrderId)
+        public virtual CourierPickupContainer DeleteCourierPickup(string pickupOrderId)
             => DeleteCourierPickupAsync(pickupOrderId).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public abstract Task<CourierPickup> DeleteCourierPickupAsync(string pickupOrderId);
+        public abstract Task<CourierPickupContainer> DeleteCourierPickupAsync(string pickupOrderId);
     }
 }

@@ -28,6 +28,11 @@ namespace Spoleto.Delivery
         public string Status { get; set; }
 
         /// <summary>
+        /// Флаг, что заказа на доставку был удалён.
+        /// </summary>
+        public bool IsRemoved { get; set; }
+
+        /// <summary>
         /// Плановая дата доставки.
         /// </summary>
         public DateTime? PlannedDeliveryDate { get; set; }
@@ -76,34 +81,5 @@ namespace Spoleto.Delivery
         /// Дополнительные услуги.
         /// </summary>
         public List<AdditionalService>? Services { get; set; }
-
-        /// <summary>
-        /// Исходный ответ в Json/Xml.
-        /// </summary>
-        public string RawBody { get; set; }
-
-        /// <summary>
-        /// Исходные ответы в Json/Xml связанных заказов (например, заказа на вызов курьера).
-        /// </summary>
-        public List<DeliveryOrderRelatedRawBody> RelatedOrderRawBodies { get; set; }
-
-        /// <summary>
-        /// Return the order raw body with related orders raw bodies.
-        /// </summary>
-        /// <returns></returns>
-        public string GetFullRawBody()
-        {
-            var deliveryOrderFullRawBody = new DeliveryOrderFullRawBody
-            {
-                DeliveryOrder = RawBody
-            };
-
-            if (RelatedOrderRawBodies?.Count > 0)
-            {
-                deliveryOrderFullRawBody.RelatedOrders = RelatedOrderRawBodies.ToList();
-            }
-
-            return JsonHelper.ToRelaxedIndentedJson(deliveryOrderFullRawBody);
-        }
     }
 }

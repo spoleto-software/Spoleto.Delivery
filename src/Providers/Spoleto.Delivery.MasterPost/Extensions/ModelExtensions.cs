@@ -239,6 +239,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             {
                 Number = order.Number,
                 Status = order.CurrentStatus,
+                IsRemoved = order.CurrentStatus == "Удалено",
                 CisNumber = order.CisNumber,
                 PlannedDeliveryDate = order.DeliveryMaxDateTime,
                 DeliveryDate = order.DeliveryDateTime,

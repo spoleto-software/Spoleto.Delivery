@@ -158,7 +158,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             return additionalServiceList.Select(x => x.ToDeliveryAdditionalService()).ToList();
         }
 
-        public override Delivery.DeliveryOrder CreateDeliveryOrder(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public override Delivery.DeliveryOrderContainer CreateDeliveryOrder(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
         {
             if (deliveryOrderRequest.FromLocation.CityFiasId == null && _addressResolver != null)
             {
@@ -182,7 +182,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.DeliveryOrder> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
+        public override async Task<Delivery.DeliveryOrderContainer> CreateDeliveryOrderAsync(Delivery.CreateDeliveryOrderRequest deliveryOrderRequest, bool ensureStatus)
         {
             if (deliveryOrderRequest.FromLocation.CityFiasId == null && _addressResolver != null)
             {
@@ -210,18 +210,18 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 .Build();
 
             (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
-            var deliveryOrder = deliveryOrderList[0];
+            var deliveryOrder = deliveryOrderList![0];
             
             var order = deliveryOrder.ToDeliveryOrder(_options.ServiceUrl);
-            order.RawBody = rawBody;
+            var orderContainer = new DeliveryOrderContainer(order, rawBody);
 
             if (ensureStatus)
             {
-                if (order.Status == null)
+                if (orderContainer.DeliveryOrder!.Status == null)
                 {
-                    order = await GetDeliveryOrderAsync(new GetDeliveryOrderRequest { Number = order.Number });
+                    orderContainer = await GetDeliveryOrderAsync(new GetDeliveryOrderRequest { Number = orderContainer.DeliveryOrder!.Number });
 
-                    if (order.Status == null)
+                    if (orderContainer.DeliveryOrder!.Status == null)
                         throw new ArgumentException("The created order status is null.");
                 }
             }
@@ -229,7 +229,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
             if (deliveryOrderRequest.CourierPickupRequest is CourierPickupRequest courierPickupRequest)
             {
                 //todo: надо ли тут явно создавать этот CourierPickup?
-                order.CourierPickup = new CourierPickup
+                orderContainer.DeliveryOrder!.CourierPickup = new CourierPickup
                 {
                     IntakeDate = courierPickupRequest.IntakeDate,
                     IntakeTimeFrom = courierPickupRequest.IntakeTimeFrom,
@@ -237,63 +237,63 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 };
             }
 
-            return order;
+            return orderContainer;
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.DeliveryOrder> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
+        public override async Task<Delivery.DeliveryOrderContainer> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest)
         {
             var number = deliveryOrderRequest.Uuid?.ToString() ?? deliveryOrderRequest.Number ?? deliveryOrderRequest.CisNumber ?? throw new ArgumentNullException(nameof(deliveryOrderRequest.Number));
            
             var restRequest = new RestRequestFactory(RestHttpMethod.Get, $"dns/{number}").Build();
 
             (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
-            var deliveryOrder = deliveryOrderList[0];
+            var deliveryOrder = deliveryOrderList?[0];
 
-            var order = deliveryOrder.ToDeliveryOrder(_options.ServiceUrl);
-            order.RawBody = rawBody;
+            var order = deliveryOrder?.ToDeliveryOrder(_options.ServiceUrl);
+            var orderContainer = new DeliveryOrderContainer(order, rawBody);
 
-            return order;
+            return orderContainer;
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.DeliveryOrder> DeleteDeliveryOrderAsync(string orderId)
+        public override async Task<Delivery.DeliveryOrderContainer> DeleteDeliveryOrderAsync(string orderId)
         {
             var restRequest = new RestRequestFactory(RestHttpMethod.Put, $"dns/{_options.IndividualClientNumber}/{orderId}")
                 .Build();
 
             (var deliveryOrderList, var rawBody) = await _masterPostClient.ExecuteWithRawBodyAsync<List<DeliveryOrder>>(restRequest).ConfigureAwait(false);
-            var deliveryOrder = deliveryOrderList[0];
+            var deliveryOrder = deliveryOrderList![0];
             
             var order = deliveryOrder.ToDeliveryOrder(_options.ServiceUrl);
-            order.RawBody = rawBody;
+            var orderContainer = new DeliveryOrderContainer(order, rawBody);
 
-            return order;
+            return orderContainer;
         }
 
         /// <inheritdoc/>
-        public override Task<Delivery.DeliveryOrder> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public override Task<Delivery.DeliveryOrderContainer> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest)
         {
             //todo: delete + create a new order?
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public override Task<CourierPickup> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
+        public override Task<CourierPickupContainer> CreateCourierPickupAsync(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)
         {
-            return Task.FromResult<CourierPickup>(default);
+            return Task.FromResult<CourierPickupContainer>(default);
         }
 
         /// <inheritdoc/>
-        public override Task<CourierPickup> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest)
+        public override Task<CourierPickupContainer> GetCourierPickupAsync(GetCourierPickupRequest getCourierPickupRequest)
         {
-            return Task.FromResult<CourierPickup>(default);
+            return Task.FromResult<CourierPickupContainer>(default);
         }
 
         /// <inheritdoc/>
-        public override Task<CourierPickup> DeleteCourierPickupAsync(string pickupOrderId)
+        public override Task<CourierPickupContainer> DeleteCourierPickupAsync(string pickupOrderId)
         {
-            return Task.FromResult<CourierPickup>(default);
+            return Task.FromResult<CourierPickupContainer>(default);
         }
     }
 }

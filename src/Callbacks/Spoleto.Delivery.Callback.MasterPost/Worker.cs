@@ -45,7 +45,7 @@ namespace Spoleto.Delivery.Callback.MasterPost
 
                         var actualOrder = await deliveryService.GetDeliveryOrderAsync(new() { Number = order.ExternalId });
 
-                        var success = await cisRepository.UpdateDeliveryOrderStatusAsync(order.ExternalId, actualOrder.Status, cancellationToken);
+                        var success = await cisRepository.UpdateDeliveryOrderStatusAsync(order.ExternalId, actualOrder.DeliveryOrder.Status, cancellationToken);
                         if (success)
                         {
                             successCount++;
