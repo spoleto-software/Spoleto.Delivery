@@ -10,6 +10,12 @@ namespace Spoleto.Delivery
             RawData = new(rawBody);
         }
 
+        public DeliveryOrderContainer(DeliveryOrder? deliveryOrder, DeliveryOrderRawData rawData)
+        {
+            DeliveryOrder = deliveryOrder;
+            RawData = rawData;
+        }
+
         public DeliveryOrder? DeliveryOrder { get; }
 
         /// <summary>
