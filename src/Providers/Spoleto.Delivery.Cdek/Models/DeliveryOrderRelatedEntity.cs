@@ -67,6 +67,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Дата и время создания сущности, связанной с заказом.
         /// </summary>
         [JsonPropertyName("create_time")]
+        [JsonConverter(typeof(JsonDateTimeConverter))]
         public DateTime? CreateTime { get; set; }
     }
 }

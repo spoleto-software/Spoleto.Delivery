@@ -47,6 +47,18 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Доставка шин по тарифу "Экономичный экспресс"
         /// </summary>
         [Description("Доставка шин по тарифу \"Экономичный экспресс\"")]
-        TireEconomyExpressDelivery = 10
+        TireEconomyExpressDelivery = 10,
+
+        /// <summary>
+        /// Доставка в рамках одного офиса "Один офис (ИМ)" (при условии, что офис отправителя и получателя совпадают)
+        /// </summary>
+        [Description("Доставка в рамках одного офиса \"Один офис (ИМ)\" (при условии, что офис отправителя и получателя совпадают)")]
+        OneOffice = 11,
+
+        /// <summary>
+        /// CDEK.Shopping
+        /// </summary>
+        [Description("CDEK.Shopping")]
+        CdekShopping = 14
     }
 }

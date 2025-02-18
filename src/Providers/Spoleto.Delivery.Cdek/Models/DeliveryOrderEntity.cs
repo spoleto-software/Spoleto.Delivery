@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using Spoleto.Common.JsonConverters;
+using Spoleto.Delivery.Providers.Cdek.Converters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -42,7 +43,8 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Дополнительный тип заказа: 4 - Forward, 6 - "Фулфилмент. Приход", 7 - "Фулфилмент. Отгрузка".
         /// </summary>
         [JsonPropertyName("additional_order_types")]
-        public AdditionalOrderType? AdditionalOrderTypes { get; set; }
+        //[JsonConverter(typeof(Spoleto.Common.JsonConverters.JsonIntEnumConverter<AdditionalOrderType>))]
+        public List<AdditionalOrderType>? AdditionalOrderTypes { get; set; }
 
         /// <summary>
         /// Номер заказа СДЭК.
