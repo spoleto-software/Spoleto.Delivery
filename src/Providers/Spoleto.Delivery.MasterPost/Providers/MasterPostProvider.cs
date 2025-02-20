@@ -257,6 +257,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
+        public override Task<Delivery.DeliveryOrderContainer> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest)
+        {
+            //todo: delete + create a new order?
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
         public override async Task<Delivery.DeliveryOrderContainer> DeleteDeliveryOrderAsync(string orderId)
         {
             var restRequest = new RestRequestFactory(RestHttpMethod.Put, $"dns/{_options.IndividualClientNumber}/{orderId}")
@@ -272,9 +279,8 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public override Task<Delivery.DeliveryOrderContainer> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public override Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests)
         {
-            //todo: delete + create a new order?
             throw new NotImplementedException();
         }
 

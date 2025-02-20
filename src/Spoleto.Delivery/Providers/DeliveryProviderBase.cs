@@ -54,18 +54,23 @@
         public abstract Task<DeliveryOrderContainer> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest);
 
         /// <inheritdoc/>
+        public virtual DeliveryOrderContainer UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest)
+            => UpdateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public abstract Task<DeliveryOrderContainer> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <inheritdoc/>
         public virtual DeliveryOrderContainer DeleteDeliveryOrder(string orderId)
             => DeleteDeliveryOrderAsync(orderId).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
         public abstract Task<DeliveryOrderContainer> DeleteDeliveryOrderAsync(string orderId);
 
-        /// <inheritdoc/>
-        public virtual DeliveryOrderContainer UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest)
-            => UpdateDeliveryOrderAsync(deliveryOrderRequest).GetAwaiter().GetResult();
+        public virtual List<PrintingDocument> PrintDeliveryOrder(List<GetDeliveryOrderRequest> deliveryOrderRequests)
+            => PrintDeliveryOrderAsync(deliveryOrderRequests).GetAwaiter().GetResult();
 
-        /// <inheritdoc/>
-        public abstract Task<DeliveryOrderContainer> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
+        public abstract Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests);
 
         /// <inheritdoc/>
         public virtual CourierPickupContainer CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)

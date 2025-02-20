@@ -102,6 +102,20 @@
         Task<DeliveryOrderContainer> GetDeliveryOrderAsync(GetDeliveryOrderRequest deliveryOrderRequest);
 
         /// <summary>
+        /// Updates the delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The updated delivery order.</returns>
+        DeliveryOrderContainer UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
+        /// Async updates the delivery order.
+        /// </summary>
+        /// <param name="deliveryOrderRequest">The delivery order request.</param>
+        /// <returns>The delivery order.</returns>
+        Task<DeliveryOrderContainer> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
+
+        /// <summary>
         /// Deletes the delivery order.
         /// </summary>
         /// <param name="orderId">The delivery order identifier.</param>
@@ -116,18 +130,18 @@
         Task<DeliveryOrderContainer> DeleteDeliveryOrderAsync(string pickupOrderId);
 
         /// <summary>
-        /// Updates the delivery order.
+        /// Prints the delivery orders.
         /// </summary>
-        /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The updated delivery order.</returns>
-        DeliveryOrderContainer UpdateDeliveryOrder(UpdateDeliveryOrderRequest deliveryOrderRequest);
+        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <returns>The list of printing documents.</returns>
+        List<PrintingDocument> PrintDeliveryOrder(List<GetDeliveryOrderRequest> deliveryOrderRequests);
 
         /// <summary>
-        /// Async updates the delivery order.
+        /// Async prints the delivery orders.
         /// </summary>
-        /// <param name="deliveryOrderRequest">The delivery order request.</param>
-        /// <returns>The delivery order.</returns>
-        Task<DeliveryOrderContainer> UpdateDeliveryOrderAsync(UpdateDeliveryOrderRequest deliveryOrderRequest);
+        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <returns>The list of printing documents.</returns>
+        Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests);
 
         /// <summary>
         /// Creates the courier pickup order.

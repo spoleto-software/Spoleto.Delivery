@@ -603,6 +603,78 @@ namespace Spoleto.Delivery
         /// <param name="orderId">The delivery order identifier.</param>
         /// <returns>The deleted delivery order.</returns>
         Task<DeliveryOrderContainer> DeleteDeliveryOrderAsync(IDeliveryProvider provider, string orderId);
+
+        /// <summary>
+        /// Prints the delivery orders.
+        /// </summary>
+        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <returns>The list of printing documents.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        List<PrintingDocument> PrintDeliveryOrder(List<GetDeliveryOrderRequest> deliveryOrderRequests);
+
+        /// <summary>
+        /// Prints the delivery orders.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <returns>The list of printing documents.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        List<PrintingDocument> PrintDeliveryOrder(string providerName, List<GetDeliveryOrderRequest> deliveryOrderRequests);
+
+        /// <summary>
+        /// Prints the delivery orders.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <returns>The list of printing documents.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        List<PrintingDocument> PrintDeliveryOrder(DeliveryProviderName providerName, List<GetDeliveryOrderRequest> deliveryOrderRequests);
+
+        /// <summary>
+        /// Prints the delivery orders.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <returns>The list of printing documents.</returns>
+        List<PrintingDocument> PrintDeliveryOrder(IDeliveryProvider provider, List<GetDeliveryOrderRequest> deliveryOrderRequests);
+
+        /// <summary>
+        /// Async prints the delivery orders.
+        /// </summary>
+        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <returns>The list of printing documents.</returns>
+        /// <remarks>
+        /// The designated default delivery provider must be defined within the <see cref="DeliveryServiceOptions.DefaultProvider"/> setting, which is provided to the <see cref="DeliveryService"/> when it is instantiated.
+        /// </remarks>
+        Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests);
+
+        /// <summary>
+        /// Async prints the delivery orders.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <returns>The list of printing documents.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<List<PrintingDocument>> PrintDeliveryOrderAsync(string providerName, List<GetDeliveryOrderRequest> deliveryOrderRequests);
+
+        /// <summary>
+        /// Async prints the delivery orders.
+        /// </summary>
+        /// <param name="providerName">The name of the delivery provider.</param>
+        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <returns>The list of printing documents.</returns>
+        /// <exception cref="DeliveryProviderNotFoundException">Thrown when the identified delivery service provider cannot be found.</exception>
+        Task<List<PrintingDocument>> PrintDeliveryOrderAsync(DeliveryProviderName providerName, List<GetDeliveryOrderRequest> deliveryOrderRequests);
+
+        /// <summary>
+        /// Async prints the delivery orders.
+        /// </summary>
+        /// <param name="providerName">The delivery provider.</param>
+        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <returns>The list of printing documents.</returns>
+        Task<List<PrintingDocument>> PrintDeliveryOrderAsync(IDeliveryProvider provider, List<GetDeliveryOrderRequest> deliveryOrderRequests);
         #endregion
 
         #region CourierPickup

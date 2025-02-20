@@ -1,6 +1,4 @@
-﻿using Spoleto.Delivery.Helpers;
-
-namespace Spoleto.Delivery
+﻿namespace Spoleto.Delivery
 {
     /// <summary>
     /// The delivery order.

@@ -250,6 +250,22 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
+        public override async Task<Delivery.DeliveryOrderContainer> UpdateDeliveryOrderAsync(Delivery.UpdateDeliveryOrderRequest deliveryOrderRequest)
+        {
+            var model = deliveryOrderRequest.ToUpdateOrderRequest();
+            var restRequest = new RestRequestFactory(RestHttpMethod.Patch, "orders")
+                .WithJsonContent(model)
+                .Build();
+
+            (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<UpdatedDeliveryOrder>(restRequest).ConfigureAwait(false);
+
+            var order = deliveryOrder!.ToDeliveryOrder();
+            var orderContainer = new DeliveryOrderContainer(order, rawBody);
+
+            return orderContainer;
+        }
+
+        /// <inheritdoc/>
         public override async Task<Delivery.DeliveryOrderContainer> DeleteDeliveryOrderAsync(string orderId)
         {
             var restRequest = new RestRequestFactory(RestHttpMethod.Delete, $"orders/{orderId}")
@@ -264,19 +280,9 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public override async Task<Delivery.DeliveryOrderContainer> UpdateDeliveryOrderAsync(Delivery.UpdateDeliveryOrderRequest deliveryOrderRequest)
+        public override Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests)
         {
-            var model = deliveryOrderRequest.ToUpdateOrderRequest();
-            var restRequest = new RestRequestFactory(RestHttpMethod.Patch, "orders")
-                .WithJsonContent(model)
-                .Build();
-
-            (var deliveryOrder, var rawBody) = await _cdekClient.ExecuteWithRawBodyAsync<UpdatedDeliveryOrder>(restRequest).ConfigureAwait(false);
-
-            var order = deliveryOrder!.ToDeliveryOrder();
-            var orderContainer = new DeliveryOrderContainer(order, rawBody);
-
-            return orderContainer;
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>

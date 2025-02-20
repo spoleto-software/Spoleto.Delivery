@@ -592,6 +592,70 @@ namespace Spoleto.Delivery
 
             return provider.DeleteDeliveryOrderAsync(orderId);
         }
+
+        /// <inheritdoc/>
+        public List<PrintingDocument> PrintDeliveryOrder(List<GetDeliveryOrderRequest> deliveryOrderRequests)
+            => PrintDeliveryOrder(_defaultProvider, deliveryOrderRequests);
+
+        /// <inheritdoc/>
+        public List<PrintingDocument> PrintDeliveryOrder(string providerName, List<GetDeliveryOrderRequest> deliveryOrderRequests)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return PrintDeliveryOrder(provider, deliveryOrderRequests);
+        }
+
+        /// <inheritdoc/>
+        public List<PrintingDocument> PrintDeliveryOrder(DeliveryProviderName providerName, List<GetDeliveryOrderRequest> deliveryOrderRequests)
+            => PrintDeliveryOrder(providerName.ToString(), deliveryOrderRequests);
+
+        /// <inheritdoc/>
+        public List<PrintingDocument> PrintDeliveryOrder(IDeliveryProvider provider, List<GetDeliveryOrderRequest> deliveryOrderRequests)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (deliveryOrderRequests is null)
+                throw new ArgumentNullException(nameof(deliveryOrderRequests));
+
+            return provider.PrintDeliveryOrder(deliveryOrderRequests);
+        }
+
+        /// <inheritdoc/>
+        public Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests)
+            => PrintDeliveryOrderAsync(_defaultProvider, deliveryOrderRequests);
+
+        /// <inheritdoc/>
+        public Task<List<PrintingDocument>> PrintDeliveryOrderAsync(string providerName, List<GetDeliveryOrderRequest> deliveryOrderRequests)
+        {
+            if (providerName is null)
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (!TryGetDeliveryProvider(providerName, out var provider))
+                throw new DeliveryProviderNotFoundException(providerName);
+
+            return PrintDeliveryOrderAsync(provider, deliveryOrderRequests);
+        }
+
+        /// <inheritdoc/>
+        public Task<List<PrintingDocument>> PrintDeliveryOrderAsync(DeliveryProviderName providerName, List<GetDeliveryOrderRequest> deliveryOrderRequests)
+            => PrintDeliveryOrderAsync(providerName.ToString(), deliveryOrderRequests);
+
+        /// <inheritdoc/>
+        public Task<List<PrintingDocument>> PrintDeliveryOrderAsync(IDeliveryProvider provider, List<GetDeliveryOrderRequest> deliveryOrderRequests)
+        {
+            if (provider is null)
+                throw new ArgumentNullException(nameof(provider));
+
+            if (deliveryOrderRequests is null)
+                throw new ArgumentNullException(nameof(deliveryOrderRequests));
+
+            return provider.PrintDeliveryOrderAsync(deliveryOrderRequests);
+        }
         #endregion
 
         #region CourierPickup
