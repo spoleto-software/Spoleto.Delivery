@@ -8,7 +8,7 @@
         /// <summary>
         /// Gets or sets delivery orders.
         /// </summary>
-        public List<PrintDeliveryOrder> DeliveryOrders { get;set; }
+        public List<PrintDeliveryOrder> DeliveryOrders { get; set; } = [];
 
         /// <summary>
         /// Gets the additional order data.
