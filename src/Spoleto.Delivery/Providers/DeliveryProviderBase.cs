@@ -67,10 +67,10 @@
         /// <inheritdoc/>
         public abstract Task<DeliveryOrderContainer> DeleteDeliveryOrderAsync(string orderId);
 
-        public virtual List<PrintingDocument> PrintDeliveryOrder(List<GetDeliveryOrderRequest> deliveryOrderRequests)
-            => PrintDeliveryOrderAsync(deliveryOrderRequests).GetAwaiter().GetResult();
+        public virtual List<PrintingDocument> PrintDeliveryOrder(PrintDeliveryOrderRequest printDeliveryOrderRequest)
+            => PrintDeliveryOrderAsync(printDeliveryOrderRequest).GetAwaiter().GetResult();
 
-        public abstract Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests);
+        public abstract Task<List<PrintingDocument>> PrintDeliveryOrderAsync(PrintDeliveryOrderRequest printDeliveryOrderRequest);
 
         /// <inheritdoc/>
         public virtual CourierPickupContainer CreateCourierPickup(CreateCourierPickupRequest createCourierPickupRequest, bool ensureStatus)

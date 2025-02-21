@@ -190,7 +190,7 @@
         public List<DeliveryOrderData> AdditionalProviderData { get; } = [];
 
         /// <summary>
-        /// Adds the additional data to create a delivery order..
+        /// Adds the additional data to create a delivery order.
         /// </summary>
         public CreateDeliveryOrderRequest WithProviderData(string name, object value)
         {

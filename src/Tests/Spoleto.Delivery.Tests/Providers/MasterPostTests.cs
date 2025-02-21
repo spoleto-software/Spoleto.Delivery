@@ -291,7 +291,10 @@ namespace Spoleto.Delivery.Tests.Providers
             // Arrange
             var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
             var ordersToPrint = ConfigurationHelper.MasterPostDocumentsToPrint();
-            var request = ordersToPrint.Select(x => new GetDeliveryOrderRequest { Number = x }).ToList();
+            var request = new PrintDeliveryOrderRequest
+            {
+                DeliveryOrders = ordersToPrint.Select(x => new PrintDeliveryOrder { Number = x }).ToList()
+            };
 
             // Act
             var printingDocuments = await provider.PrintDeliveryOrderAsync(request);

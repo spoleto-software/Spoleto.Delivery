@@ -670,5 +670,24 @@ namespace Spoleto.Delivery.Providers.Cdek
 
             return new(null, null);
         }
+
+        public static PrintDeliveryOrderRequest ToPrintOrderRequest(this Delivery.PrintDeliveryOrderRequest request)
+        {
+            var orderRequest = new PrintDeliveryOrderRequest
+            {
+                DeliveryOrders = request.DeliveryOrders
+            };
+
+            var providerData = request.AdditionalProviderData;
+            if (providerData?.Count > 0)
+            {
+                foreach (var data in providerData)
+                {
+                    ReflectionHelper.SetPropertyValue(orderRequest, data.Name, data.Value);
+                }
+            }
+
+            return orderRequest;
+        }
     }
 }

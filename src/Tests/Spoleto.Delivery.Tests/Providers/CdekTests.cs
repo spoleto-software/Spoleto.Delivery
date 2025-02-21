@@ -834,7 +834,13 @@ namespace Spoleto.Delivery.Tests.Providers
             // Arrange
             var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
             var ordersToPrint = ConfigurationHelper.CdekDocumentsToPrint();
-            var request = ordersToPrint.Select(x => new GetDeliveryOrderRequest { Number = x.ToString() }).ToList();
+            var request = new PrintDeliveryOrderRequest
+            {
+                DeliveryOrders = ordersToPrint.Select(x => new PrintDeliveryOrder { Number = x.ToString() }).ToList()
+            };
+            request.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.PrintDeliveryOrderRequest.ReceiptType), Spoleto.Delivery.Providers.Cdek.PrintingReceiptType.TplItalian);
+            request.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.PrintDeliveryOrderRequest.BarcodeFormat), Spoleto.Delivery.Providers.Cdek.PrintingBarcodeFormat.A5);
+            request.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.PrintDeliveryOrderRequest.BarcodeCopyCount), 3);
 
             // Act
             var printingDocuments = await provider.PrintDeliveryOrderAsync(request);

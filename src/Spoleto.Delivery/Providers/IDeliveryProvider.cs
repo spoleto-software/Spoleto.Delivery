@@ -132,16 +132,16 @@
         /// <summary>
         /// Prints the delivery orders.
         /// </summary>
-        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <param name="printDeliveryOrderRequest">The print delivery order request.</param>
         /// <returns>The list of printing documents.</returns>
-        List<PrintingDocument> PrintDeliveryOrder(List<GetDeliveryOrderRequest> deliveryOrderRequests);
+        List<PrintingDocument> PrintDeliveryOrder(PrintDeliveryOrderRequest printDeliveryOrderRequest);
 
         /// <summary>
         /// Async prints the delivery orders.
         /// </summary>
-        /// <param name="deliveryOrderRequests">The delivery order requests.</param>
+        /// <param name="printDeliveryOrderRequest">The print delivery order request.</param>
         /// <returns>The list of printing documents.</returns>
-        Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests);
+        Task<List<PrintingDocument>> PrintDeliveryOrderAsync(PrintDeliveryOrderRequest printDeliveryOrderRequest);
 
         /// <summary>
         /// Creates the courier pickup order.

@@ -279,17 +279,17 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public override async Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests)
+        public override async Task<List<PrintingDocument>> PrintDeliveryOrderAsync(PrintDeliveryOrderRequest printDeliveryOrderRequest)
         {
-            if (deliveryOrderRequests.Count > 100)
+            if (printDeliveryOrderRequest.DeliveryOrders.Count > 100)
             {
                 throw new InvalidOperationException("You cannot send more than 100 order numbers in one request.");
             }
 
             var filterModel = new PrintingDocumentFilter();
-            foreach (var deliveryOrderRequest in deliveryOrderRequests)
+            foreach (var deliveryOrder in printDeliveryOrderRequest.DeliveryOrders)
             {
-                var number = deliveryOrderRequest.Uuid?.ToString() ?? deliveryOrderRequest.Number ?? throw new ArgumentNullException(nameof(deliveryOrderRequest.Number));
+                var number = deliveryOrder.Uuid?.ToString() ?? deliveryOrder.Number ?? throw new ArgumentNullException(nameof(deliveryOrder.Number));
 
                 filterModel.Filter.Add(number);
             }

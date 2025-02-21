@@ -280,27 +280,32 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public override async Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests)
+        public override async Task<List<PrintingDocument>> PrintDeliveryOrderAsync(Delivery.PrintDeliveryOrderRequest printDeliveryOrderRequest)
         {
-            if (deliveryOrderRequests.Count > 100)
+            if (printDeliveryOrderRequest.DeliveryOrders.Count > 100)
             {
                 throw new InvalidOperationException("You cannot send more than 100 order numbers in one request.");
             }
 
+            var cdekPrintDeliveryOrderRequest = printDeliveryOrderRequest.ToPrintOrderRequest();
+
             var createPrintingReceiptRequest = new CreatePrintingReceiptRequest
             {
-                CopyCount = _options.PrintingReceiptCopyCount
+                CopyCount = cdekPrintDeliveryOrderRequest.ReceiptCopyCount ?? _options.PrintingReceiptCopyCount,
+                Type = cdekPrintDeliveryOrderRequest.ReceiptType
             };
 
             var createPrintingBarcodeRequest = new CreatePrintingBarcodeRequest
             {
-                CopyCount = _options.PrintingBarcodeCopyCount
+                CopyCount = cdekPrintDeliveryOrderRequest.BarcodeCopyCount ?? _options.PrintingBarcodeCopyCount,
+                Format = cdekPrintDeliveryOrderRequest.BarcodeFormat,
+                Lang = cdekPrintDeliveryOrderRequest.BarcodeLang
             };
 
-            foreach (var deliveryOrderRequest in deliveryOrderRequests)
+            foreach (var deliveryOrder in cdekPrintDeliveryOrderRequest.DeliveryOrders)
             {
-                var uuid = deliveryOrderRequest.Uuid;
-                int? number = int.TryParse(deliveryOrderRequest.Number, out var resultNumber) ? resultNumber : null;
+                var uuid = deliveryOrder.Uuid;
+                int? number = int.TryParse(deliveryOrder.Number, out var resultNumber) ? resultNumber : null;
 
                 var printingOrder = new PrintingOrder
                 {

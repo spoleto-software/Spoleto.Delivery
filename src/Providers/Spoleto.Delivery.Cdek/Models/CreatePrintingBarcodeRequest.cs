@@ -38,8 +38,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// </summary>
         /// <remarks>
         /// Возможные языки в кодировке ISO - 639-3:<br/>
-        /// Русский - RUS,<br/>
-        /// Английский - ENG.
+        /// "RUS" "ENG" "DEU" "ITA" "TUR" "CES" "KOR" "LIT" "LAV".
         /// </remarks>
         [JsonPropertyName("lang")]
         public string? Lang { get; set; }
