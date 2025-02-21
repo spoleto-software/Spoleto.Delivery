@@ -325,6 +325,8 @@ namespace Spoleto.Delivery.Providers.Cdek
             var getPrintingReceipt = await GetPrintingReceiptAsync(createdPrintingReceipt.Entity.Uuid);
             if (getPrintingReceipt.Entity.Url == null)
             {
+                ValidatePrintingStatuses(getPrintingReceipt.Entity.Statuses);
+
                 var dateTime = DateTime.Now.AddSeconds(_options.MaxWaitingTimeSecondsToEnsureStatus);
 
                 while (true)
@@ -336,9 +338,13 @@ namespace Spoleto.Delivery.Providers.Cdek
                     if (getPrintingReceipt.Entity.Url != null)
                         break;
 
+                    ValidatePrintingStatuses(getPrintingReceipt.Entity.Statuses);
+
                     if (DateTime.Now > dateTime)
                         break;
                 }
+
+                ValidatePrintingStatuses(getPrintingReceipt.Entity.Statuses);
 
                 if (getPrintingReceipt.Entity.Url == null)
                 {
@@ -349,6 +355,8 @@ namespace Spoleto.Delivery.Providers.Cdek
             var getPrintingBarcode = await GetPrintingBarcodeAsync(createdPrintingBarcode.Entity.Uuid);
             if (getPrintingBarcode.Entity.Url == null)
             {
+                ValidatePrintingStatuses(getPrintingBarcode.Entity.Statuses);
+
                 var dateTime = DateTime.Now.AddSeconds(_options.MaxWaitingTimeSecondsToEnsureStatus);
 
                 while (true)
@@ -360,9 +368,13 @@ namespace Spoleto.Delivery.Providers.Cdek
                     if (getPrintingBarcode.Entity.Url != null)
                         break;
 
+                    ValidatePrintingStatuses(getPrintingBarcode.Entity.Statuses);
+
                     if (DateTime.Now > dateTime)
                         break;
                 }
+
+                ValidatePrintingStatuses(getPrintingBarcode.Entity.Statuses);
 
                 if (getPrintingBarcode.Entity.Url == null)
                 {
@@ -382,6 +394,21 @@ namespace Spoleto.Delivery.Providers.Cdek
             };
 
             return result;
+        }
+
+        private static void ValidatePrintingStatuses(List<PrintingOrderStatus> statuses)
+        {
+            var invalidStatus = statuses.FirstOrDefault(x => x.Code == PrintingOrderStatusCode.INVALID);
+            if (invalidStatus != null)
+            {
+                throw new InvalidOperationException(invalidStatus.Name);
+            }
+
+            var removedStatus = statuses.FirstOrDefault(x => x.Code == PrintingOrderStatusCode.REMOVED);
+            if (removedStatus != null)
+            {
+                throw new InvalidOperationException(removedStatus.Name);
+            }
         }
 
         /// <inheritdoc/>
