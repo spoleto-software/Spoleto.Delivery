@@ -281,6 +281,11 @@ namespace Spoleto.Delivery.Providers.MasterPost
         /// <inheritdoc/>
         public override async Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests)
         {
+            if (deliveryOrderRequests.Count > 100)
+            {
+                throw new InvalidOperationException("You cannot send more than 100 order numbers in one request.");
+            }
+
             var filterModel = new PrintingDocumentFilter();
             foreach (var deliveryOrderRequest in deliveryOrderRequests)
             {
@@ -288,16 +293,21 @@ namespace Spoleto.Delivery.Providers.MasterPost
 
                 filterModel.Filter.Add(number);
             }
-  
+
             var restRequest = new RestRequestFactory(RestHttpMethod.Post, $"print_dns")
                 .WithJsonContent(filterModel)
                 .Build();
 
-            var data = await _masterPostClient.ExecuteAsBytesAsync(restRequest).ConfigureAwait(false);
+            var binaryResponse = await _masterPostClient.ExecuteAsBytesAsync(restRequest).ConfigureAwait(false);
+            if (binaryResponse == null)
+            {
+                throw new NullReferenceException("Orders are not found for printing.");
+            }
+
             var name = filterModel.Filter.Count > 1 ? $"Накладные ({filterModel.Filter.Count})" : "Накладная";
             var result = new List<PrintingDocument>()
             {
-                new(data.Content, DocumentFormat.Pdf, name)
+                new(binaryResponse.Content, DocumentFormat.Pdf, name)
             };
 
             return result;

@@ -280,9 +280,103 @@ namespace Spoleto.Delivery.Providers.Cdek
         }
 
         /// <inheritdoc/>
-        public override Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests)
+        public override async Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests)
         {
-            throw new NotImplementedException();
+            if (deliveryOrderRequests.Count > 100)
+            {
+                throw new InvalidOperationException("You cannot send more than 100 order numbers in one request.");
+            }
+
+            var createPrintingReceiptRequest = new CreatePrintingReceiptRequest
+            {
+                CopyCount = _options.PrintingReceiptCopyCount
+            };
+
+            var createPrintingBarcodeRequest = new CreatePrintingBarcodeRequest
+            {
+                CopyCount = _options.PrintingBarcodeCopyCount
+            };
+
+            foreach (var deliveryOrderRequest in deliveryOrderRequests)
+            {
+                var uuid = deliveryOrderRequest.Uuid;
+                int? number = int.TryParse(deliveryOrderRequest.Number, out var resultNumber) ? resultNumber : null;
+
+                var printingOrder = new PrintingOrder
+                {
+                    OrderUuid = uuid?.ToString(),
+                    CdekNumber = number
+                };
+
+                createPrintingReceiptRequest.Orders.Add(printingOrder);
+                createPrintingBarcodeRequest.Orders.Add(printingOrder);
+            }
+
+            var createdPrintingReceipt = await CreatePrintingReceiptAsync(createPrintingReceiptRequest).ConfigureAwait(false);
+            var createdPrintingBarcode = await CreatePrintingBarcodeAsync(createPrintingBarcodeRequest).ConfigureAwait(false);
+
+            await Task.Delay(2000).ConfigureAwait(false);
+
+            var getPrintingReceipt = await GetPrintingReceiptAsync(createdPrintingReceipt.Entity.Uuid);
+            if (getPrintingReceipt.Entity.Url == null)
+            {
+                var dateTime = DateTime.Now.AddSeconds(_options.MaxWaitingTimeSecondsToEnsureStatus);
+
+                while (true)
+                {
+                    await Task.Delay(4000).ConfigureAwait(false);
+
+                    getPrintingReceipt = await GetPrintingReceiptAsync(createdPrintingReceipt.Entity.Uuid);
+
+                    if (getPrintingReceipt.Entity.Url != null)
+                        break;
+
+                    if (DateTime.Now > dateTime)
+                        break;
+                }
+
+                if (getPrintingReceipt.Entity.Url == null)
+                {
+                    throw new InvalidOperationException("Printing receipt is not created. Try again later.");
+                }
+            }
+
+            var getPrintingBarcode = await GetPrintingBarcodeAsync(createdPrintingBarcode.Entity.Uuid);
+            if (getPrintingBarcode.Entity.Url == null)
+            {
+                var dateTime = DateTime.Now.AddSeconds(_options.MaxWaitingTimeSecondsToEnsureStatus);
+
+                while (true)
+                {
+                    await Task.Delay(4000).ConfigureAwait(false);
+
+                    getPrintingBarcode = await GetPrintingBarcodeAsync(createdPrintingBarcode.Entity.Uuid);
+
+                    if (getPrintingBarcode.Entity.Url != null)
+                        break;
+
+                    if (DateTime.Now > dateTime)
+                        break;
+                }
+
+                if (getPrintingBarcode.Entity.Url == null)
+                {
+                    throw new InvalidOperationException("Printing barcode is not created. Try again later.");
+                }
+            }
+
+            var receiptData = await DownloadPrintingReceiptAsync(getPrintingReceipt.Entity.Uuid);
+            var barcodeData = await DownloadPrintingBarcodeAsync(getPrintingBarcode.Entity.Uuid);
+
+            var orderText = createPrintingReceiptRequest.Orders.Count > 1 ? $"заказам ({createPrintingReceiptRequest.Orders.Count})" : "заказу";
+
+            var result = new List<PrintingDocument>()
+            {
+                new(receiptData, DocumentFormat.Pdf, $"Квитанция к {orderText}"),
+                new(barcodeData, DocumentFormat.Pdf, $"ШК места к {orderText}"),
+            };
+
+            return result;
         }
 
         /// <inheritdoc/>

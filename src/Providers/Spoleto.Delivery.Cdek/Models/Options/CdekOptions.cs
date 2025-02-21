@@ -16,6 +16,16 @@ namespace Spoleto.Delivery.Providers.Cdek
         public const int DefaultMaxWaitingTimeSecondsToEnsureStatus = 10;
 
         /// <summary>
+        /// The default value for <see cref="PrintingReceiptCopyCount"/>.
+        /// </summary>
+        public const int DefaultPrintingReceiptCopyCount = 2;
+
+        /// <summary>
+        /// The default value for <see cref="PrintingBarcodeCopyCount"/>.
+        /// </summary>
+        public const int DefaultPrintingBarcodeCopyCount = 1;
+
+        /// <summary>
         /// Gets or sets the service url.
         /// </summary>
         public string ServiceUrl { get; set; }
@@ -32,6 +42,22 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Default: <see cref="DefaultMaxWaitingTimeSecondsToEnsureStatus"/>.
         /// </remarks>
         public int MaxWaitingTimeSecondsToEnsureStatus { get; set; } = DefaultMaxWaitingTimeSecondsToEnsureStatus;
+
+        /// <summary>
+        /// Gets or sets the number of copies of one printing receipt per sheet in the methods <see cref="IDeliveryProvider.PrintDeliveryOrder(List{GetDeliveryOrderRequest})"/>, <see cref="IDeliveryProvider.PrintDeliveryOrderAsync(List{GetDeliveryOrderRequest})"/>.
+        /// </summary>
+        /// <remarks>
+        /// Default: <see cref="DefaultPrintingReceiptCopyCount"/>.
+        /// </remarks>
+        public int PrintingReceiptCopyCount { get; set; } = DefaultPrintingReceiptCopyCount;
+
+        /// <summary>
+        /// Gets or sets the number of copies of one printing barcode per sheet in the methods <see cref="IDeliveryProvider.PrintDeliveryOrder(List{GetDeliveryOrderRequest})"/>, <see cref="IDeliveryProvider.PrintDeliveryOrderAsync(List{GetDeliveryOrderRequest})"/>.
+        /// </summary>
+        /// <remarks>
+        /// Default: <see cref="DefaultPrintingBarcodeCopyCount"/>.
+        /// </remarks>
+        public int PrintingBarcodeCopyCount { get; set; } = DefaultPrintingBarcodeCopyCount;
 
         /// <summary>
         /// Checks that all the settings within the options are configured properly.

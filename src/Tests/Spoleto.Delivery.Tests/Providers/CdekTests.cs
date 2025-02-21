@@ -359,7 +359,7 @@ namespace Spoleto.Delivery.Tests.Providers
             var getOrderContainer = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrder.Uuid });
             var getOrder = getOrderContainer.DeliveryOrder;
             updateRequest.Uuid = deliveryOrder.Uuid;
-            
+
             var updateOrderContainer = await provider.UpdateDeliveryOrderAsync(updateRequest);
             var updateOrder = updateOrderContainer.DeliveryOrder;
             await Task.Delay(5000);
@@ -584,7 +584,7 @@ namespace Spoleto.Delivery.Tests.Providers
 
                 var getPickupContainer = await provider.GetCourierPickupAsync(new Delivery.GetCourierPickupRequest { Uuid = pickup.Uuid.Value });
                 var getPickup = getPickupContainer.CourierPickup;
-                
+
                 var deletedPickupContainer = await provider.DeleteCourierPickupAsync(pickup.Uuid.ToString());
                 var deletedPickup = deletedPickupContainer.CourierPickup;
 
@@ -661,6 +661,190 @@ namespace Spoleto.Delivery.Tests.Providers
 
             // Assert
             Assert.That(webhooks, Is.Not.Null);
+        }
+
+        [Test]
+        public async Task CreatePrintingReceipt()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var ordersToPrint = ConfigurationHelper.CdekDocumentsToPrint();
+            var request = new CreatePrintingReceiptRequest() { Orders = ordersToPrint.Select(x => new PrintingOrder { CdekNumber = x }).ToList() };
+
+            // Act
+            var printingReceipt = await provider.CreatePrintingReceiptAsync(request);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(printingReceipt, Is.Not.Null);
+                Assert.That(printingReceipt.Entity, Is.Not.Null);
+                Assert.That(printingReceipt.Entity.Uuid, Is.Not.Empty);
+            });
+        }
+
+        [Test]
+        public async Task CreateAndGetPrintingReceipt()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var ordersToPrint = ConfigurationHelper.CdekDocumentsToPrint();
+            var request = new CreatePrintingReceiptRequest() { Orders = ordersToPrint.Select(x => new PrintingOrder { CdekNumber = x }).ToList() };
+
+            // Act
+            var printingReceipt = await provider.CreatePrintingReceiptAsync(request);
+            var getPrintingReceipt = await provider.GetPrintingReceiptAsync(printingReceipt.Entity.Uuid);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(getPrintingReceipt, Is.Not.Null);
+                Assert.That(getPrintingReceipt.Entity, Is.Not.Null);
+                Assert.That(getPrintingReceipt.Entity.Uuid, Is.Not.Empty);
+            });
+        }
+
+        [Test]
+        public async Task CreateAndGetAndDownloadPrintingReceipt()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var ordersToPrint = ConfigurationHelper.CdekDocumentsToPrint();
+            var request = new CreatePrintingReceiptRequest() { Type = PrintingReceiptType.TplRussia, Orders = ordersToPrint.Select(x => new PrintingOrder { CdekNumber = x }).ToList() };
+
+            // Act
+            var printingReceipt = await provider.CreatePrintingReceiptAsync(request);
+            var getPrintingReceipt = await provider.GetPrintingReceiptAsync(printingReceipt.Entity.Uuid);
+
+            if (getPrintingReceipt.Entity.Url == null)
+            {
+                var dateTime = DateTime.Now.AddSeconds(10);
+
+                while (true)
+                {
+                    await Task.Delay(1000).ConfigureAwait(false);
+
+                    getPrintingReceipt = await provider.GetPrintingReceiptAsync(printingReceipt.Entity.Uuid);
+
+                    if (getPrintingReceipt.Entity.Url != null)
+                        break;
+
+                    if (DateTime.Now > dateTime)
+                        break;
+                }
+            }
+
+            var data = await provider.DownloadPrintingReceiptAsync(printingReceipt.Entity.Uuid);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(getPrintingReceipt, Is.Not.Null);
+                Assert.That(getPrintingReceipt.Entity, Is.Not.Null);
+                Assert.That(getPrintingReceipt.Entity.Uuid, Is.Not.Empty);
+            });
+        }
+
+
+        [Test]
+        public async Task CreatePrintingBarcode()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var ordersToPrint = ConfigurationHelper.CdekDocumentsToPrint();
+            var request = new CreatePrintingBarcodeRequest() { Orders = ordersToPrint.Select(x => new PrintingOrder { CdekNumber = x }).ToList() };
+
+            // Act
+            var printingBarcode = await provider.CreatePrintingBarcodeAsync(request);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(printingBarcode, Is.Not.Null);
+                Assert.That(printingBarcode.Entity, Is.Not.Null);
+                Assert.That(printingBarcode.Entity.Uuid, Is.Not.Empty);
+            });
+        }
+
+        [Test]
+        public async Task CreateAndGetPrintingBarcode()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var ordersToPrint = ConfigurationHelper.CdekDocumentsToPrint();
+            var request = new CreatePrintingBarcodeRequest() { Orders = ordersToPrint.Select(x => new PrintingOrder { CdekNumber = x }).ToList() };
+
+            // Act
+            var printingBarcode = await provider.CreatePrintingBarcodeAsync(request);
+            var getPrintingBarcode = await provider.GetPrintingBarcodeAsync(printingBarcode.Entity.Uuid);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(getPrintingBarcode, Is.Not.Null);
+                Assert.That(getPrintingBarcode.Entity, Is.Not.Null);
+                Assert.That(getPrintingBarcode.Entity.Uuid, Is.Not.Empty);
+            });
+        }
+
+        [Test]
+        public async Task CreateAndGetAndDownloadPrintingBarcode()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var ordersToPrint = ConfigurationHelper.CdekDocumentsToPrint();
+            var request = new CreatePrintingBarcodeRequest() { Orders = ordersToPrint.Select(x => new PrintingOrder { CdekNumber = x }).ToList() };
+
+            // Act
+            var printingBarcode = await provider.CreatePrintingBarcodeAsync(request);
+            var getPrintingBarcode = await provider.GetPrintingBarcodeAsync(printingBarcode.Entity.Uuid);
+
+            if (getPrintingBarcode.Entity.Url == null)
+            {
+                var dateTime = DateTime.Now.AddSeconds(10);
+
+                while (true)
+                {
+                    await Task.Delay(1000).ConfigureAwait(false);
+
+                    getPrintingBarcode = await provider.GetPrintingBarcodeAsync(printingBarcode.Entity.Uuid);
+
+                    if (getPrintingBarcode.Entity.Url != null)
+                        break;
+
+                    if (DateTime.Now > dateTime)
+                        break;
+                }
+            }
+
+            var data = await provider.DownloadPrintingBarcodeAsync(printingBarcode.Entity.Uuid);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(getPrintingBarcode, Is.Not.Null);
+                Assert.That(getPrintingBarcode.Entity, Is.Not.Null);
+                Assert.That(getPrintingBarcode.Entity.Uuid, Is.Not.Empty);
+            });
+        }
+
+        [Test]
+        public async Task PrintOrders()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<ICdekProvider>();
+            var ordersToPrint = ConfigurationHelper.CdekDocumentsToPrint();
+            var request = ordersToPrint.Select(x => new GetDeliveryOrderRequest { Number = x.ToString() }).ToList();
+
+            // Act
+            var printingDocuments = await provider.PrintDeliveryOrderAsync(request);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(printingDocuments, Is.Not.Null);
+                Assert.That(printingDocuments, Has.Count.EqualTo(2));
+            });
         }
     }
 }

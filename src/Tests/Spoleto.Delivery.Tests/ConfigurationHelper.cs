@@ -47,6 +47,13 @@ namespace Spoleto.Delivery.Tests
             return list;
         }
 
+        public static List<int> CdekDocumentsToPrint()
+        {
+            var list = _config.GetSection(nameof(CdekDocumentsToPrint)).Get<List<int>>()!;
+
+            return list;
+        }
+
         public static Delivery.CreateDeliveryOrderRequest GetGoodsDeliveryCdek()
         {
    
