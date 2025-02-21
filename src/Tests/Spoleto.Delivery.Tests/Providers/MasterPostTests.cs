@@ -284,5 +284,24 @@ namespace Spoleto.Delivery.Tests.Providers
             // Assert
             Assert.That(services, Is.Not.Null);
         }
+
+        [Test]
+        public async Task PrintOrders()
+        {
+            // Arrange
+            var provider = ServiceProvider.GetRequiredService<IMasterPostProvider>();
+            var ordersToPrint = ConfigurationHelper.MasterPostDocumentsToPrint();
+            var request = ordersToPrint.Select(x => new GetDeliveryOrderRequest { Number = x }).ToList();
+
+            // Act
+            var printingDocuments = await provider.PrintDeliveryOrderAsync(request);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(printingDocuments, Is.Not.Null);
+                Assert.That(printingDocuments, Has.Count.EqualTo(1));
+            });
+        }
     }
 }

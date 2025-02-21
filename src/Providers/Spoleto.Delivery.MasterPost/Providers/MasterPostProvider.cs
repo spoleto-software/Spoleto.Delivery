@@ -279,9 +279,28 @@ namespace Spoleto.Delivery.Providers.MasterPost
         }
 
         /// <inheritdoc/>
-        public override Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests)
+        public override async Task<List<PrintingDocument>> PrintDeliveryOrderAsync(List<GetDeliveryOrderRequest> deliveryOrderRequests)
         {
-            throw new NotImplementedException();
+            var filterModel = new PrintingDocumentFilter();
+            foreach (var deliveryOrderRequest in deliveryOrderRequests)
+            {
+                var number = deliveryOrderRequest.Uuid?.ToString() ?? deliveryOrderRequest.Number ?? throw new ArgumentNullException(nameof(deliveryOrderRequest.Number));
+
+                filterModel.Filter.Add(number);
+            }
+  
+            var restRequest = new RestRequestFactory(RestHttpMethod.Post, $"print_dns")
+                .WithJsonContent(filterModel)
+                .Build();
+
+            var data = await _masterPostClient.ExecuteAsBytesAsync(restRequest).ConfigureAwait(false);
+            var name = filterModel.Filter.Count > 1 ? $"Накладные ({filterModel.Filter.Count})" : "Накладная";
+            var result = new List<PrintingDocument>()
+            {
+                new(data.Content, DocumentFormat.Pdf, name)
+            };
+
+            return result;
         }
 
         /// <inheritdoc/>

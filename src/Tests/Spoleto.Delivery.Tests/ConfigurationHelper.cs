@@ -40,6 +40,13 @@ namespace Spoleto.Delivery.Tests
             return options;
         }
 
+        public static List<string> MasterPostDocumentsToPrint()
+        {
+            var list = _config.GetSection(nameof(MasterPostDocumentsToPrint)).Get<List<string>>()!;
+
+            return list;
+        }
+
         public static Delivery.CreateDeliveryOrderRequest GetGoodsDeliveryCdek()
         {
    
