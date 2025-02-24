@@ -292,14 +292,14 @@ namespace Spoleto.Delivery.Providers.Cdek
             var createPrintingReceiptRequest = new CreatePrintingReceiptRequest
             {
                 CopyCount = cdekPrintDeliveryOrderRequest.ReceiptCopyCount ?? _options.PrintingReceiptCopyCount,
-                Type = cdekPrintDeliveryOrderRequest.ReceiptType
+                Type = cdekPrintDeliveryOrderRequest.ReceiptType ?? _options.PrintingReceiptType
             };
 
             var createPrintingBarcodeRequest = new CreatePrintingBarcodeRequest
             {
                 CopyCount = cdekPrintDeliveryOrderRequest.BarcodeCopyCount ?? _options.PrintingBarcodeCopyCount,
-                Format = cdekPrintDeliveryOrderRequest.BarcodeFormat,
-                Lang = cdekPrintDeliveryOrderRequest.BarcodeLang
+                Format = cdekPrintDeliveryOrderRequest.BarcodeFormat ?? _options.PrintingBarcodeFormat,
+                Lang = cdekPrintDeliveryOrderRequest.BarcodeLang ?? _options.PrintingBarcodeLang
             };
 
             foreach (var deliveryOrder in cdekPrintDeliveryOrderRequest.DeliveryOrders)

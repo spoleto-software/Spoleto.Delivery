@@ -60,6 +60,25 @@ namespace Spoleto.Delivery.Providers.Cdek
         public int PrintingBarcodeCopyCount { get; set; } = DefaultPrintingBarcodeCopyCount;
 
         /// <summary>
+        /// Gets or sets the printing receipt type.
+        /// </summary>
+        public PrintingReceiptType? PrintingReceiptType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the printing barcode format.
+        /// </summary>
+        public PrintingBarcodeFormat? PrintingBarcodeFormat { get; set; }
+
+        /// <summary>
+        /// Gets or sets the printing barcode language
+        /// </summary>
+        /// <remarks>
+        /// Possible languages ​​in ISO - 639-3 encoding:<br/>
+        /// "RUS" "ENG" "DEU" "ITA" "TUR" "CES" "KOR" "LIT" "LAV".
+        /// </remarks>
+        public string? PrintingBarcodeLang { get; set; }
+
+        /// <summary>
         /// Checks that all the settings within the options are configured properly.
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown when <see cref="ServiceUrl"/> or <see cref="AuthCredentials"/> are null.</exception>
