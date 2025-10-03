@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 using Spoleto.Common.JsonConverters;
-using Spoleto.Delivery.Providers.Cdek.Converters;
 
 namespace Spoleto.Delivery.Providers.Cdek
 {
@@ -193,12 +192,6 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// </summary>
         [JsonPropertyName("delivery_detail")]
         public DeliveryDetail? DeliveryDetail { get; set; }
-
-        /// <summary>
-        /// Признак того, что по заказу была получена информация о переводе наложенного платежа интернет-магазину.
-        /// </summary>
-        [JsonPropertyName("transacted_payment")]
-        public bool? TransactedPayment { get; set; }
 
         /// <summary>
         /// Список статусов по заказу, отсортированных по дате и времени.
