@@ -38,6 +38,12 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// Ставка НДС 20%.
         /// </summary>
         [JsonEnumIntValue(20)]
-        VAT_20 = 20
+        VAT_20 = 20,
+
+        /// <summary>
+        /// Ставка НДС 22%.
+        /// </summary>
+        [JsonEnumIntValue(22)]
+        VAT_22 = 22
     }
 }

@@ -155,7 +155,7 @@ namespace Spoleto.Delivery.Providers.MasterPost
                 ArticleEstimatedPrice = item.Cost,
                 ArticlePriceWithVat = item.Payment.Value,
                 ArticlePriceWithoutVat = item.Payment.Value - (item.Payment.VatSum ?? 0M),
-                ArticleVatRate = item.Payment.VatRate == null ? VatRate.VAT_20 : (VatRate)item.Payment.VatRate.Value
+                ArticleVatRate = item.Payment.VatRate == null ? VatRate.VAT_22 : (VatRate)item.Payment.VatRate.Value
             };
         }
 

@@ -26,7 +26,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         public decimal? VatSum { get; set; }
 
         /// <summary>
-        /// Ставка НДС (значение - 0, 10, 12, 20, null - нет НДС).
+        /// Ставка НДС (значение - 0, 10, 12, 20, 22, null - нет НДС).
         /// </summary>
         [JsonPropertyName("vat_rate")]
         public int? VatRate { get; set; }
