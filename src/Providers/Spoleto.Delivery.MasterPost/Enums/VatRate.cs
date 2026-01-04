@@ -12,6 +12,13 @@ namespace Spoleto.Delivery.Providers.MasterPost
     public enum VatRate
     {
         /// <summary>
+        /// Неизвестное значение
+        /// </summary>
+        [Description("Неизвестное значение")]
+        [JsonEnumValue("")]
+        Unknown = -1,
+
+        /// <summary>
         /// Без НДС.
         /// </summary>
         [Description("Без НДС")]
