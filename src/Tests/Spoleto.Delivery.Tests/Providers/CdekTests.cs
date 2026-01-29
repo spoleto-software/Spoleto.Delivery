@@ -53,11 +53,11 @@ namespace Spoleto.Delivery.Tests.Providers
                 Comment = "Test order",
                 FromLocation = new()
                 {
-                    Address = "Санкт-Петербург, пр. Ленинградский, д.4"
+                    Address = "125167, Санкт-Петербург, пр. Ленинградский, д.4"
                 },
                 ToLocation = new()
                 {
-                    Address = "Москва, Кастанаевская улица, 65"
+                    Address = "119048, Москва, Кастанаевская улица, 65"
                 },
                 TariffCode = "480",
                 Packages =
@@ -296,12 +296,13 @@ namespace Spoleto.Delivery.Tests.Providers
             var deliveryOrderRequest = GetOrderRequest();
             deliveryOrderRequest.Services = [];
             deliveryOrderRequest.Services.Add(new AdditionalServiceRequest { Code = nameof(Spoleto.Delivery.Providers.Cdek.AdditionalServiceType.CARTON_BOX_5KG), Parameter = "2" });
+            deliveryOrderRequest.Services.Add(new AdditionalServiceRequest { Code = nameof(Spoleto.Delivery.Providers.Cdek.AdditionalServiceType.COURIER_PACKAGE_A2), Parameter = "2" });
 
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.DeveloperKey), "XX-DEV-123-456");
             deliveryOrderRequest.WithProviderData(nameof(Spoleto.Delivery.Providers.Cdek.CreateDeliveryOrderRequest.Type), Spoleto.Delivery.Providers.Cdek.OrderType.RegularDelivery);
 
             // Act
-            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, false);
+            var deliveryOrderContainer = await provider.CreateDeliveryOrderAsync(deliveryOrderRequest, true);
             var fullRawBody = deliveryOrderContainer.GetFullRawBody();
             var getOrder = await provider.GetDeliveryOrderAsync(new() { Uuid = deliveryOrderContainer.DeliveryOrder.Uuid });
 

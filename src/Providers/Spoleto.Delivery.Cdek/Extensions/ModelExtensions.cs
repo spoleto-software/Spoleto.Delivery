@@ -659,7 +659,9 @@ namespace Spoleto.Delivery.Providers.Cdek
                 return new("Параметр услуги: объявленная стоимость заказа (только для заказов с типом \"Доставка\")", ParameterType.Number);
 
             if (enumValue.ToString().StartsWith("CARTON_BOX", StringComparison.Ordinal)
-                || enumValue == AdditionalServiceType.CARTON_FILLER)
+                || enumValue == AdditionalServiceType.CARTON_FILLER
+                || enumValue == AdditionalServiceType.COURIER_PACKAGE_A2
+                || enumValue.ToString().Contains("PACKAGE_"))
                 return new("Параметр услуги: количество", ParameterType.Int);
 
             if (enumValue == AdditionalServiceType.SMS)
