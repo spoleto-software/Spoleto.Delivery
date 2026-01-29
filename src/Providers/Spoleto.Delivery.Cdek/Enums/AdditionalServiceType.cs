@@ -399,7 +399,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Курьерский пакет без дизайна (белый) из влагонепроницаемого многослойного полиэтилена.
         /// </remarks>
-        [Description("Пакет курьерский А2")]
+        [Description("Пакет курьерский «Лайт» А5 (белый)")]
         PACKAGE_A_5_LIGHT_EXPRESS,
 
         /// <summary>
