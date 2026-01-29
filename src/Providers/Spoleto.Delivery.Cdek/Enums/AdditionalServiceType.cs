@@ -239,7 +239,7 @@ namespace Spoleto.Delivery.Providers.Cdek
         /// <remarks>
         /// Самостоятельное таможенное оформление B2B импорт
         /// </remarks>
-        [Description("")]
+        [Description("Самостоятельное таможенное оформление B2B импорт")]
         SELF_CLEARING_CUSTOMS_FOR_B2B_IMPORT,
 
         /// <summary>
