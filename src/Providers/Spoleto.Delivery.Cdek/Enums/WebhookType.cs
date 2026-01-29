@@ -30,11 +30,28 @@
         /// <summary>
         /// Получение информации об изменении доступности офиса СНТ
         /// </summary>
-        СНТOFFICE_AVAILABILITY,
+        OFFICE_AVAILABILITY,
 
         /// <summary>
         /// Получение информации об изменении заказа
         /// </summary>
-        ORDER_MODIFIED
+        ORDER_MODIFIED,
+
+        /// <summary>
+        /// Получение информации об изменении договоренности о доставке;
+        /// </summary>
+        DELIV_AGREEMENT,
+
+        /// <summary>
+        /// Получение информации о проблемах доставки по заказу
+        /// </summary>
+        DELIV_PROBLEM,
+
+        /// <summary>
+        /// Получение информации о курьере
+        /// </summary>
+        COURIER_INFO,
+
+        RECEIPT
     }
 }
