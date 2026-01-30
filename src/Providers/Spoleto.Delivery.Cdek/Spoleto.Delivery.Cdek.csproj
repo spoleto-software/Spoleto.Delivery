@@ -15,7 +15,7 @@
         <Description>CDEK provider for Spoleto.Delivery</Description>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="Spoleto.AddressResolver" Version="1.0.4" />
+      <PackageReference Include="Spoleto.AddressResolver" Version="1.0.5" />
       <PackageReference Include="Spoleto.RestClient" Version="1.0.16" />
     </ItemGroup>
 
